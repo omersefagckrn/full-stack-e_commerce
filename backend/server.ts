@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 mongoose.set('strictQuery', true);
 
 if (process.env.NODE_ENV != 'production') {
-	require('dotenv').config({ path: 'backend/config/.env' });
+	require('dotenv').config({ path: './backend/.env' });
 }
 
 (async () => {
