@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User, { IUser } from '../models/User';
 import generateToken from '../utils/generateToken';
@@ -24,14 +24,15 @@ export const registerUser = expressAsyncHandler(async (req: Request, res: Respon
 			_id: user._id,
 			name: user.name,
 			surname: user.surname,
-			email: user.email
+			email: user.email,
+			isAdmin: user.isAdmin
 		});
 	} else {
 		res.status(400).json({ message: 'Invalid user data' });
 	}
 });
 
-export const loginUser = expressAsyncHandler(async (req: Request, res: Response) => {
+export const loginUser = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
 	const { email, password } = req.body as IUser;
 
 	const user = await User.findOne({ email });
@@ -44,6 +45,7 @@ export const loginUser = expressAsyncHandler(async (req: Request, res: Response)
 			email: user.email,
 			token: generateToken(user._id)
 		});
+		next();
 	} else {
 		res.status(401).json({ message: 'Invalid email or password' });
 	}

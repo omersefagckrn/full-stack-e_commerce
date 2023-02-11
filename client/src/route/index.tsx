@@ -14,8 +14,11 @@ const router = createBrowserRouter(
 			<Route element={<PrivateRoute />}></Route>
 
 			<Route path='/' element={<Pages.Dashboard />} />
-			<Route path='/login' element={<Pages.Login />} />
-			<Route path='/register' element={<Pages.Register />} />
+
+			<Route path='auth' element={<Pages.Auth />}>
+				<Route index path='login' element={<Pages.Login />} />
+				<Route path='register' element={<Pages.Register />} />
+			</Route>
 		</>
 	)
 );

@@ -1,0 +1,16 @@
+import { FC } from 'react';
+
+type LabelProps = {
+	label: string;
+};
+
+const Label: FC<LabelProps> = ({ label }) => {
+	return (
+		<label className='text-gray_Five text-xs font-medium pt-4'>
+			{label}
+			<span className='text-red_Six'>*</span>
+		</label>
+	);
+};
+
+export default Label;

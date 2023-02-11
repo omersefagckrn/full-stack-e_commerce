@@ -18,7 +18,7 @@ export const logoutUser = () => {
 };
 
 export const registerUser = async (name: string, surname: string, email: string, password: string) => {
-	const response = await axios.post('http://localhost:4000/api/users/register', {
+	const response = await axios.post('http://localhost:4000/api/users', {
 		name,
 		surname,
 		email,

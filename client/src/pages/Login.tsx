@@ -1,20 +1,24 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { Button, Error, Input, Label } from 'components/Utils';
+import { Formik } from 'formik';
+import { FormLoginValues, validationSchemaLogin } from 'helper/validation';
+import { FC, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
 const Login: FC = () => {
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-
 	const appDispatch = useAppDispatch();
 	const { isErrorLogin, isLoadingLogin, isSuccessLogin, messageLogin } = useAppSelector((state) => state.auth);
 	const navigate = useNavigate();
 
-	const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		await appDispatch(login({ email, password }));
+	const onSubmit = async ({ email, password }: FormLoginValues) => {
+		await appDispatch(
+			login({
+				email,
+				password
+			})
+		);
 	};
 
 	useEffect(() => {
@@ -29,15 +33,49 @@ const Login: FC = () => {
 	}, [isSuccessLogin, isErrorLogin, messageLogin, appDispatch, navigate]);
 
 	return (
-		<div className='flex items-center justify-center py-10'>
-			<form onSubmit={onSubmit} className='flex flex-col space-y-2'>
-				<input autoComplete='off' value={email} type='text' id='email' onChange={(event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)} className='py-3 px-2 bg-gray-400 rounded-lg focus:outline-none placeholder:text-white' />
-				<input autoComplete='off' value={password} type='password' id='password' onChange={(event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)} className='py-3 px-2 bg-gray-400 rounded-lg focus:outline-none placeholder:text-white' />
-				<button disabled={isLoadingLogin} type='submit' className='py-3 px-2 bg-gray-400 rounded-lg placeholder:text-white focus:outline-none text-black'>
-					{isLoadingLogin ? 'Loading...' : 'Login'}
-				</button>
-			</form>
-		</div>
+		<>
+			<div className='flex flex-col'>
+				<div className='text-black font-medium text-2xl font-workSans mb-8'>Registered Customers</div>
+				<div className='font-normal text-lg text-black'>If you have an account, sign in with your email address.</div>
+				<Formik
+					validateOnBlur={false}
+					validateOnChange={false}
+					initialValues={{ email: '', password: '' }}
+					validationSchema={validationSchemaLogin}
+					onSubmit={(values: FormLoginValues, { resetForm }) => {
+						resetForm();
+						onSubmit(values);
+					}}
+				>
+					{({ handleSubmit, handleChange, values, errors }) => (
+						<form onSubmit={handleSubmit} className='flex flex-col space-y-2'>
+							<Label label='Email' />
+							<Input value={values.email} type='text' id='email' onChange={handleChange} />
+							<Error error={errors.email} />
+
+							<Label label='Password' />
+							<Input value={values.password} type='password' id='password' onChange={handleChange} />
+							<Error error={errors.password} />
+
+							<div className='pt-4 flex flex-col'>
+								<Button disabled={isLoadingLogin} type='submit'>
+									Login
+								</Button>
+							</div>
+						</form>
+					)}
+				</Formik>
+			</div>
+			<div className='flex flex-col space-y-8'>
+				<div className='text-black font-medium text-2xl font-workSans'>New Customers</div>
+				<div className='text-black font-light text-md font-workSans'>
+					Creating an account has many benefits: check out faster, keep more than one address, track orders and more.
+				</div>
+				<Button className='lg:w-48' onClick={() => navigate('/auth/register')}>
+					Create an Account
+				</Button>
+			</div>
+		</>
 	);
 };
 

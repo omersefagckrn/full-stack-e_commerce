@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginUser, logoutUser } from './api.services';
+import { loginUser, logoutUser, registerUser } from './api.services';
 
 type AuthLoginState = {
 	user: string | null;
@@ -12,6 +12,11 @@ type AuthLoginState = {
 	isLoadingLogout: boolean;
 	isErrorLogout: boolean;
 	isSuccessLogout: boolean;
+
+	isLoadingRegister: boolean;
+	isErrorRegister: boolean;
+	isSuccessRegister: boolean;
+	messageRegister: string;
 
 	isAuth: boolean;
 };
@@ -27,6 +32,11 @@ const initialState: AuthLoginState = {
 	isLoadingLogout: false,
 	isSuccessLogout: false,
 	isErrorLogout: false,
+
+	isLoadingRegister: false,
+	isErrorRegister: false,
+	isSuccessRegister: false,
+	messageRegister: '',
 
 	isAuth: JSON.stringify(localStorage.getItem('user')) !== 'null'
 };
@@ -52,6 +62,26 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout', async () => {
 	logoutUser();
 });
+
+export const register = createAsyncThunk(
+	'auth/register',
+	async (
+		user: {
+			name: string;
+			surname: string;
+			email: string;
+			password: string;
+		},
+		thunkAPI
+	) => {
+		try {
+			return await registerUser(user.name, user.surname, user.email, user.password);
+		} catch (error) {
+			const message = (error.response && error.response.data.message) || error.message;
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
 
 export const authSlice = createSlice({
 	name: 'auth',
@@ -96,6 +126,24 @@ export const authSlice = createSlice({
 			state.isLoadingLogout = false;
 			state.isErrorLogout = true;
 			state.isSuccessLogout = false;
+		});
+
+		builder.addCase(register.pending, (state) => {
+			state.isLoadingRegister = true;
+			state.isErrorRegister = false;
+			state.isSuccessRegister = false;
+		});
+		builder.addCase(register.fulfilled, (state, action) => {
+			state.isLoadingRegister = false;
+			state.isErrorRegister = false;
+			state.isSuccessRegister = true;
+			state.messageRegister = 'Successfully registered!';
+		});
+		builder.addCase(register.rejected, (state, action) => {
+			state.isLoadingRegister = false;
+			state.isErrorRegister = true;
+			state.isSuccessRegister = false;
+			state.messageRegister = action.payload as string;
 		});
 	}
 });

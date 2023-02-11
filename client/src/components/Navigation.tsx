@@ -70,6 +70,7 @@ const Navigation: FC = () => {
 				onClick={async () => {
 					if (path) {
 						navigate(path);
+						setShowMenu(false);
 					}
 				}}
 				className='space-x-12 border-[1px] border-gray_Two p-3 rounded-lg hover:bg-black cursor-pointer w-56'
@@ -102,9 +103,9 @@ const Navigation: FC = () => {
 						</div>
 					</div>
 					<div className='flex items-center justify-between px-3 py-6'>
-						<Logo onClick={() => navigate('/')} />
-						<div className='hidden lg:flex items-center space-x-4'>
-							<Input className='md:w-[580px]' placeholder='What are you looking for?' />
+						<Logo className='cursor-pointer' onClick={() => navigate('/')} />
+						<div className='hidden lg:flex items-center justify-center space-x-4 w-full'>
+							<Input className='w-1/2' placeholder='What are you looking for?' />
 							<Button>Search</Button>
 						</div>
 						<div className='flex items-center space-x-4'>
@@ -122,8 +123,8 @@ const Navigation: FC = () => {
 				</div>
 			</div>
 			<Drawer className='bg-transparent select-none' open={showMenu} onClose={() => setShowMenu((prev) => !prev)}>
-				<div className='w-full bg-black p-6'>
-					<Logo onClick={() => navigate('/')} />
+				<div onClick={() => navigate('/')} className='w-full bg-black p-6 cursor-pointer'>
+					<Logo />
 				</div>
 				<div className='h-full bg-green_Five p-6 space-y-4 text-center'>
 					{isAuth ? (
@@ -138,8 +139,8 @@ const Navigation: FC = () => {
 						</>
 					) : (
 						<>
-							<Route path='/login' name='Login' />
-							<Route path='/register' name='Register' />
+							<Route path='/auth/login' name='Login' />
+							<Route path='/auth/register' name='Register' />
 						</>
 					)}
 				</div>
