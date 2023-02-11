@@ -1,12 +1,47 @@
-import { FC, useEffect } from 'react';
+import Drawer from '@mui/material/Drawer';
+import Tooltip from '@mui/material/Tooltip';
+import { Logo } from 'assets';
+import { Facebook, Favorite, Linkedin, Mail, Menu, Order, Twitter } from 'assets/icons';
+import { FC, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
+import { Button, Input } from './Utils';
+
+type IconType = {
+	icon: JSX.Element;
+	url: string;
+};
+
+const icons: IconType[] = [
+	{
+		icon: <Facebook />,
+		url: 'https://www.facebook.com/'
+	},
+	{
+		icon: <Linkedin />,
+		url: 'https://www.linkedin.com/'
+	},
+	{
+		icon: <Mail />,
+		url: 'https://www.gmail.com/'
+	},
+	{
+		icon: <Twitter />,
+		url: 'https://www.twitter.com/'
+	}
+];
+
+type RouteProps = {
+	name: string;
+	path?: string;
+};
 
 const Navigation: FC = () => {
 	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
+	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const { isErrorLogout, isSuccessLogout, isAuth } = useAppSelector((state) => state.auth);
 
 	const logoutUser = async () => {
@@ -19,41 +54,97 @@ const Navigation: FC = () => {
 		}
 
 		if (isSuccessLogout) {
-			toast.success('Logged out successfully!');
-			navigate(0);
+			toast.success('You have successfully logged out, you are being redirected.');
+			setTimeout(() => {
+				navigate(0);
+				setShowMenu(false);
+			}, 2000);
 			appDispatch(reset());
 		}
 	}, [isErrorLogout, isSuccessLogout, navigate, appDispatch]);
 
-	return (
-		<div className='bg-[#d2afff]'>
-			<div className='lg:max-w-navigation lg:mx-auto'>
-				<nav className='flex items-center justify-between flex-wrap py-4'>
-					<div onClick={() => navigate('/')} className='text-black text-3xl font-bold cursor-pointer'>
-						Home
-					</div>
-					<div>
-						{isAuth ? (
-							<div className='flex items-center space-x-2'>
-								<div className='text-black text-lg font-semibold'>Profile</div>
-								<div onClick={logoutUser} className='text-black text-lg font-semibold cursor-pointer'>
-									Logout
-								</div>
-							</div>
-						) : (
-							<div className='flex items-center space-x-2'>
-								<div onClick={() => navigate('/login')} className='text-black text-lg font-semibold cursor-pointer'>
-									Login
-								</div>
-								<div onClick={() => navigate('/register')} className='text-black text-lg font-semibold cursor-pointer'>
-									Register
-								</div>
-							</div>
-						)}
-					</div>
-				</nav>
+	const Route: FC<RouteProps> = ({ path, name }) => {
+		return (
+			<div
+				key={path}
+				onClick={async () => {
+					if (path) {
+						navigate(path);
+					}
+				}}
+				className='space-x-12 border-[1px] border-gray_Two p-3 rounded-lg hover:bg-black cursor-pointer w-56'
+			>
+				<div className='text-white font-semibold font-workSans text-center'>{name}</div>
 			</div>
-		</div>
+		);
+	};
+
+	return (
+		<>
+			<div className='bg-black select-none'>
+				<div className='lg:max-w-navigation lg:mx-auto'>
+					<div className='hidden lg:flex items-center justify-between py-3 px-3'>
+						<div className='flex items-center space-x-2'>
+							{icons.map(({ icon, url }) => (
+								<Tooltip key={url} color='#ffffff' title='Follow Us' placement='bottom'>
+									<a target='_blank' rel='noreferrer' href={url}>
+										{icon}
+									</a>
+								</Tooltip>
+							))}
+						</div>
+						<div className='flex items-center space-x-4 text-white font-medium text-sm font-workSans cursor-pointer'>
+							<div>Introduce</div>
+							<div>Partner Incentives</div>
+							<div>Promotion</div>
+							<div>Contact</div>
+							<div>Frequently asked questions</div>
+						</div>
+					</div>
+					<div className='flex items-center justify-between px-3 py-6'>
+						<Logo onClick={() => navigate('/')} />
+						<div className='hidden lg:flex items-center space-x-4'>
+							<Input className='md:w-[580px]' placeholder='What are you looking for?' />
+							<Button>Search</Button>
+						</div>
+						<div className='flex items-center space-x-4'>
+							<Tooltip color='#ffffff' title='Favorite' placement='bottom'>
+								<Favorite className='cursor-pointer' onClick={() => navigate('/favorite')} />
+							</Tooltip>
+							<Tooltip color='#ffffff' title='Favorite' placement='bottom'>
+								<Order className='cursor-pointer' onClick={() => navigate('/order')} />
+							</Tooltip>
+							<Tooltip color='#ffffff' title='Menu' placement='bottom'>
+								<Menu onClick={() => setShowMenu((prev) => !prev)} className='cursor-pointer' />
+							</Tooltip>
+						</div>
+					</div>
+				</div>
+			</div>
+			<Drawer className='bg-transparent select-none' open={showMenu} onClose={() => setShowMenu((prev) => !prev)}>
+				<div className='w-full bg-black p-6'>
+					<Logo onClick={() => navigate('/')} />
+				</div>
+				<div className='h-full bg-green_Five p-6 space-y-4 text-center'>
+					{isAuth ? (
+						<>
+							<Route path='/order' name='Order' />
+							<div
+								onClick={logoutUser}
+								className='border-black p-3 rounded-lg border-[1px] cursor-pointer font-workSans font-semibold text-black'
+							>
+								Logout
+							</div>
+						</>
+					) : (
+						<>
+							<Route path='/login' name='Login' />
+							<Route path='/register' name='Register' />
+						</>
+					)}
+				</div>
+			</Drawer>
+		</>
 	);
 };
 

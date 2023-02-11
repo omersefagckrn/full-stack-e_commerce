@@ -3,5 +3,7 @@
 	"compilerOptions": {},
 	"include": ["server/**/*", "types.d.ts"],
 	"exclude": ["node_modules"],
-	"files": ["types.d.ts"]
+	"files": ["types.d.ts"],
+	"esModuleInterop": true,
+	"module": "commonjs"
 }
