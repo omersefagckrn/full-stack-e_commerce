@@ -1,6 +1,7 @@
 {
 	"extends": "@tsconfig/node16/tsconfig.json",
 	"compilerOptions": {},
-	"include": ["backend/**/*"],
-	"exclude": ["node_modules"]
+	"include": ["server/**/*", "types.d.ts"],
+	"exclude": ["node_modules"],
+	"files": ["types.d.ts"]
 }

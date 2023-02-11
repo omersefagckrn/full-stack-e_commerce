@@ -6,6 +6,9 @@ import express, { Application } from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
+/* Routes */
+import userRoutes from './routes/userRoutes';
+
 const app: Application = express();
 const PORT: number | string = process.env.PORT || 4000;
 
@@ -19,7 +22,7 @@ app.use(bodyParser.json());
 mongoose.set('strictQuery', true);
 
 if (process.env.NODE_ENV != 'production') {
-	require('dotenv').config({ path: './backend/.env' });
+	require('dotenv').config({ path: './server/.env' });
 }
 
 (async () => {
@@ -31,3 +34,6 @@ if (process.env.NODE_ENV != 'production') {
 		console.log('Failed to connect to the db: ❌', error);
 	}
 })();
+
+// Path: server/routes/userRoutes.ts
+app.use('/api/users/', userRoutes);
