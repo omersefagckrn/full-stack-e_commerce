@@ -1,12 +1,13 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
-import { FormRegisterValues, validationSchemaRegister } from 'helper/validation';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
+import { validationSchemaRegister } from 'helper/validation';
 import toast from 'react-hot-toast';
 import { register } from 'redux/auth/authSlice';
+import { FormRegisterValues } from 'types/helper/validation';
 
 const Register: FC = () => {
 	const appDispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const Register: FC = () => {
 	return (
 		<>
 			<div className='flex flex-col'>
-				<div className='text-black font-medium text-2xl font-workSans mb-8'>Registered Customers</div>
+				<div className='text-black font-medium text-2xl font-workSans mb-8'>Please register</div>
 				<div className='font-normal text-lg text-black'>If you have an account, sign in with your email address.</div>
 				<Formik
 					validateOnBlur={false}
@@ -47,7 +48,7 @@ const Register: FC = () => {
 					initialValues={{ name: '', surname: '', email: '', password: '', confirmPassword: '' }}
 					validationSchema={validationSchemaRegister}
 					onSubmit={(values: FormRegisterValues, { resetForm }) => {
-						// resetForm();
+						resetForm();
 						onSubmit(values);
 					}}
 				>
@@ -92,8 +93,8 @@ const Register: FC = () => {
 				<div className='text-black font-light text-md font-workSans'>
 					If you are not new, you can log in from the description below and continue shopping.
 				</div>
-				<Button className='w-56' onClick={() => navigate('/auth/login')}>
-					Do you want to log in?
+				<Button type='button' className='w-56' onClick={() => navigate('/auth/login')}>
+					Sign In
 				</Button>
 			</div>
 		</>

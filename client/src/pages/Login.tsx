@@ -1,11 +1,12 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
-import { FormLoginValues, validationSchemaLogin } from 'helper/validation';
+import { validationSchemaLogin } from 'helper/validation';
 import { FC, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
+import { FormLoginValues } from 'types/helper/validation';
 
 const Login: FC = () => {
 	const appDispatch = useAppDispatch();
@@ -71,7 +72,7 @@ const Login: FC = () => {
 				<div className='text-black font-light text-md font-workSans'>
 					Creating an account has many benefits: check out faster, keep more than one address, track orders and more.
 				</div>
-				<Button className='lg:w-48' onClick={() => navigate('/auth/register')}>
+				<Button type='button' className='w-56' onClick={() => navigate('/auth/register')}>
 					Create an Account
 				</Button>
 			</div>

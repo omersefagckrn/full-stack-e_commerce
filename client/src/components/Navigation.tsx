@@ -7,12 +7,8 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
+import { IconType, RouteProps } from 'types/components/Navigation';
 import { Button, Input } from './Utils';
-
-type IconType = {
-	icon: JSX.Element;
-	url: string;
-};
 
 const icons: IconType[] = [
 	{
@@ -33,11 +29,6 @@ const icons: IconType[] = [
 	}
 ];
 
-type RouteProps = {
-	name: string;
-	path?: string;
-};
-
 const Navigation: FC = () => {
 	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
@@ -55,10 +46,8 @@ const Navigation: FC = () => {
 
 		if (isSuccessLogout) {
 			toast.success('You have successfully logged out, you are being redirected.');
-			setTimeout(() => {
-				navigate(0);
-				setShowMenu(false);
-			}, 2000);
+			navigate(0);
+			setShowMenu(false);
 			appDispatch(reset());
 		}
 	}, [isErrorLogout, isSuccessLogout, navigate, appDispatch]);
@@ -123,13 +112,15 @@ const Navigation: FC = () => {
 				</div>
 			</div>
 			<Drawer className='bg-transparent select-none' open={showMenu} onClose={() => setShowMenu((prev) => !prev)}>
-				<div onClick={() => navigate('/')} className='w-full bg-black p-6 cursor-pointer'>
-					<Logo />
+				<div className='flex items-center justify-between'>
+					<div onClick={() => navigate('/')} className='w-full bg-black p-6 cursor-pointer'>
+						<Logo />
+					</div>
 				</div>
 				<div className='h-full bg-green_Five p-6 space-y-4 text-center'>
 					{isAuth ? (
 						<>
-							<Route path='/order' name='Order' />
+							<Route path='/user/profile' name='Profile' />
 							<div
 								onClick={logoutUser}
 								className='border-black p-3 rounded-lg border-[1px] cursor-pointer font-workSans font-semibold text-black'

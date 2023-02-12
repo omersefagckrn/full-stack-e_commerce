@@ -1,27 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginUser, logoutUser, registerUser } from './api.services';
+import axios from 'axios';
+import { AuthReduxState } from 'types/redux/auth';
 
-type AuthLoginState = {
-	user: string | null;
-
-	isErrorLogin: boolean;
-	isLoadingLogin: boolean;
-	isSuccessLogin: boolean;
-	messageLogin: string;
-
-	isLoadingLogout: boolean;
-	isErrorLogout: boolean;
-	isSuccessLogout: boolean;
-
-	isLoadingRegister: boolean;
-	isErrorRegister: boolean;
-	isSuccessRegister: boolean;
-	messageRegister: string;
-
-	isAuth: boolean;
-};
-
-const initialState: AuthLoginState = {
+const initialState: AuthReduxState = {
 	user: JSON.parse(localStorage.getItem('user') as string) || null,
 
 	isLoadingLogin: false,
@@ -41,32 +22,47 @@ const initialState: AuthLoginState = {
 	isAuth: JSON.stringify(localStorage.getItem('user')) !== 'null'
 };
 
+export const logout = createAsyncThunk('auth/logout', async () => {
+	localStorage.removeItem('user');
+});
+
 export const login = createAsyncThunk(
-	'auth/login',
+	'register/register',
 	async (
-		user: {
+		{
+			email,
+			password
+		}: {
 			email: string;
 			password: string;
 		},
-		thunkAPI
+		thunkApi
 	) => {
 		try {
-			return await loginUser(user.email, user.password);
-		} catch (error) {
+			const response = await axios.post(process.env.REACT_APP_API_URL + '/api/users/login', {
+				email,
+				password
+			});
+			if (response.data.token) {
+				localStorage.setItem('user', JSON.stringify(response.data?.token));
+				return response.data;
+			}
+		} catch (error: any) {
 			const message = (error.response && error.response.data.message) || error.message;
-			return thunkAPI.rejectWithValue(message);
+			return thunkApi.rejectWithValue(message);
 		}
 	}
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-	logoutUser();
-});
-
 export const register = createAsyncThunk(
 	'auth/register',
 	async (
-		user: {
+		{
+			name,
+			surname,
+			email,
+			password
+		}: {
 			name: string;
 			surname: string;
 			email: string;
@@ -75,8 +71,16 @@ export const register = createAsyncThunk(
 		thunkAPI
 	) => {
 		try {
-			return await registerUser(user.name, user.surname, user.email, user.password);
-		} catch (error) {
+			const response = await axios.post(process.env.REACT_APP_API_URL + '/api/users/register', {
+				name,
+				surname,
+				email,
+				password
+			});
+			if (response.status === 201) {
+				return response.data;
+			}
+		} catch (error: any) {
 			const message = (error.response && error.response.data.message) || error.message;
 			return thunkAPI.rejectWithValue(message);
 		}
@@ -133,7 +137,7 @@ export const authSlice = createSlice({
 			state.isErrorRegister = false;
 			state.isSuccessRegister = false;
 		});
-		builder.addCase(register.fulfilled, (state, action) => {
+		builder.addCase(register.fulfilled, (state) => {
 			state.isLoadingRegister = false;
 			state.isErrorRegister = false;
 			state.isSuccessRegister = true;

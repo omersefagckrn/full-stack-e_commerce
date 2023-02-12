@@ -4,13 +4,15 @@ import logger from 'redux-logger';
 
 /* AppSlice */
 import authReducer from './auth/authSlice';
+import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
 
 export type RootState = ReturnType<typeof store.getState>;
 
 const appReducer = combineReducers({
 	theme: themeReducer,
-	auth: authReducer
+	auth: authReducer,
+	profile: profileReducer
 });
 
 const store = configureStore({

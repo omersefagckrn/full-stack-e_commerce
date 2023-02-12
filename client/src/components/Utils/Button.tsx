@@ -1,15 +1,8 @@
 import { Spinner } from 'assets/icons';
-import React from 'react';
+import { FC } from 'react';
+import { ButtonProps } from 'types/components/utils/Button';
 
-type ButtonProps = {
-	onClick?: () => void;
-	children: React.ReactNode;
-	className?: string;
-	type?: 'button' | 'submit' | 'reset';
-	disabled?: boolean;
-};
-
-const Button = ({ onClick, children, className, type = 'button', disabled }: ButtonProps) => {
+const Button: FC<ButtonProps> = ({ onClick, children, className, type = 'button', disabled }) => {
 	return (
 		<button
 			disabled={disabled}
@@ -19,7 +12,7 @@ const Button = ({ onClick, children, className, type = 'button', disabled }: But
 		>
 			{disabled ? (
 				<div className='flex items-center justify-center'>
-					<Spinner />
+					<Spinner className='animate-spin mr-3 h-5 w-5' />
 					<div>Processing...</div>
 				</div>
 			) : (

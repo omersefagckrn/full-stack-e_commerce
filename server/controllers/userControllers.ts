@@ -1,75 +1,84 @@
-import { NextFunction, Request, Response } from 'express';
-import expressAsyncHandler from 'express-async-handler';
+import { Request, Response } from 'express';
 import User, { IUser } from '../models/User';
 import generateToken from '../utils/generateToken';
 
-export const registerUser = expressAsyncHandler(async (req: Request, res: Response) => {
-	const { name, surname, email, password } = req.body as IUser;
+export const registerUser = async (req: Request, res: Response) => {
+	try {
+		const { name, surname, email, password } = req.body as IUser;
 
-	const userExists = await User.findOne({ email });
+		const userExists = await User.findOne({ email });
+		if (userExists) {
+			return res.status(400).json({ message: 'User already exists' });
+		}
 
-	if (userExists) {
-		res.status(400).json({ message: 'User already exists' });
-	}
-
-	const user = await User.create({
-		name,
-		surname,
-		email,
-		password
-	});
-
-	if (user) {
-		res.status(201).json({
+		const user = await User.create({ name, surname, email, password });
+		return res.status(201).json({
 			_id: user._id,
 			name: user.name,
 			surname: user.surname,
 			email: user.email,
 			isAdmin: user.isAdmin
 		});
-	} else {
-		res.status(400).json({ message: 'Invalid user data' });
+	} catch (error) {
+		console.error(error);
+		return res.status(400).json({ message: error });
 	}
-});
+};
 
-export const loginUser = expressAsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-	const { email, password } = req.body as IUser;
+export const loginUser = async (req: Request, res: Response) => {
+	try {
+		const { email, password } = req.body as IUser;
 
-	const user = await User.findOne({ email });
+		const user = await User.findOne({ email });
+		if (!user) {
+			return res.status(401).json({ message: 'Invalid email or password' });
+		}
 
-	if (user && (await user.matchPassword(password))) {
-		res.status(200).json({
+		const isMatch = await user.matchPassword(password);
+		if (!isMatch) {
+			return res.status(401).json({ message: 'Invalid email or password' });
+		}
+
+		return res.status(200).json({
 			_id: user._id,
 			name: user.name,
 			surname: user.surname,
 			email: user.email,
 			token: generateToken(user._id)
 		});
-		next();
-	} else {
-		res.status(401).json({ message: 'Invalid email or password' });
+	} catch (error) {
+		console.error(error);
+		return res.status(401).json({ message: error });
 	}
-});
+};
 
-export const getUserProfile = expressAsyncHandler(async (req: Request, res: Response) => {
-	const user = await User.findById(req.user?._id);
+export const getUserProfile = async (req: Request, res: Response) => {
+	try {
+		const user = await User.findOne({ token: req.user?.token });
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
 
-	if (user) {
-		res.json({
+		res.status(200).json({
 			_id: user._id,
 			name: user.name,
 			surname: user.surname,
-			email: user.email
+			email: user.email,
+			isAdmin: user.isAdmin
 		});
-	} else {
-		res.status(404).json({ message: 'User not found' });
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Failed to get user profile' });
 	}
-});
+};
 
-export const updateUserProfile = expressAsyncHandler(async (req: Request, res: Response) => {
-	const user = await User.findById(req.user?._id);
+export const updateUserProfile = async (req: Request, res: Response) => {
+	try {
+		const user = await User.findById(req.user?._id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
 
-	if (user) {
 		user.name = req.body.name || user.name;
 		user.email = req.body.email || user.email;
 
@@ -78,69 +87,14 @@ export const updateUserProfile = expressAsyncHandler(async (req: Request, res: R
 		}
 
 		const updatedUser = await user.save();
-
-		res.json({
-			_id: updatedUser._id,
-			name: updatedUser.name,
-			email: updatedUser.email,
-			isAdmin: updatedUser.isAdmin,
-			token: generateToken(updatedUser._id)
-		});
-	} else {
-		res.status(404);
-		throw new Error('User not found');
-	}
-});
-
-export const getUsers = expressAsyncHandler(async (req: Request, res: Response) => {
-	const users = await User.find({});
-	res.json(users);
-});
-
-export const deleteUser = expressAsyncHandler(async (req: Request, res: Response) => {
-	const { id } = req.params as { id: string };
-
-	const user = await User.findById(id);
-	if (user) {
-		await user.remove();
-		res.json({ message: 'User removed' });
-	} else {
-		res.status(404);
-		throw new Error('User not found');
-	}
-});
-
-export const getUserById = expressAsyncHandler(async (req: Request, res: Response) => {
-	const { id } = req.params as { id: string };
-	const user = await User.findById(id).select('-password');
-
-	if (user) {
-		res.json(user);
-	} else {
-		res.status(404);
-		throw new Error('User not found');
-	}
-});
-
-export const updateUser = expressAsyncHandler(async (req: Request, res: Response) => {
-	const { id } = req.params as { id: string };
-	const user = await User.findById(id);
-
-	if (user) {
-		user.name = req.body.name || user.name;
-		user.email = req.body.email || user.email;
-		user.isAdmin = req.body.isAdmin;
-
-		const updatedUser = await user.save();
-
-		res.json({
+		return res.json({
 			_id: updatedUser._id,
 			name: updatedUser.name,
 			email: updatedUser.email,
 			isAdmin: updatedUser.isAdmin
 		});
-	} else {
-		res.status(404);
-		throw new Error('User not found');
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Failed to update user profile' });
 	}
-});
+};

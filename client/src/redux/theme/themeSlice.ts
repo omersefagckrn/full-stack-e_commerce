@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-type ThemeState = {
-	mode: 'light' | 'dark' | string;
-};
+import { ThemeState } from 'types/redux/theme';
 
 const initialState: ThemeState = {
 	mode: (window.localStorage.getItem('theme') as string) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')

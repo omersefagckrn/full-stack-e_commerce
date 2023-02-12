@@ -1,17 +1,5 @@
 import { FC } from 'react';
-
-type InputProps = {
-	id?: string;
-	value?: string;
-	type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
-	placeholder?: string;
-	autoComplete?: React.InputHTMLAttributes<HTMLInputElement>['autoComplete'];
-	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	maxLength?: number;
-	name?: string;
-	hidden?: boolean;
-	className?: string;
-};
+import { InputProps } from 'types/components/utils/Input';
 
 const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength, autoComplete, id, type, className, ...props }) => {
 	return (

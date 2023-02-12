@@ -1,11 +1,11 @@
-import { Navigation } from 'components';
+import { Container } from 'components';
 import { FC } from 'react';
 
 const Dashboard: FC = () => {
 	return (
-		<>
-			<Navigation />
-		</>
+		<Container>
+			<div>Dashboard</div>
+		</Container>
 	);
 };
 
