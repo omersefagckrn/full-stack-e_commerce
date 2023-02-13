@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { apiHelper } from 'helper/api';
 import { IUser, profileReduxState } from 'types/redux/profile';
 
 export const getUserProfile = createAsyncThunk('profile/getUserProfile', async (_, thunkAPI) => {
 	try {
-		const response = await axios.get<IUser>(process.env.REACT_APP_API_URL + '/api/users/profile', {
+		const response = await apiHelper.get('/api/users/profile', {
 			headers: {
 				Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`,
 				'Content-Type': 'application/json'

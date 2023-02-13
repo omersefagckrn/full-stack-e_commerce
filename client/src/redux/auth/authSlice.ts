@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { apiHelper } from 'helper/api';
 import { AuthReduxState } from 'types/redux/auth';
 
 const initialState: AuthReduxState = {
@@ -39,7 +39,7 @@ export const login = createAsyncThunk(
 		thunkApi
 	) => {
 		try {
-			const response = await axios.post(process.env.REACT_APP_API_URL + '/api/users/login', {
+			const response = await apiHelper.post('/api/users/login', {
 				email,
 				password
 			});
@@ -71,7 +71,7 @@ export const register = createAsyncThunk(
 		thunkAPI
 	) => {
 		try {
-			const response = await axios.post(process.env.REACT_APP_API_URL + '/api/users/register', {
+			const response = await apiHelper.post('/api/users/register', {
 				name,
 				surname,
 				email,

@@ -11,17 +11,19 @@ const PrivateRoute = () => {
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
-			<Route element={<PrivateRoute />}>
-				<Route path='user' element={<Component.User />}>
-					<Route index path='profile' element={<Pages.Profile />} />
-				</Route>
-			</Route>
-
 			<Route path='/' element={<Pages.Dashboard />} />
+			<Route path='*' element={<Navigate to='/' replace />} />
 
 			<Route path='auth' element={<Component.Auth />}>
 				<Route index path='login' element={<Pages.Login />} />
 				<Route path='register' element={<Pages.Register />} />
+			</Route>
+
+			<Route element={<PrivateRoute />}>
+				<Route path='user/profile' element={<Component.User />}>
+					<Route index path='information' element={<Pages.Profile />} />
+					<Route path='edit' element={<Pages.EditProfile />} />
+				</Route>
 			</Route>
 		</>
 	)

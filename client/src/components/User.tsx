@@ -7,15 +7,11 @@ import { UserProfileType } from 'types/components/User';
 const profileRoute: UserProfileType[] = [
 	{
 		name: 'Profile',
-		path: '/user/profile'
+		path: '/user/profile/information'
 	},
 	{
 		name: 'Edit Profile',
 		path: '/user/profile/edit'
-	},
-	{
-		name: 'Change Password',
-		path: '/user/profile/password'
 	}
 ];
 
@@ -38,15 +34,13 @@ const User: FC = () => {
 							<div
 								key={path}
 								onClick={() => navigate(path)}
-								className={`p-4 font-workSans font-semibold cursor-pointer ${
-									activeTab === path && 'underline'
-								}`}
+								className={`p-4 font-workSans font-semibold cursor-pointer ${activeTab === path && 'underline'}`}
 							>
 								{name}
 							</div>
 						))}
 					</div>
-					<div className='rounded-lg border-black border-[1px] p-4 w-full cursor-pointer'>
+					<div className='rounded-lg border-black border-[1px] p-4 w-full'>
 						<Outlet />
 					</div>
 				</div>
