@@ -1,5 +1,3 @@
-Full Stack E-Commerce for School Project
-
 ## 🖥️ Technology
 
 **Client:**
