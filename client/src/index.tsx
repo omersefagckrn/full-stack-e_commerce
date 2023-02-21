@@ -1,9 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './index.css';
 
 /* Redux imported */
@@ -13,10 +15,8 @@ import router from 'route';
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLDivElement);
 
 root.render(
-	<React.StrictMode>
-		<Provider store={store}>
-			<Toaster position='top-right' reverseOrder={false} />
-			<RouterProvider router={router} />
-		</Provider>
-	</React.StrictMode>
+	<Provider store={store}>
+		<Toaster position='top-right' reverseOrder={false} />
+		<RouterProvider router={router} />
+	</Provider>
 );

@@ -25,16 +25,19 @@ const User: FC = () => {
 			navigate('/');
 		}
 	}, [isAuth, navigate]);
+
 	return (
 		<Container>
 			<div className='lg:mx-auto lg:max-w-login'>
 				<div className='flex flex-col lg:flex-row lg:gap-x-6 pt-6 m-5 space-y-5 lg:space-y-0'>
-					<div className='rounded-lg border-black border-[1px] w-full lg:w-1/3 select-none'>
+					<div className='rounded-lg border-black border-[1px] w-full lg:w-1/3 select-none lg:h-1/2'>
 						{profileRoute.map(({ name, path }) => (
 							<div
 								key={path}
 								onClick={() => navigate(path)}
-								className={`p-4 font-workSans font-semibold cursor-pointer ${activeTab === path && 'underline'}`}
+								className={`p-4 rounded-lg font-workSans font-semibold cursor-pointer ${
+									activeTab === path && 'underline bg-red-50 pb-4'
+								}`}
 							>
 								{name}
 							</div>

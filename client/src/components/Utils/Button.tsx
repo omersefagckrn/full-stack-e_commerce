@@ -1,25 +1,10 @@
-import { Spinner } from 'assets/icons';
 import { FC } from 'react';
 import { ButtonProps } from 'types/components/utils/Button';
 
-const Button: FC<ButtonProps> = ({ onClick, children, className, type = 'button', disabled }) => {
-	return (
-		<button
-			disabled={disabled}
-			onClick={onClick}
-			type={type}
-			className={`${className && className} bg-green_Five rounded-lg py-3 px-6 text-white font-workSans`}
-		>
-			{disabled ? (
-				<div className='flex items-center justify-center'>
-					<Spinner className='animate-spin mr-3 h-5 w-5' />
-					<div>Processing...</div>
-				</div>
-			) : (
-				children
-			)}
-		</button>
-	);
+import { Button } from 'primereact/button';
+
+const AppButton: FC<ButtonProps> = ({ onClick, children, icon, className, type = 'button', disabled }) => {
+	return <Button className={`${className && className} font-workSans`} outlined type={type} label={children as string} iconPos='right' icon={icon} loading={disabled} onClick={onClick} />;
 };
 
-export default Button;
+export default AppButton;

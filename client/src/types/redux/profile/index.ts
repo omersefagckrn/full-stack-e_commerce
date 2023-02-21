@@ -1,11 +1,12 @@
 export interface IUser {
-	id: string;
-	email: string;
-	name: string;
-	surname: string;
-	isAdmin: boolean;
-	createdAt: string;
-	updatedAt: string;
+	id: string | undefined;
+	email: string | undefined;
+	name: string | undefined;
+	surname: string | undefined;
+	phone: string | undefined;
+	isAdmin: boolean | undefined;
+	createdAt: string | undefined;
+	updatedAt: string | undefined;
 }
 
 export type profileReduxState = {
@@ -14,4 +15,9 @@ export type profileReduxState = {
 	isSuccessGetUser: boolean;
 	isErrorGetUser: boolean;
 	errorMessageGetUser: string | null;
+
+	isLoadingUpdateUser: boolean;
+	isSuccessUpdateUser: boolean;
+	isErrorUpdateUser: boolean;
+	errorMessageUpdateUser: string | null;
 };

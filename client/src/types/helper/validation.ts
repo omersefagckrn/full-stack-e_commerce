@@ -9,10 +9,12 @@ export type FormRegisterValues = {
 	email: string;
 	password: string;
 	confirmPassword: string;
+	phone: string;
 };
 
 export type FormEditProfileValues = {
-	name: string;
-	surname: string;
-	email: string;
+	name: string | undefined;
+	surname: string | undefined;
+	email: string | undefined;
+	phone: string | undefined;
 };

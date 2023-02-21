@@ -6,7 +6,8 @@ export interface IUser {
 	surname: string;
 	email: string;
 	password: string;
-	isAdmin?: boolean;
+	phone: string;
+	isAdmin: boolean;
 }
 
 export interface UserDocument extends Document, IUser {
@@ -19,6 +20,7 @@ const UserSchema = new Schema<IUser>(
 		surname: { type: String, required: true },
 		email: { type: String, required: true },
 		password: { type: String, required: true },
+		phone: { type: String, required: true },
 		isAdmin: {
 			type: Boolean,
 			required: true,
@@ -26,15 +28,17 @@ const UserSchema = new Schema<IUser>(
 		}
 	},
 	{
-		versionKey: false,
-		timestamps: true
+		timestamps: true,
+		versionKey: false
 	}
 );
 
+// Match user entered password to hashed password in database
 UserSchema.methods.matchPassword = async function (this: any, enteredPassword: string) {
 	return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// Hash password before saving
 UserSchema.pre('save', async function (this: UserDocument, next) {
 	if (!this.isModified('password')) next();
 	const salt = await bcrypt.genSalt(10);

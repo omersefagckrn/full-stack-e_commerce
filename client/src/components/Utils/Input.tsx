@@ -1,9 +1,10 @@
+import { InputText } from 'primereact/inputtext';
 import { FC } from 'react';
 import { InputProps } from 'types/components/utils/Input';
 
 const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength, autoComplete, id, type, className, ...props }) => {
 	return (
-		<input
+		<InputText
 			hidden={hidden}
 			maxLength={maxLength}
 			autoComplete={'off'}

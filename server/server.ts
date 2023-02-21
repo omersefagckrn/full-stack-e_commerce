@@ -21,7 +21,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 mongoose.set('strictQuery', true);
 
-if (process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config({ path: './server/.env' });
 }
 

@@ -19,12 +19,46 @@ export const getUserProfile = createAsyncThunk('profile/getUserProfile', async (
 	}
 });
 
+export const updateUserProfile = createAsyncThunk(
+	'profile/updateUserProfile',
+	async ({ name, surname, email, phone }: { email: string | undefined; name: string | undefined; surname: string | undefined; phone: string | undefined }, thunkAPI) => {
+		try {
+			const response = await apiHelper.put(
+				'/api/users/profile',
+				{
+					name,
+					surname,
+					email,
+					phone
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`,
+						'Content-Type': 'application/json'
+					}
+				}
+			);
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (error: any) {
+			const message = (error.response && error.response.data.message) || error.message;
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 const initialState = {
 	user: null as IUser | null,
 	isLoadingGetUser: false,
 	isSuccessGetUser: false,
 	isErrorGetUser: false,
-	errorMessageGetUser: null as string | null
+	errorMessageGetUser: null as string | null,
+
+	isLoadingUpdateUser: false,
+	isSuccessUpdateUser: false,
+	isErrorUpdateUser: false,
+	errorMessageUpdateUser: null as string | null
 } as profileReduxState;
 
 const profileSlice = createSlice({
@@ -52,6 +86,25 @@ const profileSlice = createSlice({
 			state.isSuccessGetUser = false;
 			state.isErrorGetUser = true;
 			state.errorMessageGetUser = action.payload as string;
+		});
+
+		builder.addCase(updateUserProfile.pending, (state) => {
+			state.isLoadingUpdateUser = true;
+			state.isSuccessUpdateUser = false;
+			state.isErrorUpdateUser = false;
+			state.errorMessageUpdateUser = null;
+		});
+		builder.addCase(updateUserProfile.fulfilled, (state, action) => {
+			state.isLoadingUpdateUser = false;
+			state.isSuccessUpdateUser = true;
+			state.isErrorUpdateUser = false;
+			state.errorMessageUpdateUser = null;
+		});
+		builder.addCase(updateUserProfile.rejected, (state, action) => {
+			state.isLoadingUpdateUser = false;
+			state.isSuccessUpdateUser = false;
+			state.isErrorUpdateUser = true;
+			state.errorMessageUpdateUser = action.payload as string;
 		});
 	}
 });

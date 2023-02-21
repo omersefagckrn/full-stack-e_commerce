@@ -1,14 +1,16 @@
-import Drawer from '@mui/material/Drawer';
 import Tooltip from '@mui/material/Tooltip';
 import { Logo } from 'assets';
-import { Facebook, Favorite, Linkedin, Mail, Menu, Order, Twitter } from 'assets/icons';
-import { FC, useEffect, useState } from 'react';
+import { Facebook, Favorite, Linkedin, Mail, Menu as MenuIcon, Order, Twitter } from 'assets/icons';
+import { FC, useEffect, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { IconType, RouteProps } from 'types/components/Navigation';
+import { IconType } from 'types/components/Navigation';
 import { Button, Input } from './Utils';
+
+import { Menu as MobileMenu } from 'primereact/menu';
+import { MenuItem } from 'primereact/menuitem';
 
 const icons: IconType[] = [
 	{
@@ -32,12 +34,46 @@ const icons: IconType[] = [
 const Navigation: FC = () => {
 	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
-	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const { isErrorLogout, isSuccessLogout, isAuth } = useAppSelector((state) => state.auth);
+	const mobileMenuRef = useRef<MobileMenu>(null);
 
 	const logoutUser = async () => {
 		await appDispatch(logout());
 	};
+
+	const LoggedInUserMenu: MenuItem[] = [
+		{
+			label: 'User Information',
+			icon: 'pi pi-user',
+			command: () => {
+				navigate('/user/profile/information');
+			}
+		},
+		{
+			label: 'Logout',
+			icon: 'pi pi-power-off',
+			command: () => {
+				logoutUser();
+			}
+		}
+	];
+
+	const notLoggedInUserMenu: MenuItem[] = [
+		{
+			label: 'Login',
+			icon: 'pi pi-user',
+			command: () => {
+				navigate('/auth/login');
+			}
+		},
+		{
+			label: 'Register',
+			icon: 'pi pi-user',
+			command: () => {
+				navigate('/auth/register');
+			}
+		}
+	];
 
 	useEffect(() => {
 		if (isErrorLogout) {
@@ -46,28 +82,12 @@ const Navigation: FC = () => {
 
 		if (isSuccessLogout) {
 			toast.success('You have successfully logged out, you are being redirected.');
-			navigate(0);
-			setShowMenu(false);
+			setTimeout(() => {
+				navigate(0);
+			}, 2000);
 			appDispatch(reset());
 		}
 	}, [isErrorLogout, isSuccessLogout, navigate, appDispatch]);
-
-	const Route: FC<RouteProps> = ({ path, name }) => {
-		return (
-			<div
-				key={path}
-				onClick={async () => {
-					if (path) {
-						navigate(path);
-						setShowMenu(false);
-					}
-				}}
-				className='space-x-12 border-[1px] border-gray_Two p-3 rounded-lg hover:bg-black cursor-pointer w-56'
-			>
-				<div className='text-white font-semibold font-workSans text-center'>{name}</div>
-			</div>
-		);
-	};
 
 	return (
 		<>
@@ -104,38 +124,17 @@ const Navigation: FC = () => {
 							<Tooltip color='#ffffff' title='Favorite' placement='bottom'>
 								<Order className='cursor-pointer' onClick={() => navigate('/order')} />
 							</Tooltip>
-							<Tooltip color='#ffffff' title='Menu' placement='bottom'>
-								<Menu onClick={() => setShowMenu((prev) => !prev)} className='cursor-pointer' />
-							</Tooltip>
+							<div
+								onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}
+								className='cursor-pointer'
+							>
+								<MenuIcon />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<Drawer className='bg-transparent select-none' open={showMenu} onClose={() => setShowMenu((prev) => !prev)}>
-				<div className='flex items-center justify-between'>
-					<div onClick={() => navigate('/')} className='w-full bg-black p-6 cursor-pointer'>
-						<Logo />
-					</div>
-				</div>
-				<div className='h-full bg-green_Five p-6 space-y-4 text-center'>
-					{isAuth ? (
-						<>
-							<Route path='/user/profile' name='Profile' />
-							<div
-								onClick={logoutUser}
-								className='border-black p-3 rounded-lg border-[1px] cursor-pointer font-workSans font-semibold text-black'
-							>
-								Logout
-							</div>
-						</>
-					) : (
-						<>
-							<Route path='/auth/login' name='Login' />
-							<Route path='/auth/register' name='Register' />
-						</>
-					)}
-				</div>
-			</Drawer>
+			<MobileMenu className='mt-2' ref={mobileMenuRef} popup model={isAuth ? LoggedInUserMenu : notLoggedInUserMenu} />
 		</>
 	);
 };

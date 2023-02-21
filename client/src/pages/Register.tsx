@@ -9,19 +9,21 @@ import toast from 'react-hot-toast';
 import { register } from 'redux/auth/authSlice';
 import { FormRegisterValues } from 'types/helper/validation';
 
+import { InputMask } from 'primereact/inputmask';
+
 const Register: FC = () => {
 	const appDispatch = useAppDispatch();
 	const { isErrorRegister, isLoadingRegister, isSuccessRegister, messageRegister } = useAppSelector((state) => state.auth);
 	const navigate = useNavigate();
 
-	const onSubmit = async ({ name, surname, email, password }: FormRegisterValues) => {
-		console.log(name, surname, email, password);
+	const onSubmit = async ({ name, surname, email, password, phone }: FormRegisterValues) => {
 		await appDispatch(
 			register({
 				name,
 				surname,
 				email,
-				password
+				password,
+				phone
 			})
 		);
 	};
@@ -40,15 +42,14 @@ const Register: FC = () => {
 	return (
 		<>
 			<div className='flex flex-col'>
-				<div className='text-black font-medium text-2xl font-workSans mb-8'>Please register</div>
-				<div className='font-normal text-lg text-black'>If you have an account, sign in with your email address.</div>
+				<div className='text-black font-medium text-2xl font-workSans mb-2'>Register</div>
 				<Formik
 					validateOnBlur={false}
 					validateOnChange={false}
-					initialValues={{ name: '', surname: '', email: '', password: '', confirmPassword: '' }}
+					initialValues={{ name: '', surname: '', email: '', phone: '', password: '', confirmPassword: '' }}
 					validationSchema={validationSchemaRegister}
 					onSubmit={(values: FormRegisterValues, { resetForm }) => {
-						resetForm();
+						//resetForm();
 						onSubmit(values);
 					}}
 				>
@@ -66,17 +67,23 @@ const Register: FC = () => {
 							<Input value={values.email} type='text' id='email' onChange={handleChange} />
 							<Error error={errors.email} />
 
+							<Label label='Phone' />
+							<InputMask
+								value={values.phone}
+								id='phone'
+								type='text'
+								mask='(9999) 999-9999'
+								placeholder='(999) 999-9999'
+								onChange={handleChange}
+							/>
+							<Error error={errors.phone} />
+
 							<Label label='Password' />
 							<Input value={values.password} type='password' id='password' onChange={handleChange} />
 							<Error error={errors.password} />
 
 							<Label label='Confirm Password' />
-							<Input
-								value={values.confirmPassword}
-								type='password'
-								id='confirmPassword'
-								onChange={handleChange}
-							/>
+							<Input value={values.confirmPassword} type='password' id='confirmPassword' onChange={handleChange} />
 							<Error error={errors.confirmPassword} />
 
 							<div className='pt-4 flex flex-col'>
@@ -90,9 +97,7 @@ const Register: FC = () => {
 			</div>
 			<div className='flex flex-col space-y-8'>
 				<div className='text-black font-medium text-2xl font-workSans'>Not new customer?</div>
-				<div className='text-black font-light text-md font-workSans'>
-					If you are not new, you can log in from the description below and continue shopping.
-				</div>
+				<div className='text-black font-light text-md font-workSans'>If you are not new, you can log in from the description below and continue shopping.</div>
 				<Button type='button' className='w-56' onClick={() => navigate('/auth/login')}>
 					Sign In
 				</Button>

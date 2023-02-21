@@ -3,7 +3,7 @@ import { apiHelper } from 'helper/api';
 import { AuthReduxState } from 'types/redux/auth';
 
 const initialState: AuthReduxState = {
-	user: JSON.parse(localStorage.getItem('user') as string) || null,
+	user: JSON.parse(localStorage.getItem('user') as string) ?? null,
 
 	isLoadingLogin: false,
 	isErrorLogin: false,
@@ -61,12 +61,14 @@ export const register = createAsyncThunk(
 			name,
 			surname,
 			email,
-			password
+			password,
+			phone
 		}: {
 			name: string;
 			surname: string;
 			email: string;
 			password: string;
+			phone: string;
 		},
 		thunkAPI
 	) => {
@@ -75,7 +77,8 @@ export const register = createAsyncThunk(
 				name,
 				surname,
 				email,
-				password
+				password,
+				phone
 			});
 			if (response.status === 201) {
 				return response.data;
@@ -137,11 +140,11 @@ export const authSlice = createSlice({
 			state.isErrorRegister = false;
 			state.isSuccessRegister = false;
 		});
-		builder.addCase(register.fulfilled, (state) => {
+		builder.addCase(register.fulfilled, (state, action) => {
 			state.isLoadingRegister = false;
 			state.isErrorRegister = false;
 			state.isSuccessRegister = true;
-			state.messageRegister = 'Successfully registered!';
+			state.messageRegister = action.payload.message as string;
 		});
 		builder.addCase(register.rejected, (state, action) => {
 			state.isLoadingRegister = false;
