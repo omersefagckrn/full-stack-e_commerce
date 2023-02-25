@@ -35,9 +35,7 @@ const User: FC = () => {
 							<div
 								key={path}
 								onClick={() => navigate(path)}
-								className={`p-4 rounded-lg font-workSans font-semibold cursor-pointer ${
-									activeTab === path && 'underline bg-red-50 pb-4'
-								}`}
+								className={`p-4 rounded-lg font-workSans font-semibold cursor-pointer ${activeTab === path && 'underline'}`}
 							>
 								{name}
 							</div>

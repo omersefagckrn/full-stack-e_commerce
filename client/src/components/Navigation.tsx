@@ -121,8 +121,8 @@ const Navigation: FC = () => {
 							<Tooltip color='#ffffff' title='Favorite' placement='bottom'>
 								<Favorite className='cursor-pointer' onClick={() => navigate('/favorite')} />
 							</Tooltip>
-							<Tooltip color='#ffffff' title='Favorite' placement='bottom'>
-								<Order className='cursor-pointer' onClick={() => navigate('/order')} />
+							<Tooltip color='#ffffff' title='Cart' placement='bottom'>
+								<Order className='cursor-pointer' onClick={() => navigate('/cart')} />
 							</Tooltip>
 							<div
 								onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}

@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 
 /* AppSlice */
 import authReducer from './auth/authSlice';
+import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
 
@@ -12,7 +13,8 @@ export type RootState = ReturnType<typeof store.getState>;
 const appReducer = combineReducers({
 	theme: themeReducer,
 	auth: authReducer,
-	profile: profileReducer
+	profile: profileReducer,
+	products: productReducer
 });
 
 const store = configureStore({

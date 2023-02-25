@@ -6,10 +6,10 @@ export const getUserProfile = createAsyncThunk('profile/getUserProfile', async (
 	try {
 		const response = await apiHelper.get('/api/users/profile', {
 			headers: {
-				Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`,
-				'Content-Type': 'application/json'
+				Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`
 			}
 		});
+
 		if (response.status === 200) {
 			return response.data;
 		}

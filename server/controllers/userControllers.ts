@@ -51,7 +51,8 @@ export const getUserProfile = unhandledExceptionsHandler(async (req: Request, re
 		name: user.name,
 		surname: user.surname,
 		email: user.email,
-		phone: user.phone
+		phone: user.phone,
+		updatedAt: user.updatedAt
 	});
 });
 

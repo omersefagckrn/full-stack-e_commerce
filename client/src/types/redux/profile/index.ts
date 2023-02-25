@@ -5,7 +5,6 @@ export interface IUser {
 	surname: string | undefined;
 	phone: string | undefined;
 	isAdmin: boolean | undefined;
-	createdAt: string | undefined;
 	updatedAt: string | undefined;
 }
 

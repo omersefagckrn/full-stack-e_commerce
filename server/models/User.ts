@@ -12,9 +12,10 @@ export interface IUser {
 
 export interface UserDocument extends Document, IUser {
 	matchPassword: (password: string) => Promise<Boolean>;
+	updatedAt: Date;
 }
 
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema(
 	{
 		name: { type: String, required: true },
 		surname: { type: String, required: true },

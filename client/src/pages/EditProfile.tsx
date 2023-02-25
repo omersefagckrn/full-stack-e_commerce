@@ -6,7 +6,7 @@ import { InputMask } from 'primereact/inputmask';
 import { FC, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { getUserProfile, updateUserProfile } from 'redux/profile/profileSlice';
+import { getUserProfile, reset, updateUserProfile } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { FormEditProfileValues } from 'types/helper/validation';
 
@@ -27,6 +27,7 @@ const EditProfile: FC = () => {
 		if (isSuccessUpdateUser) {
 			toast.success('Your information has been updated');
 			navigate('/user/profile/information');
+			appDispatch(reset());
 		}
 		if (isErrorUpdateUser) {
 			appDispatch(getUserProfile());
@@ -36,8 +37,7 @@ const EditProfile: FC = () => {
 
 	return (
 		<>
-			<div className='text-xl font-workSans text-black font-semibold underline select-none'>Profile</div>
-			<div className='text-xs font-workSans text-green_Five font-normal pt-2 select-none'>Here you can find and edit information about yourself.</div>
+			<div className='text-xl font-workSans text-black font-semibold underline select-none'>Edit your information</div>
 			{isLoadingGetUser ? (
 				<div className='flex items-center justify-center'>
 					<Loader />

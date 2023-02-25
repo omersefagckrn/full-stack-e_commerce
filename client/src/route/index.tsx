@@ -5,6 +5,7 @@ import { useAppSelector } from 'redux/store';
 
 const PrivateRoute = () => {
 	const { isAuth } = useAppSelector((state) => state.auth);
+
 	return isAuth ? <Outlet /> : <Navigate to='/' replace />;
 };
 
@@ -18,6 +19,8 @@ const router = createBrowserRouter(
 				<Route index path='login' element={<Pages.Login />} />
 				<Route path='register' element={<Pages.Register />} />
 			</Route>
+
+			<Route index path='product/:id' element={<Pages.ProductDetails />} />
 
 			<Route element={<PrivateRoute />}>
 				<Route path='user/profile' element={<Component.User />}>

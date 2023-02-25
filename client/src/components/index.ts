@@ -1,6 +1,9 @@
 export { default as Auth } from './Auth';
+export { default as Carousel } from './Carousel';
 export { default as Container } from './Container';
 export { default as Footer } from './Footer';
+export { default as GrowBusiness } from './GrowBusiness';
 export { default as Loader } from './Loader';
 export { default as Navigation } from './Navigation';
+export { default as Product } from './Product';
 export { default as User } from './User';

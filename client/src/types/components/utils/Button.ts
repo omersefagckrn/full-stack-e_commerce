@@ -5,4 +5,5 @@ export type ButtonProps = {
 	type?: 'button' | 'submit' | 'reset';
 	disabled?: boolean;
 	icon?: string;
+	text?: boolean;
 };
