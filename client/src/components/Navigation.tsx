@@ -1,16 +1,18 @@
 import Tooltip from '@mui/material/Tooltip';
 import { Logo } from 'assets';
-import { Facebook, Favorite, Linkedin, Mail, Menu as MenuIcon, Order, Twitter } from 'assets/icons';
-import { FC, useEffect, useRef } from 'react';
+import { Facebook, Linkedin, Mail, Menu as MenuIcon, Order, Twitter } from 'assets/icons';
+import { AutoComplete, AutoCompleteChangeEvent, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
+import { FC, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { IconType } from 'types/components/Navigation';
-import { Button, Input } from './Utils';
 
 import { Menu as MobileMenu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
+import { IProduct } from 'types/redux/product';
+import AppButton from './Utils/Button';
 
 const icons: IconType[] = [
 	{
@@ -35,7 +37,26 @@ const Navigation: FC = () => {
 	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
 	const { isErrorLogout, isSuccessLogout, isAuth } = useAppSelector((state) => state.auth);
+	const { products: appProducts } = useAppSelector((state) => state.products);
+
 	const mobileMenuRef = useRef<MobileMenu>(null);
+
+	const [selectedProducts, setSelectedProducts] = useState<IProduct[] | null>(null);
+	const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+
+	const search = (event: AutoCompleteCompleteEvent) => {
+		let _filteredProducts;
+
+		if (!event.query.trim().length) {
+			_filteredProducts = [...appProducts];
+		} else {
+			_filteredProducts = appProducts.filter((productt) => {
+				return productt.name.toLowerCase().startsWith(event.query.toLowerCase());
+			});
+		}
+
+		setFilteredProducts(_filteredProducts);
+	};
 
 	const logoutUser = async () => {
 		await appDispatch(logout());
@@ -113,16 +134,39 @@ const Navigation: FC = () => {
 					</div>
 					<div className='flex items-center justify-between px-3 py-6'>
 						<Logo className='cursor-pointer' onClick={() => navigate('/')} />
-						<div className='hidden lg:flex items-center justify-center space-x-4 w-full'>
-							<Input className='w-1/2' placeholder='What are you looking for?' />
-							<Button>Search</Button>
+						<div className='hidden lg:flex items-center space-x-2'>
+							<AutoComplete
+								placeholder='Search for products'
+								field='name'
+								value={selectedProducts}
+								suggestions={filteredProducts}
+								completeMethod={search}
+								onChange={(e: AutoCompleteChangeEvent) => {
+									setSelectedProducts(e.target.value);
+								}}
+							/>
+							<AppButton
+								children='Search'
+								type='button'
+								onClick={() =>
+									/* @ts-ignore */
+									navigate(`/product/${selectedProducts._id}`)
+								}
+							/>
 						</div>
 						<div className='flex items-center space-x-4'>
-							<Tooltip color='#ffffff' title='Favorite' placement='bottom'>
-								<Favorite className='cursor-pointer' onClick={() => navigate('/favorite')} />
-							</Tooltip>
-							<Tooltip color='#ffffff' title='Cart' placement='bottom'>
-								<Order className='cursor-pointer' onClick={() => navigate('/cart')} />
+							<Tooltip color='#ffffff' title='Card' placement='bottom'>
+								<Order
+									className='cursor-pointer'
+									onClick={() => {
+										if (isAuth) {
+											navigate('/user/checkout');
+										} else {
+											toast.error('You need to login first!');
+											navigate('/auth/login');
+										}
+									}}
+								/>
 							</Tooltip>
 							<div
 								onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}

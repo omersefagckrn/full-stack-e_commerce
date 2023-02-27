@@ -18,3 +18,10 @@ export type FormEditProfileValues = {
 	email: string | undefined;
 	phone: string | undefined;
 };
+
+export type FormPaymentValues = {
+	cardName: string;
+	cardNumber: string;
+	cardExpiry: string;
+	cardCvc: string;
+};

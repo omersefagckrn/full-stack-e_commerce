@@ -16,7 +16,9 @@ module.exports = {
 				gray_Three: '#ADADAD',
 				gray_Five: '#555555',
 				red_Seven: '#E03C00',
-				red_Six: '#FF5A1F'
+				red_Six: '#FF5A1F',
+				primary: '#0a2540',
+				border: '#B8B8B8'
 			},
 			fontFamily: {
 				workSans: ['Work Sans', 'sans-serif']

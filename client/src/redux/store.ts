@@ -2,8 +2,8 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import logger from 'redux-logger';
 
-/* AppSlice */
 import authReducer from './auth/authSlice';
+import cardReducer, { getTotals } from './card/cardSlice';
 import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
@@ -14,7 +14,8 @@ const appReducer = combineReducers({
 	theme: themeReducer,
 	auth: authReducer,
 	profile: profileReducer,
-	products: productReducer
+	products: productReducer,
+	card: cardReducer
 });
 
 const store = configureStore({
@@ -22,6 +23,9 @@ const store = configureStore({
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 	devTools: process.env.NODE_ENV !== 'production'
 });
+
+// getTotals is a thunk action creator
+store.dispatch(getTotals());
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;

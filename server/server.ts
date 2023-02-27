@@ -7,7 +7,6 @@ import helmet from 'helmet';
 import mongoose from 'mongoose';
 
 /* Routes */
-import cartRoutes from './routes/cartRoutes';
 import orderRoutes from './routes/orderRoutes';
 import productRoutes from './routes/productRoutes';
 import userRoutes from './routes/userRoutes';
@@ -41,4 +40,3 @@ if (process.env.NODE_ENV !== 'production') {
 app.use('/api/users/', userRoutes);
 app.use('/api/products/', productRoutes);
 app.use('/api/orders/', orderRoutes);
-app.use('/api/carts/', cartRoutes);

@@ -1,4 +1,4 @@
-import { FormEditProfileValues, FormLoginValues, FormRegisterValues } from 'types/helper/validation';
+import { FormEditProfileValues, FormLoginValues, FormPaymentValues, FormRegisterValues } from 'types/helper/validation';
 import * as Yup from 'yup';
 
 export const validationSchemaLogin: Yup.ObjectSchema<FormLoginValues> = Yup.object({
@@ -22,4 +22,11 @@ export const validationSchemaEditProfile: Yup.ObjectSchema<FormEditProfileValues
 	surname: Yup.string(),
 	email: Yup.string().email('Invalid email format'),
 	phone: Yup.string()
+});
+
+export const validationSchemaPayment = Yup.object<FormPaymentValues>({
+	cardName: Yup.string().required('Card name is required'),
+	cardNumber: Yup.number().required('Card number is required'),
+	cardExpiry: Yup.string().required('Card expiry is required'),
+	cardCvc: Yup.string().required('Card cvv is required').min(3, 'Card cvv must be 3 digits').max(3, 'Card cvv must be 3 digits')
 });

@@ -5,6 +5,8 @@ import { InputProps } from 'types/components/utils/Input';
 const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength, autoComplete, id, type, className, ...props }) => {
 	return (
 		<InputText
+			tooltipOptions={{ position: 'bottom' }}
+			tooltip={placeholder}
 			hidden={hidden}
 			maxLength={maxLength}
 			autoComplete={'off'}
