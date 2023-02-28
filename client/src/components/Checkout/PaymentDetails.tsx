@@ -16,6 +16,7 @@ const PaymentDetails: FC = () => {
 			initialValues={{ cardName: '', cardNumber: '', cardExpiry: '', cardCvc: '' }}
 			validationSchema={validationSchemaPayment}
 			onSubmit={(values: FormPaymentValues, { resetForm }) => {
+				resetForm();
 				onSubmit(values);
 			}}
 		>

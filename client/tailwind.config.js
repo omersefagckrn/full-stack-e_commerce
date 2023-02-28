@@ -18,7 +18,8 @@ module.exports = {
 				red_Seven: '#E03C00',
 				red_Six: '#FF5A1F',
 				primary: '#0a2540',
-				border: '#B8B8B8'
+				border: '#B8B8B8',
+				purple: '#6F55FF'
 			},
 			fontFamily: {
 				workSans: ['Work Sans', 'sans-serif']

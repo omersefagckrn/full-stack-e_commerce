@@ -62,7 +62,7 @@ const PaymentOrder: FC = () => {
 									<div className='flex justify-center flex-col space-y-2 w-full'>
 										<div className='text-primary font-normal text-xs w-[85%] truncate'>{card.product?.name}</div>
 										<div className='text-[#666666] font-normal text-xs'>{card.product?.description}</div>
-										<div className='text-[#666666] font-normal text-xs'>Quantity: {card.quantity}</div>
+										<div className='text-[#666666] font-normal text-md underline'>Quantity: {card.quantity}</div>
 										<div className='flex items-center space-x-6'>
 											<div className='flex items-center space-x-2 w-full'>
 												<div

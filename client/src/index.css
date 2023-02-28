@@ -28,3 +28,23 @@
 	margin: 0;
 	color: black;
 }
+
+.p-dialog .p-dialog-header {
+	background: #d9d9d8;
+	padding: 40px 40px 40px 40px;
+}
+
+.p-dialog .p-dialog-content {
+	background: #d9d9d8;
+	padding: 0 40px 40px 40px;
+	backdrop-filter: blur(85px);
+}
+
+.p-dialog .p-dialog-content:last-of-type {
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+	@apply text-purple border-purple;
+}

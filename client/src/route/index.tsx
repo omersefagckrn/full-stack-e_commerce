@@ -1,9 +1,10 @@
 import * as Component from 'components';
 import * as Pages from 'pages';
+import { FC } from 'react';
 import { createBrowserRouter, createRoutesFromElements, Navigate, Outlet, Route } from 'react-router-dom';
 import { useAppSelector } from 'redux/store';
 
-const PrivateRoute = () => {
+const PrivateRoute: FC = () => {
 	const { isAuth } = useAppSelector((state) => state.auth);
 
 	return isAuth ? <Outlet /> : <Navigate to='/' replace />;
@@ -23,7 +24,7 @@ const router = createBrowserRouter(
 			<Route index path='product/:id' element={<Pages.ProductDetails />} />
 
 			<Route element={<PrivateRoute />}>
-				<Route path='user/profile' element={<Component.User />}>
+				<Route path='user/profile' element={<Component.Profile />}>
 					<Route index path='information' element={<Pages.Profile />} />
 					<Route path='edit' element={<Pages.EditProfile />} />
 				</Route>

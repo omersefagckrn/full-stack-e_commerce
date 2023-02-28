@@ -10,6 +10,7 @@ import { register } from 'redux/auth/authSlice';
 import { FormRegisterValues } from 'types/helper/validation';
 
 import { InputMask } from 'primereact/inputmask';
+import { reset } from 'redux/profile/profileSlice';
 
 const Register: FC = () => {
 	const appDispatch = useAppDispatch();
@@ -32,6 +33,7 @@ const Register: FC = () => {
 		if (isSuccessRegister) {
 			toast.success(messageRegister);
 			navigate('/auth/login');
+			appDispatch(reset());
 		}
 
 		if (isErrorRegister) {
@@ -49,7 +51,7 @@ const Register: FC = () => {
 					initialValues={{ name: '', surname: '', email: '', phone: '', password: '', confirmPassword: '' }}
 					validationSchema={validationSchemaRegister}
 					onSubmit={(values: FormRegisterValues, { resetForm }) => {
-						//resetForm();
+						resetForm();
 						onSubmit(values);
 					}}
 				>
@@ -73,7 +75,7 @@ const Register: FC = () => {
 								id='phone'
 								type='text'
 								mask='(9999) 999-9999'
-								placeholder='(999) 999-9999'
+								placeholder='(0999) 999-9999'
 								onChange={handleChange}
 							/>
 							<Error error={errors.phone} />

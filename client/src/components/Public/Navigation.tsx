@@ -1,5 +1,5 @@
 import Tooltip from '@mui/material/Tooltip';
-import { Logo } from 'assets';
+import Logo from 'assets/hero/logo.svg';
 import { Facebook, Linkedin, Mail, Menu as MenuIcon, Order, Twitter } from 'assets/icons';
 import { AutoComplete, AutoCompleteChangeEvent, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
 import { FC, useEffect, useRef, useState } from 'react';
@@ -7,12 +7,12 @@ import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { IconType } from 'types/components/Navigation';
+import { IconType } from 'types/components/Public/Navigation';
 
+import { Button } from 'components/Utils';
 import { Menu as MobileMenu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
 import { IProduct } from 'types/redux/product';
-import AppButton from './Utils/Button';
 
 const icons: IconType[] = [
 	{
@@ -50,8 +50,8 @@ const Navigation: FC = () => {
 		if (!event.query.trim().length) {
 			_filteredProducts = [...appProducts];
 		} else {
-			_filteredProducts = appProducts.filter((productt) => {
-				return productt.name.toLowerCase().startsWith(event.query.toLowerCase());
+			_filteredProducts = appProducts.filter((_) => {
+				return _.name.toLowerCase().startsWith(event.query.toLowerCase());
 			});
 		}
 
@@ -73,8 +73,8 @@ const Navigation: FC = () => {
 		{
 			label: 'Logout',
 			icon: 'pi pi-power-off',
-			command: () => {
-				logoutUser();
+			command: async () => {
+				await logoutUser();
 			}
 		}
 	];
@@ -112,9 +112,9 @@ const Navigation: FC = () => {
 
 	return (
 		<>
-			<div className='bg-black select-none'>
+			<div className='bg-[#131319] select-none'>
 				<div className='lg:max-w-navigation lg:mx-auto'>
-					<div className='hidden lg:flex items-center justify-between py-3 px-3'>
+					<div className='hidden lg:flex items-center justify-between py-2 px-3'>
 						<div className='flex items-center space-x-2'>
 							{icons.map(({ icon, url }) => (
 								<Tooltip key={url} color='#ffffff' title='Follow Us' placement='bottom'>
@@ -124,7 +124,7 @@ const Navigation: FC = () => {
 								</Tooltip>
 							))}
 						</div>
-						<div className='flex items-center space-x-4 text-white font-medium text-sm font-workSans cursor-pointer'>
+						<div className='flex items-center space-x-4 text-purple font-medium text-sm font-workSans cursor-pointer'>
 							<div>Introduce</div>
 							<div>Partner Incentives</div>
 							<div>Promotion</div>
@@ -132,10 +132,15 @@ const Navigation: FC = () => {
 							<div>Frequently asked questions</div>
 						</div>
 					</div>
-					<div className='flex items-center justify-between px-3 py-6'>
-						<Logo className='cursor-pointer' onClick={() => navigate('/')} />
+				</div>
+			</div>
+			<div className='bg-black select-none'>
+				<div className='lg:max-w-navigation lg:mx-auto'>
+					<div className='flex items-center justify-between px-3 py-3 lg:py-2'>
+						<img src={Logo} alt='HeroLogo' className='cursor-pointer' onClick={() => navigate('/')} />
 						<div className='hidden lg:flex items-center space-x-2'>
 							<AutoComplete
+								inputStyle={{ width: '300px' }}
 								placeholder='Search for products'
 								field='name'
 								value={selectedProducts}
@@ -145,13 +150,18 @@ const Navigation: FC = () => {
 									setSelectedProducts(e.target.value);
 								}}
 							/>
-							<AppButton
+							<Button
 								children='Search'
 								type='button'
-								onClick={() =>
+								onClick={() => {
 									/* @ts-ignore */
-									navigate(`/product/${selectedProducts._id}`)
-								}
+									if (selectedProducts && selectedProducts?._id) {
+										/* @ts-ignore */
+										navigate(`/product/${selectedProducts?._id}`);
+									} else {
+										toast.error('You need to select a product first!');
+									}
+								}}
 							/>
 						</div>
 						<div className='flex items-center space-x-4'>

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ButtonProps } from 'types/components/utils/Button';
+import { ButtonProps } from 'types/components/Utils/Button';
 
 import { Button } from 'primereact/button';
 
@@ -7,7 +7,7 @@ const AppButton: FC<ButtonProps> = ({ onClick, children, icon, className, type =
 	return (
 		<Button
 			text={text}
-			className={`${className && className} font-workSans whitespace-nowrap`}
+			className={`${className} font-workSans whitespace-nowrap rounded-lg`}
 			outlined
 			type={type}
 			label={children as string}

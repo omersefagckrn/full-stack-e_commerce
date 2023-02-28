@@ -3,7 +3,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import logger from 'redux-logger';
 
 import authReducer from './auth/authSlice';
-import cardReducer, { getTotals } from './card/cardSlice';
+import cardReducer from './card/cardSlice';
 import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
@@ -23,9 +23,6 @@ const store = configureStore({
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 	devTools: process.env.NODE_ENV !== 'production'
 });
-
-// getTotals is a thunk action creator
-store.dispatch(getTotals());
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;

@@ -1,8 +1,7 @@
-export { default as Checkout } from './Checkout';
-export { default as Dashboard } from './Dashboard';
-export { default as EditProfile } from './EditProfile';
-export { default as Login } from './Login';
-export { default as ProductDetails } from './ProductDetails';
-export { default as Products } from './Products';
-export { default as Profile } from './Profile';
-export { default as Register } from './Register';
+export { default as Login } from './Auth/Login';
+export { default as Register } from './Auth/Register';
+export { default as Checkout } from './Checkout/Checkout';
+export { default as Dashboard } from './Dashboard/Dashboard';
+export { default as ProductDetails } from './Product/ProductDetails';
+export { default as EditProfile } from './Profile/EditProfile';
+export { default as Profile, default as ProfileInformation } from './Profile/ProfileInformation';
