@@ -147,26 +147,6 @@ export const productSlice = createSlice({
 			state.isErrorGetProductById = true;
 			state.errorMessageGetProductById = action.payload as string;
 		});
-
-		builder.addCase(deleteProduct.pending, (state) => {
-			state.isLoadingDeleteProduct = true;
-			state.isSuccessDeleteProduct = false;
-			state.isErrorDeleteProduct = false;
-			state.errorMessageDeleteProduct = null;
-		});
-		builder.addCase(deleteProduct.fulfilled, (state, action) => {
-			state.isLoadingDeleteProduct = false;
-			state.isSuccessDeleteProduct = true;
-			state.isErrorDeleteProduct = false;
-			/* @ts-ignore */
-			state.products = state.products.filter((product) => product?._id !== action.payload._id);
-		});
-		builder.addCase(deleteProduct.rejected, (state, action) => {
-			state.isLoadingDeleteProduct = false;
-			state.isSuccessDeleteProduct = false;
-			state.isErrorDeleteProduct = true;
-			state.errorMessageDeleteProduct = action.payload as string;
-		});
 	}
 });
 

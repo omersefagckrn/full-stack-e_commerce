@@ -31,8 +31,8 @@ const ProfileInformation: FC = () => {
 	return (
 		<>
 			<div className='flex items-center justify-between select-none'>
-				<div className='text-xl font-workSans text-black font-semibold underline'>Profile Info</div>
-				<div className='text-xs font-workSans'>
+				<div className='text-xl text-black font-semibold underline'>Profile Info</div>
+				<div className='text-xs'>
 					Updated At: <span className='font-semibold'>{formatToLocalDate(user?.updatedAt)}</span>
 				</div>
 			</div>
@@ -42,20 +42,20 @@ const ProfileInformation: FC = () => {
 				</div>
 			) : (
 				<div className='flex flex-col space-y-4'>
-					<div className='text-xs font-workSans text-purple font-normal pt-2 select-none'>Here you can find and edit information about yourself.</div>
+					<div className='text-xs text-purple font-normal pt-2 select-none'>Here you can find and edit information about yourself.</div>
 
 					<div>
-						<div className='text-sm font-workSans text-black font-semibold '>Name</div>
-						<div className='text-xs font-workSans text-purple font-normal'>{user?.name + ' ' + user?.surname}</div>
+						<div className='text-sm text-black font-semibold '>Name</div>
+						<div className='text-xs text-purple font-normal'>{user?.name + ' ' + user?.surname}</div>
 					</div>
 					<div>
-						<div className='text-sm font-workSans text-black font-semibold'>Email</div>
-						<div className='text-xs font-workSans text-purple font-normal'>{user?.email}</div>
+						<div className='text-sm text-black font-semibold'>Email</div>
+						<div className='text-xs text-purple font-normal'>{user?.email}</div>
 					</div>
 
 					<div>
-						<div className='text-sm font-workSans text-black font-semibold'>Phone Number</div>
-						<div className='text-xs font-workSans text-purple font-normal'>{user?.phone}</div>
+						<div className='text-sm text-black font-semibold'>Phone Number</div>
+						<div className='text-xs text-purple font-normal'>{user?.phone}</div>
 					</div>
 				</div>
 			)}

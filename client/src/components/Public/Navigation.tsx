@@ -1,4 +1,3 @@
-import Tooltip from '@mui/material/Tooltip';
 import Logo from 'assets/hero/logo.svg';
 import { Facebook, Linkedin, Mail, Menu as MenuIcon, Order, Twitter } from 'assets/icons';
 import { AutoComplete, AutoCompleteChangeEvent, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
@@ -113,18 +112,16 @@ const Navigation: FC = () => {
 	return (
 		<>
 			<div className='bg-[#131319] select-none'>
-				<div className='lg:max-w-navigation lg:mx-auto'>
+				<div className='lg:max-w-main lg:mx-auto'>
 					<div className='hidden lg:flex items-center justify-between py-2 px-3'>
 						<div className='flex items-center space-x-2'>
 							{icons.map(({ icon, url }) => (
-								<Tooltip key={url} color='#ffffff' title='Follow Us' placement='bottom'>
-									<a target='_blank' rel='noreferrer' href={url}>
-										{icon}
-									</a>
-								</Tooltip>
+								<a target='_blank' rel='noreferrer' href={url}>
+									{icon}
+								</a>
 							))}
 						</div>
-						<div className='flex items-center space-x-4 text-purple font-medium text-sm font-workSans cursor-pointer'>
+						<div className='flex items-center space-x-4 text-purple font-medium text-sm cursor-pointer'>
 							<div>Introduce</div>
 							<div>Partner Incentives</div>
 							<div>Promotion</div>
@@ -135,7 +132,7 @@ const Navigation: FC = () => {
 				</div>
 			</div>
 			<div className='bg-black select-none'>
-				<div className='lg:max-w-navigation lg:mx-auto'>
+				<div className='lg:max-w-main lg:mx-auto'>
 					<div className='flex items-center justify-between px-3 py-3 lg:py-2'>
 						<img src={Logo} alt='HeroLogo' className='cursor-pointer' onClick={() => navigate('/')} />
 						<div className='hidden lg:flex items-center space-x-2'>
@@ -165,19 +162,17 @@ const Navigation: FC = () => {
 							/>
 						</div>
 						<div className='flex items-center space-x-4'>
-							<Tooltip color='#ffffff' title='Card' placement='bottom'>
-								<Order
-									className='cursor-pointer'
-									onClick={() => {
-										if (isAuth) {
-											navigate('/user/checkout');
-										} else {
-											toast.error('You need to login first!');
-											navigate('/auth/login');
-										}
-									}}
-								/>
-							</Tooltip>
+							<Order
+								className='cursor-pointer'
+								onClick={() => {
+									if (isAuth) {
+										navigate('/user/checkout');
+									} else {
+										toast.error('You need to login first!');
+										navigate('/auth/login');
+									}
+								}}
+							/>
 							<div
 								onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}
 								className='cursor-pointer'

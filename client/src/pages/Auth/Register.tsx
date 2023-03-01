@@ -44,7 +44,7 @@ const Register: FC = () => {
 	return (
 		<>
 			<div className='flex flex-col'>
-				<div className='text-black font-medium text-2xl font-workSans mb-2'>Register</div>
+				<div className='text-black font-medium text-2xl mb-2'>Register</div>
 				<Formik
 					validateOnBlur={false}
 					validateOnChange={false}
@@ -98,8 +98,8 @@ const Register: FC = () => {
 				</Formik>
 			</div>
 			<div className='flex flex-col space-y-8'>
-				<div className='text-black font-medium text-2xl font-workSans'>Not new customer?</div>
-				<div className='text-black font-light text-md font-workSans'>If you are not new, you can log in from the description below and continue shopping.</div>
+				<div className='text-black font-medium text-2xl'>Not new customer?</div>
+				<div className='text-black font-light text-md'>If you are not new, you can log in from the description below and continue shopping.</div>
 				<Button type='button' className='w-56' onClick={() => navigate('/auth/login')}>
 					Sign In
 				</Button>

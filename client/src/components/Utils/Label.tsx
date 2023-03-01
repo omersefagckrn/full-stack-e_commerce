@@ -5,7 +5,7 @@ const Label: FC<LabelProps> = ({ label }) => {
 	return (
 		<label className='text-gray_Five text-xs font-medium pt-4'>
 			{label}
-			<span className='text-red_Six'>*</span>
+			<span className='text-redsoft'>*</span>
 		</label>
 	);
 };

@@ -2,49 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,700&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Work+Sans:wght@200;300;400;500;600;800&display=swap');
+* {
+	@apply font-workSans placeholder:font-workSans;
+}
+
+*:focus {
+	@apply ring-0 outline-none !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
 
 .p-button-label {
-	font-weight: 400;
-	border: none;
+	@apply border-0 font-normal;
 }
 
 .p-carousel .p-carousel-indicators .p-carousel-indicator {
-	margin-bottom: 0;
+	@apply mb-0;
 }
 
 .p-carousel .p-carousel-indicators .p-carousel-indicator button {
-	border-radius: 50px;
-	width: 10px;
-	height: 10px;
-}
-
-.p-avatar-group .p-avatar {
-	border: 0;
-}
-
-.p-carousel .p-carousel-content .p-carousel-prev,
-.p-carousel .p-carousel-content .p-carousel-next {
-	margin: 0;
-	color: black;
+	@apply w-3 h-3 rounded-[50px];
 }
 
 .p-dialog .p-dialog-header {
-	background: #d9d9d8;
-	padding: 40px 40px 40px 40px;
+	@apply p-10;
 }
 
 .p-dialog .p-dialog-content {
-	background: #d9d9d8;
-	padding: 0 40px 40px 40px;
-	backdrop-filter: blur(85px);
-}
-
-.p-dialog .p-dialog-content:last-of-type {
-	border-bottom-left-radius: 8px;
-	border-bottom-right-radius: 8px;
+	@apply pr-10 pb-10 pl-10;
 }
 
 .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
 	@apply text-purple border-purple;
+}
+
+.p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
+	@apply text-yellow;
+}
+
+.p-inputtext {
+	@apply rounded-lg;
 }

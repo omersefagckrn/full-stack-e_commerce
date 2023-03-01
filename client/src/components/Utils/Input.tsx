@@ -14,7 +14,7 @@ const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength
 			type={type}
 			placeholder={placeholder}
 			{...props}
-			className={`bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree placeholder:font-workSans py-3 px-4 ${className}`}
+			className={className}
 		/>
 	);
 };

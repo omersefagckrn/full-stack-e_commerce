@@ -17,13 +17,13 @@ const Cookies: FC = () => {
 				maximizable={window.outerWidth > 775 ? false : true}
 				header='Customize Consent Preferences'
 				visible={modal}
-				className='w-full lg:max-w-[774px] bg-[#D8D8D8]'
+				className='w-full lg:max-w-[774px]'
 				onHide={closeModal}
 				draggable={false}
 			>
 				<div>
 					<div className='h-full max-h-[55vh]'>
-						<div className='text-xs font-workSans'>
+						<div className='text-xs'>
 							We use cookies to help you navigate efficiently and perform certain functions. You will find detailed information about all
 							cookies under each consent category below.The cookies that are categorized as 'Necessary' are stored on your browser as they are
 							essential for enabling the basic functionalities of the site.We also use third-party cookies that help us analyze how you use this
@@ -40,7 +40,7 @@ const Cookies: FC = () => {
 									Always Active
 								</div>
 							</div>
-							<div className='text-xs font-workSans'>
+							<div className='text-xs'>
 								These cookies are necessary to enable the basic features of this site to function, such as providing secure log-in or
 								remembering how far you are through an order.
 							</div>
@@ -50,7 +50,7 @@ const Cookies: FC = () => {
 							<div className='flex items-center justify-between mb-4'>
 								<div className='text-black font-semibold'>Functional</div>
 							</div>
-							<div className='text-xs font-workSans'>
+							<div className='text-xs'>
 								These cookies allow us to analyze your use of the site to evaluate and improve our performance. They may also be used to
 								provide a better customer experience on this site. For example, remembering your log-in details and providing us
 								information about how our site is used.
@@ -64,7 +64,7 @@ const Cookies: FC = () => {
 									Always Active
 								</div>
 							</div>
-							<div className='text-xs font-workSans'>
+							<div className='text-xs'>
 								These cookies help to better understand and analyze usage behavior and to improve the functionality of the site.
 								Analysis cookies enable the collection of usage and recognition options by first or third-party providers, in so-called
 								pseudonymous usage profiles. A direct inference to a person is not possible.
@@ -75,7 +75,7 @@ const Cookies: FC = () => {
 							<div className='flex items-center justify-between mb-4'>
 								<div className='text-black font-semibold'>Advertising</div>
 							</div>
-							<div className='text-xs font-workSans'>
+							<div className='text-xs'>
 								These cookies are used to show you ads that are more relevant to you. We may share this information with advertisers or
 								use it to better understand your interests. For example, Advertising Cookies may be used to share data with advertisers
 								so that the ads you see are more relevant to you, allow you to share certain pages with social networks, or allow you to

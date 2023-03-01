@@ -32,7 +32,7 @@ const PaymentDetails: FC = () => {
 						<Label label='Card Number' />
 						<InputMask
 							id='cardNumber'
-							className='bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree placeholder:font-workSans py-3 px-4'
+							className='bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree py-3 px-4'
 							onChange={handleChange}
 							value={values.cardNumber}
 							maxLength={19}
@@ -45,7 +45,7 @@ const PaymentDetails: FC = () => {
 						<div className='flex flex-col space-y-2 w-full'>
 							<Label label='MM/YY' />
 							<InputMask
-								className='bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree placeholder:font-workSans py-3 px-4'
+								className='bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree py-3 px-4'
 								mask='99/99'
 								id='cardExpiry'
 								value={values.cardExpiry}

@@ -9,9 +9,7 @@ const Container: FC<ContainerProps> = ({ children }) => {
 	return (
 		<>
 			<div className='flex flex-col justify-between h-screen'>
-				<div className='sticky w-full top-0 z-[99]'>
-					<Navigation />
-				</div>
+				<Navigation />
 				<main className='flex-grow'>{children}</main>
 				<Footer />
 			</div>

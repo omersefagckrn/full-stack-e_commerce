@@ -17,12 +17,12 @@ const Profile: FC = () => {
 
 	const items: MenuItem[] = [
 		{ label: 'Profile', icon: 'pi pi-user', command: () => navigate('/user/profile/information') },
-		{ label: 'Edit', icon: 'pi pi-fw pi-pencil', command: () => navigate('/user/profile/edit') }
+		{ label: 'Edit', icon: 'pi pi-user-edit', command: () => navigate('/user/profile/edit') }
 	];
 
 	return (
 		<Container>
-			<div className='lg:mx-auto lg:max-w-login'>
+			<div className='lg:mx-auto lg:max-w-main'>
 				<div className='flex flex-col mx-4'>
 					<TabMenu className='pt-4' model={items} />
 					<div className='py-4'>

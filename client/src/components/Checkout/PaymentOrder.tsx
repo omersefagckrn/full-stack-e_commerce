@@ -1,4 +1,3 @@
-import { Tooltip } from '@mui/material';
 import Delete from 'assets/icons/Delete.svg';
 import { DataView } from 'primereact/dataview';
 import { FC, useEffect } from 'react';
@@ -80,14 +79,13 @@ const PaymentOrder: FC = () => {
 												</div>
 											</div>
 											<div className='font-bold text-primary text-md'>{card.product?.price}$</div>
-											<Tooltip title='Delete All Quantity' placement='top'>
-												<img
-													onClick={() => deleteAllItem(card.product as IProduct)}
-													src={Delete}
-													alt='Delete'
-													className='w-6 h-6 cursor-pointer'
-												/>
-											</Tooltip>
+											<img
+												id='Delete All Quantity'
+												onClick={() => deleteAllItem(card.product as IProduct)}
+												src={Delete}
+												alt='Delete'
+												className='w-6 h-6 cursor-pointer'
+											/>
 										</div>
 									</div>
 								</div>

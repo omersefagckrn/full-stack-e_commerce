@@ -7,7 +7,7 @@ const AppButton: FC<ButtonProps> = ({ onClick, children, icon, className, type =
 	return (
 		<Button
 			text={text}
-			className={`${className} font-workSans whitespace-nowrap rounded-lg`}
+			className={`${className} whitespace-nowrap rounded-lg border-none`}
 			outlined
 			type={type}
 			label={children as string}

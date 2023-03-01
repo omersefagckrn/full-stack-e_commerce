@@ -22,7 +22,7 @@ const responsiveOptions: CarouselResponsiveOption[] = [
 		numScroll: 1
 	},
 	{
-		breakpoint: '600px',
+		breakpoint: '200px',
 		numVisible: 1,
 		numScroll: 1
 	}
@@ -31,17 +31,17 @@ const responsiveOptions: CarouselResponsiveOption[] = [
 const getStock = (stock: number) => {
 	if (stock >= 0 && stock <= 5)
 		return {
-			stock: 'bg-red-700',
+			stock: 'bg-redsoft',
 			text: 'Low Stock'
 		};
 	if (stock >= 6 && stock <= 10)
 		return {
-			stock: 'bg-yellow-400',
+			stock: 'bg-purple',
 			text: 'Medium Stock'
 		};
 	if (stock >= 10)
 		return {
-			stock: 'bg-green-700',
+			stock: 'bg-green',
 			text: 'High Stock'
 		};
 };
@@ -69,7 +69,7 @@ const CarouselDashboard: FC = () => {
 	return (
 		<>
 			<div className='text-black pb-20'>
-				<div className='lg:max-w-navigation mx-4 lg:mx-auto'>
+				<div className='lg:max-w-main mx-4 lg:mx-auto'>
 					<div className='text-center text-5xl pb-10'>Products</div>
 					{isLoadingGetAllProduct ? (
 						<span className='flex items-center justify-center'>
@@ -82,7 +82,7 @@ const CarouselDashboard: FC = () => {
 							numScroll={1}
 							responsiveOptions={responsiveOptions}
 							itemTemplate={(product: IProduct) => (
-								<div className='flex flex-col items-center justify-center rounded-lg border-[0.5px] border-gray-200 py-4 space-y-4 select-none m-1 xl:m-2 bg-white relative'>
+								<div className='flex flex-col items-center justify-center rounded-lg border-[0.5px] border-gray p-2 m-2 space-y-4 select-none relative'>
 									<Image
 										preview
 										zoomSrc={product?.image}
@@ -94,20 +94,14 @@ const CarouselDashboard: FC = () => {
 										onClick={() => {
 											navigate(`/product/${product._id}`);
 										}}
-										className='text-lg font-semibold font-workSans text-center w-full max-w-[10rem] lg:max-w-[20rem] truncate underline cursor-pointer'
+										className='text-lg font-semibold text-center w-full max-w-[10rem] lg:max-w-[20rem] truncate underline cursor-pointer'
 									>
 										{product?.name}
 									</div>
-									<div className='text-xs font-workSans max-w-[10rem] w-full lg:max-w-[20rem] truncate'>
-										{product?.description}
-									</div>
+									<div className='text-xs max-w-[10rem] w-full lg:max-w-[20rem] truncate'>{product?.description}</div>
 									<Rating value={product?.rating} readOnly cancel={false} />
-									<div
-										className={`text-xs font-workSans px-4 py-3 rounded-full text-white ${
-											getStock(product?.countInStock)?.stock
-										}`}
-									>
-										<span className='text-xs font-workSans font-medium'>{getStock(product?.countInStock)?.text}</span>
+									<div className={`text-xs px-4 py-3 rounded-full text-white ${getStock(product?.countInStock)?.stock}`}>
+										<span className='text-xs font-medium'>{getStock(product?.countInStock)?.text}</span>
 									</div>
 									<Avatar
 										onClick={() => addCard(product)}
