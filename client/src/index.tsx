@@ -16,7 +16,13 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLDivEleme
 
 root.render(
 	<Provider store={store}>
-		<Toaster position='top-right' reverseOrder={false} />
+		<Toaster
+			toastOptions={{
+				duration: 1500
+			}}
+			position='top-right'
+			reverseOrder={false}
+		/>
 		<RouterProvider router={router} />
 	</Provider>
 );

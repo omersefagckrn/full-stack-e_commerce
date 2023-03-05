@@ -39,8 +39,8 @@ export const addOrderItems = unhandledExceptionsHandler(async (req: Request, res
 	} else {
 		const order = (await Order.create(
 			{
-				orderItems,
 				user,
+				orderItems,
 				shippingAddress,
 				paymentMethod,
 				itemsPrice,
@@ -64,7 +64,7 @@ export const updateOrderToPaid = unhandledExceptionsHandler(async (req: Request,
 	const order = await Order.findById(req.params.id);
 	if (order) {
 		order.isPaid = true;
-		order.paidAt = new Date();
+		order.paidAt = Date.now();
 		order.paymentResult = {
 			id: req.body.id,
 			status: req.body.status,
@@ -87,7 +87,7 @@ export const updateOrderToDelivered = unhandledExceptionsHandler(async (req: Req
 	const order = await Order.findById(req.params.id);
 	if (order) {
 		order.isDelivered = true;
-		order.deliveredAt = new Date();
+		order.deliveredAt = Date.now();
 		const updatedOrder = await order.save();
 		return res.status(200).json(updatedOrder);
 	} else {

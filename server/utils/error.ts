@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 
 export const unhandledExceptionsHandler = (asyncFunction: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>) => {
 	return async (request: Request, response: Response) => {

@@ -1,4 +1,5 @@
 import { Loader } from 'components';
+import { getStock } from 'helper/product';
 import { Avatar } from 'primereact/avatar';
 import { Carousel, CarouselResponsiveOption } from 'primereact/carousel';
 import { Image } from 'primereact/image';
@@ -28,24 +29,6 @@ const responsiveOptions: CarouselResponsiveOption[] = [
 	}
 ];
 
-const getStock = (stock: number) => {
-	if (stock >= 0 && stock <= 5)
-		return {
-			stock: 'bg-redsoft',
-			text: 'Low Stock'
-		};
-	if (stock >= 6 && stock <= 10)
-		return {
-			stock: 'bg-purple',
-			text: 'Medium Stock'
-		};
-	if (stock >= 10)
-		return {
-			stock: 'bg-green',
-			text: 'High Stock'
-		};
-};
-
 const CarouselDashboard: FC = () => {
 	const appDispatch = useAppDispatch();
 	const { products, isLoadingGetAllProduct } = useAppSelector((state) => state.products);
@@ -70,7 +53,6 @@ const CarouselDashboard: FC = () => {
 		<>
 			<div className='text-black pb-20'>
 				<div className='lg:max-w-main mx-4 lg:mx-auto'>
-					<div className='text-center text-5xl pb-10'>Products</div>
 					{isLoadingGetAllProduct ? (
 						<span className='flex items-center justify-center'>
 							<Loader />

@@ -15,7 +15,8 @@ module.exports = {
 				primary: '#0a2540',
 				border: '#B8B8B8',
 				purple: '#6F55FF',
-				yellow: '#FFEA00'
+				yellow: '#F7A415',
+				blue: '#2196F3'
 			},
 			fontFamily: {
 				workSans: ['Work Sans', 'sans-serif']

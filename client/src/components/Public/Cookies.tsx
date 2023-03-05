@@ -5,8 +5,8 @@ import { FC, useState } from 'react';
 const Cookies: FC = () => {
 	const [modal, setModal] = useState<boolean>(false);
 
-	const openModal = () => setModal(true);
-	const closeModal = () => setModal(false);
+	const openModal = (): void => setModal(true);
+	const closeModal = (): void => setModal(false);
 	return (
 		<>
 			<div className='fixed bottom-0 left-0 z-[1000] mx-6 my-6 cursor-pointer rounded-[50%] flex items-center justify-center bg-[#979797] w-15 h-15'>

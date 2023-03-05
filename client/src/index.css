@@ -43,3 +43,7 @@
 .p-inputtext {
 	@apply rounded-lg;
 }
+
+.p-image img {
+	@apply rounded-lg;
+}

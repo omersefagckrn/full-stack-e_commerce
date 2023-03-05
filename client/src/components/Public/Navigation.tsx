@@ -101,7 +101,7 @@ const Navigation: FC = () => {
 		}
 
 		if (isSuccessLogout) {
-			toast.success('You have successfully logged out, you are being redirected.');
+			toast.success('You have successfully logged out, you are being redirected!');
 			setTimeout(() => {
 				navigate(0);
 			}, 2000);

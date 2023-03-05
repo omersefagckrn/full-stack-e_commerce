@@ -13,8 +13,8 @@ const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength
 			value={value}
 			type={type}
 			placeholder={placeholder}
-			{...props}
 			className={className}
+			{...props}
 		/>
 	);
 };
