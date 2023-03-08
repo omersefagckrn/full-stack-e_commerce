@@ -1,7 +1,7 @@
 export const getStock = (stock: number | undefined) => {
 	if (stock === undefined) {
 		return {
-			stock: '',
+			stock: 'bg-redsoft',
 			text: 'No stock information'
 		};
 	}

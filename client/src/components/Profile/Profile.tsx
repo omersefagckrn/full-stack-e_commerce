@@ -9,26 +9,36 @@ const Profile: FC = () => {
 	const navigate = useNavigate();
 	const { isAuth } = useAppSelector((state) => state.auth);
 
+	const items: MenuItem[] = [
+		{
+			label: 'Profile',
+			icon: 'pi pi-user',
+			command: () => {
+				navigate('/user/profile/information');
+			}
+		},
+		{
+			label: 'Edit',
+			icon: 'pi pi-user-edit',
+			command: () => {
+				navigate('/user/profile/edit');
+			}
+		}
+	];
+
 	useEffect(() => {
 		if (!isAuth) {
 			navigate('/');
 		}
 	}, [isAuth, navigate]);
 
-	const items: MenuItem[] = [
-		{ label: 'Profile', icon: 'pi pi-user', command: () => navigate('/user/profile/information') },
-		{ label: 'Edit', icon: 'pi pi-user-edit', command: () => navigate('/user/profile/edit') }
-	];
-
 	return (
 		<Container>
-			<div className='lg:mx-auto lg:max-w-main'>
-				<div className='flex flex-col mx-4'>
+			<div className='lg:mx-auto lg:max-w-4xl'>
+				<div className='flex flex-col mx-4 lg:mx-0'>
 					<TabMenu className='pt-4' model={items} />
-					<div className='py-4'>
-						<div className='rounded-lg border-black border-[1px] p-4 w-full'>
-							<Outlet />
-						</div>
+					<div className='rounded-lg border-black border-[1px] my-4 p-4 w-full'>
+						<Outlet />
 					</div>
 				</div>
 			</div>

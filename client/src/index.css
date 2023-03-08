@@ -47,3 +47,7 @@
 .p-image img {
 	@apply rounded-lg;
 }
+
+.p-paginator-bottom {
+	@apply border-none !important;
+}

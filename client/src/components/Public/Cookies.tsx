@@ -3,7 +3,7 @@ import { Dialog } from 'primereact/dialog';
 import { FC, useState } from 'react';
 
 const Cookies: FC = () => {
-	const [modal, setModal] = useState<boolean>(false);
+	const [modal, setModal] = useState<boolean | undefined>(false);
 
 	const openModal = (): void => setModal(true);
 	const closeModal = (): void => setModal(false);
@@ -13,7 +13,6 @@ const Cookies: FC = () => {
 				<img onClick={openModal} className='w-14 h-14' src={CookiesIcon} alt='' />
 			</div>
 			<Dialog
-				position='top'
 				maximizable={window.outerWidth > 775 ? false : true}
 				header='Customize Consent Preferences'
 				visible={modal}

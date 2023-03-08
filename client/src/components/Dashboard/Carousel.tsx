@@ -23,7 +23,7 @@ const responsiveOptions: CarouselResponsiveOption[] = [
 		numScroll: 1
 	},
 	{
-		breakpoint: '200px',
+		breakpoint: '600px',
 		numVisible: 1,
 		numScroll: 1
 	}

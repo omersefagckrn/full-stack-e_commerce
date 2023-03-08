@@ -17,16 +17,16 @@ const router = createBrowserRouter(
 			<Route path='*' element={<Navigate to='/' replace />} />
 
 			<Route path='auth' element={<Component.Auth />}>
-				<Route index path='login' element={<Pages.Login />} />
+				<Route path='login' element={<Pages.Login />} />
 				<Route path='register' element={<Pages.Register />} />
 			</Route>
 
-			<Route index path='product/:id' element={<Pages.ProductDetails />} />
+			<Route path='product/:id' element={<Pages.ProductDetails />} />
 
 			<Route element={<PrivateRoute />}>
-				<Route path='user/profile' element={<Component.Profile />}>
-					<Route index path='information' element={<Pages.Profile />} />
-					<Route path='edit' element={<Pages.EditProfile />} />
+				<Route path='user' element={<Component.Profile />}>
+					<Route path='profile/information' element={<Pages.Profile />} />
+					<Route path='profile/edit' element={<Pages.EditProfile />} />
 				</Route>
 				<Route path='user/checkout' element={<Pages.Checkout />} />
 			</Route>

@@ -13,16 +13,16 @@ const headerBuilder = (headers?: object) => {
 };
 
 export const apiHelper = {
-	get: async (endpoint: string, headers?: object): Promise<AxiosResponse<any, any>> => {
+	get: async (endpoint: string, headers?: object): Promise<AxiosResponse> => {
 		return await axios.get(confirmEndpoint(endpoint), headerBuilder(headers));
 	},
-	post: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse<any, any>> => {
+	post: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse> => {
 		return await axios.post(confirmEndpoint(endpoint), body, headerBuilder(headers));
 	},
-	put: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse<any, any>> => {
+	put: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse> => {
 		return await axios.put(confirmEndpoint(endpoint), body, headerBuilder(headers));
 	},
-	delete: async (endpoint: string, headers?: object): Promise<AxiosResponse<any, any>> => {
+	delete: async (endpoint: string, headers?: object): Promise<AxiosResponse> => {
 		return await axios.delete(confirmEndpoint(endpoint), headerBuilder(headers));
 	}
 };

@@ -23,7 +23,7 @@ const ProductDetails: FC = () => {
 		appDispatch(getProductById(id as string));
 	}, [appDispatch, id]);
 
-	const items: MenuItem[] = [{ label: 'Product' }];
+	const items: MenuItem[] = [{ label: product?.name }];
 
 	const home: MenuItem = { icon: 'pi pi-home', url: '/' };
 
@@ -47,9 +47,9 @@ const ProductDetails: FC = () => {
 				) : (
 					<>
 						<div className='mt-2'>
-							<BreadCrumb className='border-black shadow-md' model={items} home={home} />
+							<BreadCrumb className='shadow-md' model={items} home={home} />
 						</div>
-						<div className='grid lg:grid-cols-2 shadow-xl gap-6 border border-gray rounded-lg p-4'>
+						<div className='grid lg:grid-cols-2 shadow-md gap-6 border border-gray rounded-lg p-4'>
 							<Image className='w-full h-full' src={product?.image} alt={product?.name} preview />
 							<div className='flex flex-col'>
 								<div className='flex flex-col space-y-1'>

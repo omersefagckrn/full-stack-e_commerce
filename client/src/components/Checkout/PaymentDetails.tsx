@@ -22,7 +22,7 @@ const PaymentDetails: FC = () => {
 		>
 			{({ handleSubmit, handleChange, values, errors }) => (
 				<form onSubmit={handleSubmit} className='flex flex-col space-y-2 w-full'>
-					<div className='text-primary text-3xl pb-4 lg:pb-6 mt-4'>Payment Details</div>
+					<div className='text-primary text-3xl mt-4'>Payment Details</div>
 					<div className='flex flex-col space-y-2'>
 						<Label label='Name on Card' />
 						<Input id='cardName' value={values.cardName} onChange={handleChange} placeholder='Alfonso Delarosa' />
@@ -32,7 +32,6 @@ const PaymentDetails: FC = () => {
 						<Label label='Card Number' />
 						<InputMask
 							id='cardNumber'
-							className='bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree py-3 px-4'
 							onChange={handleChange}
 							value={values.cardNumber}
 							maxLength={19}
@@ -44,15 +43,7 @@ const PaymentDetails: FC = () => {
 					<div className='flex space-x-2'>
 						<div className='flex flex-col space-y-2 w-full'>
 							<Label label='MM/YY' />
-							<InputMask
-								className='bg-white border-[1px] border-grayTwo rounded-lg focus:outline-none placeholder:text-grayThree py-3 px-4'
-								mask='99/99'
-								id='cardExpiry'
-								value={values.cardExpiry}
-								onChange={handleChange}
-								maxLength={5}
-								placeholder='14/01'
-							/>
+							<InputMask mask='99/99' id='cardExpiry' value={values.cardExpiry} onChange={handleChange} maxLength={5} placeholder='14/01' />
 							<Error error={errors.cardExpiry} />
 						</div>
 						<div className='flex flex-col space-y-2 w-full lg:w-[82%]'>

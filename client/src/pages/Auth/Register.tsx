@@ -75,7 +75,7 @@ const Register: FC = () => {
 								id='phone'
 								type='text'
 								mask='(9999) 999-9999'
-								placeholder='(0999) 999-9999'
+								placeholder='(9999) 999-9999'
 								onChange={handleChange}
 							/>
 							<Error error={errors.phone} />

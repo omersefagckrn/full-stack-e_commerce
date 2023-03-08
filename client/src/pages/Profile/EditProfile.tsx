@@ -26,7 +26,7 @@ const EditProfile: FC = () => {
 	useEffect(() => {
 		if (isSuccessUpdateUser) {
 			toast.success('Your information has been updated');
-			navigate('/user/profile/information');
+			navigate('/user/profile/information', { replace: true });
 			appDispatch(reset());
 		}
 		if (isErrorUpdateUser) {

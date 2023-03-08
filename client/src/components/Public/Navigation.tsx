@@ -41,7 +41,7 @@ const Navigation: FC = () => {
 	const mobileMenuRef = useRef<MobileMenu>(null);
 
 	const [selectedProducts, setSelectedProducts] = useState<IProduct[] | null>(null);
-	const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+	const [filteredProducts, setFilteredProducts] = useState<IProduct[] | []>([]);
 
 	const search = (event: AutoCompleteCompleteEvent) => {
 		let _filteredProducts;
@@ -116,7 +116,7 @@ const Navigation: FC = () => {
 					<div className='hidden lg:flex items-center justify-between py-2 px-3'>
 						<div className='flex items-center space-x-2'>
 							{icons.map(({ icon, url }) => (
-								<a target='_blank' rel='noreferrer' href={url}>
+								<a key={url} target='_blank' rel='noreferrer' href={url}>
 									{icon}
 								</a>
 							))}
