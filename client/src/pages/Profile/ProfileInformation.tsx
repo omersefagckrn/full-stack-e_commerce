@@ -43,7 +43,6 @@ const ProfileInformation: FC = () => {
 			) : (
 				<div className='flex flex-col space-y-4'>
 					<div className='text-xs text-purple font-normal pt-2 select-none'>Here you can find and edit information about yourself.</div>
-
 					<div>
 						<div className='text-sm text-black font-semibold '>Name</div>
 						<div className='text-xs text-purple font-normal'>{user?.name + ' ' + user?.surname}</div>

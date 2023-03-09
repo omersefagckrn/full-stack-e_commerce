@@ -29,12 +29,12 @@ const Info: FC = () => {
 					<Button text>
 						<div className='flex space-x-2 '>
 							<div className='text-white whitespace-nowrap'>Leave a call</div>
-							<img src={ArrowRight} alt='arrow-right' className='w-[20px]' />
+							<img src={ArrowRight} alt='arrow-right' className='w-5' />
 						</div>
 					</Button>
 				</div>
 
-				<div className='py-2 px-3 text-center bg-white rounded-full mt-10 text-purple'>support@pockie.com</div>
+				<div className='py-2 px-3 text-center bg-white rounded-full mt-10 text-black'>support@pockie.com</div>
 			</div>
 		</div>
 	);

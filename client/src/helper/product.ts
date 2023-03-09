@@ -8,16 +8,16 @@ export const getStock = (stock: number | undefined) => {
 	if (stock >= 0 && stock <= 5)
 		return {
 			stock: 'bg-redsoft',
-			text: 'Low Stock'
+			text: 'Low'
 		};
 	if (stock >= 6 && stock <= 10)
 		return {
 			stock: 'bg-purple',
-			text: 'Medium Stock'
+			text: 'Medium'
 		};
 	if (stock >= 10)
 		return {
 			stock: 'bg-green',
-			text: 'High Stock'
+			text: 'High'
 		};
 };

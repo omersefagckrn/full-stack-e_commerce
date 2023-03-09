@@ -16,7 +16,7 @@ const Elements = (img: any, title: string, desc: string) => (
 
 const GrowBusiness: FC = () => {
 	return (
-		<div className='lg:mx-auto lg:max-w-main my-20 select-none'>
+		<div className='lg:mx-auto lg:max-w-main mt-20 select-none'>
 			<div className='mx-4 lg:mx-0'>
 				<div className='text-center text-5xl text-black'>
 					Built-in features that help you <br /> <span className='text-blue-700 font-bold'>grow</span> your business

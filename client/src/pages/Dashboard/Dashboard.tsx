@@ -1,4 +1,4 @@
-import { Carousel, Container, GrowBusiness, Info } from 'components';
+import { Container, GrowBusiness, Info, ProductTable } from 'components';
 import { FC } from 'react';
 
 const Dashboard: FC = () => {
@@ -7,7 +7,7 @@ const Dashboard: FC = () => {
 			<>
 				<Info />
 				<GrowBusiness />
-				<Carousel />
+				<ProductTable />
 			</>
 		</Container>
 	);

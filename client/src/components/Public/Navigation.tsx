@@ -1,5 +1,5 @@
 import Logo from 'assets/hero/logo.svg';
-import { Facebook, Linkedin, Mail, Menu as MenuIcon, Order, Twitter } from 'assets/icons';
+import { Facebook, Linkedin, Mail, Menu as MenuIcon, Twitter } from 'assets/icons';
 import { AutoComplete, AutoCompleteChangeEvent, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
 import { FC, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from 'redux/store';
 import { IconType } from 'types/components/Public/Navigation';
 
 import { Button } from 'components/Utils';
-import { Menu as MobileMenu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
+import { TieredMenu } from 'primereact/tieredmenu';
 import { IProduct } from 'types/redux/product';
 
 const icons: IconType[] = [
@@ -38,7 +38,7 @@ const Navigation: FC = () => {
 	const { isErrorLogout, isSuccessLogout, isAuth } = useAppSelector((state) => state.auth);
 	const { products: appProducts } = useAppSelector((state) => state.products);
 
-	const mobileMenuRef = useRef<MobileMenu>(null);
+	const mobileMenuRef = useRef<TieredMenu>(null);
 
 	const [selectedProducts, setSelectedProducts] = useState<IProduct[] | null>(null);
 	const [filteredProducts, setFilteredProducts] = useState<IProduct[] | []>([]);
@@ -70,6 +70,13 @@ const Navigation: FC = () => {
 			}
 		},
 		{
+			label: 'User Cart',
+			icon: 'pi pi-shopping-cart',
+			command: () => {
+				navigate('/user/checkout');
+			}
+		},
+		{
 			label: 'Logout',
 			icon: 'pi pi-power-off',
 			command: async () => {
@@ -88,7 +95,7 @@ const Navigation: FC = () => {
 		},
 		{
 			label: 'Register',
-			icon: 'pi pi-user',
+			icon: 'pi pi-user-edit',
 			command: () => {
 				navigate('/auth/register');
 			}
@@ -111,6 +118,8 @@ const Navigation: FC = () => {
 
 	return (
 		<>
+			<TieredMenu ref={mobileMenuRef} popup model={isAuth ? LoggedInUserMenu : notLoggedInUserMenu} />
+			{/*  */}
 			<div className='bg-[#131319] select-none'>
 				<div className='lg:max-w-main lg:mx-auto'>
 					<div className='hidden lg:flex items-center justify-between py-2 px-3'>
@@ -121,7 +130,7 @@ const Navigation: FC = () => {
 								</a>
 							))}
 						</div>
-						<div className='flex items-center space-x-4 text-purple font-medium text-sm cursor-pointer'>
+						<div className='flex items-center space-x-4 text-white font-medium text-xs cursor-pointer'>
 							<div>Introduce</div>
 							<div>Partner Incentives</div>
 							<div>Promotion</div>
@@ -161,29 +170,16 @@ const Navigation: FC = () => {
 								}}
 							/>
 						</div>
-						<div className='flex items-center space-x-4'>
-							<Order
-								className='cursor-pointer'
-								onClick={() => {
-									if (isAuth) {
-										navigate('/user/checkout');
-									} else {
-										toast.error('You need to login first!');
-										navigate('/auth/login');
-									}
-								}}
-							/>
-							<div
-								onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}
-								className='cursor-pointer'
-							>
-								<MenuIcon />
-							</div>
+						<div
+							className='flex items-center flex-col cursor-pointer'
+							onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}
+						>
+							<MenuIcon />
+							<div className='text-white text-md font-normal'>Menu</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<MobileMenu className='mt-2' ref={mobileMenuRef} popup model={isAuth ? LoggedInUserMenu : notLoggedInUserMenu} />
 		</>
 	);
 };

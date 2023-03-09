@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
+	darkMode: 'class',
 	theme: {
 		extend: {
 			maxWidth: {
@@ -22,6 +23,5 @@ module.exports = {
 				workSans: ['Work Sans', 'sans-serif']
 			}
 		}
-	},
-	darkMode: 'class'
+	}
 };

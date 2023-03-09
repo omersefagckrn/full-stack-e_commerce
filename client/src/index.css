@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
+
 * {
 	@apply font-workSans placeholder:font-workSans;
 }
@@ -9,8 +11,6 @@
 *:focus {
 	@apply ring-0 outline-none !important;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@200;300;400;500;600;700;800;900&display=swap');
 
 .p-button-label {
 	@apply border-0 font-normal;
@@ -50,4 +50,8 @@
 
 .p-paginator-bottom {
 	@apply border-none !important;
+}
+
+.p-paginator-page {
+	@apply rounded-full !important;
 }

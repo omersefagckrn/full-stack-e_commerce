@@ -8,7 +8,6 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import './index.css';
 
-// Redux imported
 import store from 'redux/store';
 import router from 'route';
 
