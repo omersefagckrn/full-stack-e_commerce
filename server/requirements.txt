@@ -1,0 +1,97 @@
+order - modal ()
+order - controllers ()
+order - dummy datas (required)
+-----------------------
+
+order request & response
+{
+    locale: Iyzipay.LOCALE.TR,
+    conversationID: "random_id ticketid",
+    price: 1.0, // odenecek tutar,
+    paidPrice: 1.2 // nihai tutar,
+    currency: Iyzipay.CURRENCY.TRY,
+    installment: "1" taksit bilgisi,
+    basket_id: "sipariş_id",
+    paymentChannel: Iyzipay.PAYMENT_CHANNEL.WEB,
+    paymentGroup: Iyzipay.PAYMENT_GROUP.LISTING,
+    paymentCard:{
+        cardHolderName: "name",
+        cardNumber: '5528790000000008',
+        expireMonth: '12',
+        expireYear: '2030',
+        cvc: '123',
+        registerCard: '0'
+    },
+    buyer: {
+        id: "user_id",
+        name: "user_name",
+        surname: "user_surname",
+        identityNumber: "tckn",
+        city: "şehir",
+        country: "ülke",
+        email: "user_mail",
+        ip: "ipaddress",
+        registrationAddress: "user_address",
+        zipCode: "zipcode",
+    },
+    shippingAddress: {
+        contactName: "user name and surname",
+        address: "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+        zipCode: "34742",
+        city: "Istanbul",
+        country: "Turkey"
+    },
+    billingAddress: {
+        contactName: "user name and surname",
+        address: "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+        zipCode: "34742",
+        contactName: "Jane Doe",
+        city: "Istanbul",
+        country: "Turkey"
+    },
+    basketItems: [
+        {
+            id: "BI101",
+            itemType: "PHYSICAL"
+            name: "Binocular",
+            category1: "Collectibles",
+            category2: "Accessories",
+            price: "0.3"
+        },
+    ],
+
+    "callbackUrl": "https://merchantwebsite.com",
+    "currency": "TRY",
+    "paidPrice": "1.2"
+}
+
+//Response
+{
+    "status": "success",
+    "locale": "tr",
+    "systemTime": 1570477711152,
+    "conversationId": "123456789",
+    "token": "15327f52-e048-4z09-9928-4g083dfdf25c",
+    "tokenExpireTime": 1800,
+    "payWithIyzicoPageUrl": "https://sandbox-consumer.iyzico.com/checkout?token=15327f52-e048-4z09-9928-4g083dfdf25c&lang=tr"
+}
+
+
+
+address girişi yapılacak (profile adresler tutulacak) +
+
+adres profile kaydedilsin mi ? +
+adres seçildikten sonra kart bilgisi çıkartılacak
+iyzico ile ödeme yöntemi vs vs 192837
+ödeme tamamlanacak (örnek fatura çıktısı)
+siparişlerime düşecek
+siparişleri /id ile görüntüleme olacak
+siparişler yolda olanlar ve ulaştırılan önceki siparişler görüntülenecek
+
+// front end gerekli olan kısımlar
+
+profile address page
+profile saved payment card page
+add address modal
+add card modal olacak
+session storage cart count (sepetteki ürün sayısı)

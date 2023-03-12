@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ButtonProps } from 'types/components/Utils/Button';
+import { ButtonProps } from '../../types/components/utils/Button';
 
 import { Button } from 'primereact/button';
 

@@ -1,34 +1,68 @@
 import { Document, model, Schema } from 'mongoose';
 import { IProduct } from './Product';
-
-export interface OrderItems {
-	name: string;
-	qty: number;
-	image: string;
-	price: number;
-	product: IProduct;
+export interface IPaymentCard
+{
+    cardHolderName: string,
+    cardNumber: string,
+    expireMonth: string,
+    expireYear: string,
+    cvc: string,
+    registerCard: string,
 }
-
-export interface ShippingAddress {
-	address: string;
-	city: string;
-	postalCode: string;
-	country: string;
+export interface IBuyer
+{
+    id: string,
+    name: string,
+    surname: string,
+    identityNumber: string,
+    city: string,
+    country: string,
+    email: string,
+    ip: string,
+    registrationAddress: string,
+    zipCode: string
 }
-
-export interface PaymentResult {
-	id: string;
-	status: string;
-	update_time: string;
-	email_address: string;
+export interface IAddress
+{
+    contactName: string,
+    address: string,
+    zipCode: string,
+    city: string,
+    country: string
+}
+export interface IBasketItem
+{
+    id: string,
+    itemType: string,
+    name: string,
+    category1: string,
+    category2?: string,
+    price: Number
+}
+export interface IPaymentRequest 
+{
+    locale: string,
+    conversationID: string,
+    price: Number,
+    paidPrice: Number,
+    currency: string,
+    installment: string,
+    basket_id: string,
+    paymentChannel: string,
+    paymentGroup: string,
+    paymentCard: IPaymentCard,
+    buyer: IBuyer,
+    shippingAddress: IAddress,
+    billingAddress: IAddress,
+    basketItems: IBasketItem[];
 }
 
 export interface Order {
-	user: string;
-	orderItems: OrderItems[];
-	shippingAddress: ShippingAddress;
+	user_id: string;
+	basket_id: string,
+	orderItems: IBasketItem[];
+	shippingAddress: IAddress;
 	paymentMethod: string;
-	paymentResult: PaymentResult;
 	itemsPrice: number;
 	taxPrice: number;
 	shippingPrice: number;
@@ -47,6 +81,10 @@ const OrderSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			required: true,
 			ref: 'User'
+		},
+		basket_id: {
+			type: String,
+			required: true,
 		},
 		orderItems: [
 			{
@@ -73,6 +111,24 @@ const OrderSchema = new Schema(
 				}
 			}
 		],
+		billingAddress: {
+			address: {
+				type: String,
+				required: true
+			},
+			city: {
+				type: String,
+				required: true
+			},
+			postalCode: {
+				type: String,
+				required: true
+			},
+			country: {
+				type: String,
+				required: true
+			}
+		},
 		shippingAddress: {
 			address: {
 				type: String,
@@ -91,24 +147,6 @@ const OrderSchema = new Schema(
 				required: true
 			}
 		},
-		paymentMethod: {
-			type: String,
-			required: true
-		},
-		paymentResult: {
-			id: {
-				type: String
-			},
-			status: {
-				type: String
-			},
-			update_time: {
-				type: String
-			},
-			email_address: {
-				type: String
-			}
-		},
 		itemsPrice: {
 			type: Number,
 			required: true,
@@ -121,18 +159,13 @@ const OrderSchema = new Schema(
 		},
 		shippingPrice: {
 			type: Number,
-			required: true,
+			required: false,
 			default: 0.0
 		},
 		totalPrice: {
 			type: Number,
 			required: true,
 			default: 0.0
-		},
-		isPaid: {
-			type: Boolean,
-			required: true,
-			default: false
 		},
 		paidAt: {
 			type: Date
@@ -142,8 +175,10 @@ const OrderSchema = new Schema(
 			required: true,
 			default: false
 		},
-		deliveredAt: {
-			type: Date
+		isDeliveredToShip:{
+			type:Boolean,
+			required: true,
+			default: false
 		}
 	},
 	{

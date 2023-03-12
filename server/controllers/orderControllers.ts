@@ -3,104 +3,55 @@ import Order, { IOrder } from '../models/Order';
 import { unhandledExceptionsHandler } from '../utils/error';
 
 /**
- * @access Private
- * @route GET /api/order/:id
+ * @access user,
+ * @method /api/user/new-order POST
  */
 
-export const getOrderById = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const order = await Order.findById(req.params.id).populate('user', 'id name');
-	if (!order) {
-		return res.status(200).json({ message: 'Order not found!' });
-	}
-	return res.status(404).json(order);
+const newOrder = unhandledExceptionsHandler(async(req: Request, res: Response) => {
+	return res.json();
 });
 
 /**
- * @access Private
- * @route GET /api/order/myorders
+ * @access user
+ * @method /api/user/orders/:id GET
  */
 
-export const getMyOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const orders = await Order.find({ user: req.user._id });
-	return res.status(200).json(orders);
+const getOrderByID =  unhandledExceptionsHandler(async(req: Request, res: Response) => {
+	return res.json();
 });
 
 /**
- * @access Private
- * @route POST /api/orders
- */
+ * @access admin
+ * @method /api/admin/orders GET
+ */ 
 
-export const addOrderItems = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
-	const user = req.user._id as string;
-
-	if (orderItems && orderItems.length === 0) {
-		return res.status(400).json({ message: 'No order items!' });
-	} else {
-		const order = (await Order.create(
-			{
-				user,
-				orderItems,
-				shippingAddress,
-				paymentMethod,
-				itemsPrice,
-				taxPrice,
-				shippingPrice,
-				totalPrice
-			},
-			{ new: true }
-		)) as IOrder[];
-
-		return res.status(201).json(order);
-	}
+const getAllOrders = unhandledExceptionsHandler(async(req: Request, res: Response) => {
+	return res.json();
 });
 
 /**
- * @access Private
- * @route PUT /api/orders/:id/pay
+ * @access admin
+ * @method /api/admin/orders/:id/to-shipping POST
  */
-
-export const updateOrderToPaid = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const order = await Order.findById(req.params.id);
-	if (order) {
-		order.isPaid = true;
-		order.paidAt = Date.now();
-		order.paymentResult = {
-			id: req.body.id,
-			status: req.body.status,
-			update_time: req.body.update_time,
-			email_address: req.body.payer.email_address
-		};
-		const updatedOrder = await order.save();
-		return res.status(200).json(updatedOrder);
-	} else {
-		return res.status(404).json({ message: 'Order not found!' });
-	}
+const orderToShipping = unhandledExceptionsHandler(async(req: Request, res: Response)=> {
+	return res.json();
 });
 
 /**
- * @access Private/admin
- * @route GET /api/orders/:id/deliver
+ * @access admin
+ * @method /api/admin/orders/:id DELETE
  */
-
-export const updateOrderToDelivered = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const order = await Order.findById(req.params.id);
-	if (order) {
-		order.isDelivered = true;
-		order.deliveredAt = Date.now();
-		const updatedOrder = await order.save();
-		return res.status(200).json(updatedOrder);
-	} else {
-		return res.status(404).json({ message: 'Order not found!' });
-	}
+const deleteOrderByID = unhandledExceptionsHandler(async(req: Request, res: Response) => {
+	return res.json();
 });
 
 /**
- * @access Private/Admin
- * @route GET /api/order
+ * @access user,
+ * @method /api/user/orders/:id
  */
 
-export const getOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const orders = await Order.find({}).populate('user', 'id name');
-	return res.status(200).json(orders);
+const refundOrder = unhandledExceptionsHandler(async(req: Request, res: Response)=> {
+	return res.json();
 });
+
+export default {newOrder, getOrderByID, deleteOrderByID, getAllOrders, orderToShipping, refundOrder}
