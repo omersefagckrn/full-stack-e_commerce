@@ -1,4 +1,4 @@
-import { FormEditProfileValues, FormLoginValues, FormPaymentValues, FormRegisterValues } from 'types/helper/validation';
+import type { FormEditProfileValues, FormLoginValues, FormPaymentValues, FormRegisterValues } from 'types/helper/validation';
 import * as Yup from 'yup';
 
 export const validationSchemaLogin: Yup.ObjectSchema<FormLoginValues> = Yup.object({

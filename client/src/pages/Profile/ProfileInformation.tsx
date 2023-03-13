@@ -1,14 +1,14 @@
 import { Loader } from 'components';
+import { AppToast } from 'helper/toast';
 import { FC, useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { getUserProfile } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
 const ProfileInformation: FC = () => {
 	const appDispatch = useAppDispatch();
-	const { user, isLoadingGetUser, errorMessageGetUser, isErrorGetUser } = useAppSelector((state) => state.profile);
 	const navigate = useNavigate();
+	const { user, isLoadingGetUser, errorMessageGetUser, isErrorGetUser } = useAppSelector((state) => state.profile);
 
 	useEffect(() => {
 		appDispatch(getUserProfile());
@@ -16,7 +16,10 @@ const ProfileInformation: FC = () => {
 
 	useEffect(() => {
 		if (isErrorGetUser) {
-			toast.error(errorMessageGetUser);
+			AppToast({
+				type: 'error',
+				message: errorMessageGetUser
+			});
 			localStorage.removeItem('token');
 			navigate('/auth/login');
 		}
@@ -31,7 +34,7 @@ const ProfileInformation: FC = () => {
 	return (
 		<>
 			<div className='flex items-center justify-between select-none'>
-				<div className='text-xl text-black font-semibold underline'>Profile Info</div>
+				<div className='text-xl text-black font-semibold'>Profile Info</div>
 				<div className='text-xs'>
 					Updated At: <span className='font-semibold'>{formatToLocalDate(user?.updatedAt)}</span>
 				</div>

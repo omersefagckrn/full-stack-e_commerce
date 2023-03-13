@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { validationSchemaPayment } from 'helper/validation';
 import { InputMask } from 'primereact/inputmask';
 import { FC } from 'react';
-import { FormPaymentValues } from 'types/helper/validation';
+import type { FormPaymentValues } from 'types/helper/validation';
 
 const PaymentDetails: FC = () => {
 	const onSubmit = async ({ cardName, cardNumber, cardExpiry, cardCvc }: FormPaymentValues) => {

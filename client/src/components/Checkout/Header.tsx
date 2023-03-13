@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ArrowLeft from 'assets/icons/arrowLeft.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Header: FC = () => {
 	const navigate = useNavigate();

@@ -6,8 +6,8 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'redux/store';
 
 const Profile: FC = () => {
-	const navigate = useNavigate();
 	const { isAuth } = useAppSelector((state) => state.auth);
+	const navigate = useNavigate();
 
 	const items: MenuItem[] = [
 		{

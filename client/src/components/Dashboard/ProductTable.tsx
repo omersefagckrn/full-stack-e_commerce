@@ -1,20 +1,20 @@
 import { Loader } from 'components';
 import { getStock } from 'helper/product';
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from 'redux/product/productSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { IProduct } from 'types/redux/product';
+import type { IProduct } from 'types/redux/product';
 
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Rating } from 'primereact/rating';
+import { useNavigate } from 'react-router-dom';
 
 const ProductTableDashboard: FC = () => {
 	const appDispatch = useAppDispatch();
-	const { products, isLoadingGetAllProduct } = useAppSelector((state) => state.products);
 	const navigate = useNavigate();
+	const { products, isLoadingGetAllProduct } = useAppSelector((state) => state.products);
 
 	useEffect(() => {
 		appDispatch(getAllProducts());

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { LabelProps } from '../../types/components/utils/Label';
+import { LabelProps } from 'types/components/Utils/Label';
 
 const Label: FC<LabelProps> = ({ label }) => {
 	return (

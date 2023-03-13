@@ -1,20 +1,19 @@
 import { Loader } from 'components';
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
+import { AppToast } from 'helper/toast';
 import { validationSchemaEditProfile } from 'helper/validation';
 import { InputMask } from 'primereact/inputmask';
 import { FC, useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { getUserProfile, reset, updateUserProfile } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { FormEditProfileValues } from 'types/helper/validation';
+import type { FormEditProfileValues } from 'types/helper/validation';
 
 const EditProfile: FC = () => {
 	const appDispatch = useAppDispatch();
 	const { user, isLoadingGetUser, isSuccessGetUser, isErrorUpdateUser, isLoadingUpdateUser, errorMessageUpdateUser, isSuccessUpdateUser } = useAppSelector((state) => state.profile);
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		appDispatch(getUserProfile());
 	}, [appDispatch]);
@@ -25,19 +24,25 @@ const EditProfile: FC = () => {
 
 	useEffect(() => {
 		if (isSuccessUpdateUser) {
-			toast.success('Your information has been updated');
+			AppToast({
+				type: 'success',
+				message: 'Your information has been updated'
+			});
 			navigate('/user/profile/information', { replace: true });
 			appDispatch(reset());
 		}
 		if (isErrorUpdateUser) {
 			appDispatch(getUserProfile());
-			toast.error(errorMessageUpdateUser);
+			AppToast({
+				type: 'error',
+				message: errorMessageUpdateUser
+			});
 		}
 	}, [isSuccessGetUser, isErrorUpdateUser, errorMessageUpdateUser, appDispatch, isSuccessUpdateUser, navigate]);
 
 	return (
 		<>
-			<div className='text-xl text-black font-semibold underline select-none'>Edit your information</div>
+			<div className='text-xl text-black font-semibold select-none'>Edit your information</div>
 			{isLoadingGetUser ? (
 				<div className='flex items-center justify-center'>
 					<Loader />

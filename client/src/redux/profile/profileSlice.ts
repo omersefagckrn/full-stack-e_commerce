@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { apiHelper } from 'helper/api';
-import { IUser, profileReduxState } from 'types/redux/profile';
+import type { IUser, profileReduxState } from 'types/redux/profile';
 
 export const getUserProfile = createAsyncThunk('profile/getUserProfile', async (_, thunkAPI) => {
 	try {

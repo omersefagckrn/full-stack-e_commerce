@@ -1,17 +1,17 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
+import { AppToast } from 'helper/toast';
 import { validationSchemaLogin } from 'helper/validation';
 import { FC, useEffect } from 'react';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { FormLoginValues } from 'types/helper/validation';
+import type { FormLoginValues } from 'types/helper/validation';
 
 const Login: FC = () => {
 	const appDispatch = useAppDispatch();
-	const { isErrorLogin, isLoadingLogin, isSuccessLogin, messageLogin } = useAppSelector((state) => state.auth);
 	const navigate = useNavigate();
+	const { isErrorLogin, isLoadingLogin, isSuccessLogin, messageLogin } = useAppSelector((state) => state.auth);
 
 	const onSubmit = async ({ email, password }: FormLoginValues) => {
 		await appDispatch(
@@ -24,12 +24,18 @@ const Login: FC = () => {
 
 	useEffect(() => {
 		if (isSuccessLogin) {
-			toast.success(messageLogin);
+			AppToast({
+				type: 'success',
+				message: messageLogin
+			});
 			navigate('/');
 		}
 
 		if (isErrorLogin) {
-			toast.error(messageLogin);
+			AppToast({
+				type: 'error',
+				message: messageLogin
+			});
 		}
 	}, [isSuccessLogin, isErrorLogin, messageLogin, appDispatch, navigate]);
 

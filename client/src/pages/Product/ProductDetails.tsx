@@ -14,8 +14,8 @@ import { IProduct } from 'types/redux/product';
 
 const ProductDetails: FC = () => {
 	const { id } = useParams();
-	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const appDispatch = useAppDispatch();
 	const { product, isLoadingGetProductById } = useAppSelector((state) => state.products);
 	const { isAuth } = useAppSelector((state) => state.auth);
 

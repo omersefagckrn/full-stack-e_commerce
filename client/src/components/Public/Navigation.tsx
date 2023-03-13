@@ -2,16 +2,16 @@ import Logo from 'assets/hero/logo.svg';
 import { Facebook, Linkedin, Mail, Menu as MenuIcon, Twitter } from 'assets/icons';
 import { AutoComplete, AutoCompleteChangeEvent, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
 import { FC, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { IconType } from 'types/components/Public/Navigation';
+import type { IconType } from 'types/components/Public/Navigation';
 
 import { Button } from 'components/Utils';
+import { AppToast } from 'helper/toast';
 import { MenuItem } from 'primereact/menuitem';
 import { TieredMenu } from 'primereact/tieredmenu';
-import { IProduct } from 'types/redux/product';
+import { useNavigate } from 'react-router-dom';
+import type { IProduct } from 'types/redux/product';
 
 const icons: IconType[] = [
 	{
@@ -33,8 +33,8 @@ const icons: IconType[] = [
 ];
 
 const Navigation: FC = () => {
-	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const { isErrorLogout, isSuccessLogout, isAuth } = useAppSelector((state) => state.auth);
 	const { products: appProducts } = useAppSelector((state) => state.products);
 
@@ -104,17 +104,23 @@ const Navigation: FC = () => {
 
 	useEffect(() => {
 		if (isErrorLogout) {
-			toast.error('Something went wrong!');
+			AppToast({
+				type: 'error',
+				message: 'Something went wrong, please try again!'
+			});
 		}
 
 		if (isSuccessLogout) {
-			toast.success('You have successfully logged out, you are being redirected!');
+			AppToast({
+				type: 'success',
+				message: 'You have successfully logged out, you are being redirected!'
+			});
 			setTimeout(() => {
-				navigate(0);
+				navigate(String(0));
 			}, 2000);
 			appDispatch(reset());
 		}
-	}, [isErrorLogout, isSuccessLogout, navigate, appDispatch]);
+	}, [isErrorLogout, isSuccessLogout, appDispatch, navigate]);
 
 	return (
 		<>
@@ -165,7 +171,10 @@ const Navigation: FC = () => {
 										/* @ts-ignore */
 										navigate(`/product/${selectedProducts?._id}`);
 									} else {
-										toast.error('You need to select a product first!');
+										AppToast({
+											type: 'error',
+											message: 'You need to select a product first!'
+										});
 									}
 								}}
 							/>

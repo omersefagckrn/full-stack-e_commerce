@@ -1,18 +1,18 @@
 import Delete from 'assets/icons/Delete.svg';
+
 import { DataView } from 'primereact/dataview';
 import { Tooltip } from 'primereact/tooltip';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addToCard, deleteAllItemQuantity, getTotals, removeFromCard } from 'redux/card/cardSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { ICard } from 'types/redux/card';
-import { IProduct } from 'types/redux/product';
+import type { ICard } from 'types/redux/card';
+import type { IProduct } from 'types/redux/product';
 
 const PaymentOrder: FC = () => {
 	const { cards, cardTotalPrice } = useAppSelector((state) => state.card);
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		appDispatch(getTotals());
 	}, [cards, appDispatch]);

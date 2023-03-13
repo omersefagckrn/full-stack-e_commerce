@@ -1,21 +1,21 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
 import { validationSchemaRegister } from 'helper/validation';
-import toast from 'react-hot-toast';
 import { register } from 'redux/auth/authSlice';
-import { FormRegisterValues } from 'types/helper/validation';
+import type { FormRegisterValues } from 'types/helper/validation';
 
+import { AppToast } from 'helper/toast';
 import { InputMask } from 'primereact/inputmask';
+import { useNavigate } from 'react-router-dom';
 import { reset } from 'redux/profile/profileSlice';
 
 const Register: FC = () => {
 	const appDispatch = useAppDispatch();
-	const { isErrorRegister, isLoadingRegister, isSuccessRegister, messageRegister } = useAppSelector((state) => state.auth);
 	const navigate = useNavigate();
+	const { isErrorRegister, isLoadingRegister, isSuccessRegister, messageRegister } = useAppSelector((state) => state.auth);
 
 	const onSubmit = async ({ name, surname, email, password, phone }: FormRegisterValues) => {
 		await appDispatch(
@@ -31,13 +31,19 @@ const Register: FC = () => {
 
 	useEffect(() => {
 		if (isSuccessRegister) {
-			toast.success(messageRegister);
+			AppToast({
+				type: 'success',
+				message: messageRegister
+			});
 			navigate('/auth/login');
 			appDispatch(reset());
 		}
 
 		if (isErrorRegister) {
-			toast.error(messageRegister);
+			AppToast({
+				type: 'error',
+				message: messageRegister
+			});
 		}
 	}, [isSuccessRegister, isErrorRegister, messageRegister, appDispatch, navigate]);
 

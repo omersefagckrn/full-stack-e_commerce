@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import toast from 'react-hot-toast';
-import { cardReduxState } from 'types/redux/card';
+import { AppCartStorage } from 'helper/storage';
+import { AppToast } from 'helper/toast';
+import type { cardReduxState } from 'types/redux/card';
 
 const initialState = {
 	cards: JSON.parse(sessionStorage.getItem('card') as string) || [],
@@ -22,8 +23,11 @@ export const cardSlice = createSlice({
 				state.cards.push({ product, quantity });
 			}
 
-			toast.success('Added to card');
-			sessionStorage.setItem('card', JSON.stringify(state.cards));
+			AppToast({
+				message: 'Added to card',
+				type: 'success'
+			});
+			AppCartStorage.setItem('card', JSON.stringify(state.cards));
 		},
 		removeFromCard: (state, action) => {
 			const { product, quantity } = action.payload;
@@ -34,8 +38,11 @@ export const cardSlice = createSlice({
 					state.cards.splice(index, 1);
 				}
 			}
-			toast.success('Removed from card');
-			sessionStorage.setItem('card', JSON.stringify(state.cards));
+			AppToast({
+				message: 'Removed from card',
+				type: 'success'
+			});
+			AppCartStorage.setItem('card', JSON.stringify(state.cards));
 		},
 		deleteAllItemQuantity: (state, action) => {
 			const { product } = action.payload;
@@ -43,8 +50,11 @@ export const cardSlice = createSlice({
 			if (index !== -1) {
 				state.cards.splice(index, 1);
 			}
-			toast.success('Removed from card');
-			sessionStorage.setItem('card', JSON.stringify(state.cards));
+			AppToast({
+				message: 'Removed from card',
+				type: 'success'
+			});
+			AppCartStorage.setItem('card', JSON.stringify(state.cards));
 		},
 		getTotals: (state) => {
 			let cardTotalQuantity = 0;
