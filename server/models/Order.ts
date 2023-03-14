@@ -1,4 +1,4 @@
-import { Document, model, Schema } from 'mongoose';
+import { Date, Document, model, mongo, NumberExpression, Schema } from 'mongoose';
 import { IProduct } from './Product';
 export interface IPaymentCard
 {
@@ -42,6 +42,7 @@ export interface IBasketItem
 export interface IPaymentRequest 
 {
     locale: string,
+	user_id: string,
     conversationID: string,
     price: Number,
     paidPrice: Number,
@@ -58,26 +59,24 @@ export interface IPaymentRequest
 }
 
 export interface Order {
-	user_id: string;
+	user_id: string,
 	basket_id: string,
-	orderItems: IBasketItem[];
-	shippingAddress: IAddress;
-	paymentMethod: string;
-	itemsPrice: number;
-	taxPrice: number;
-	shippingPrice: number;
-	totalPrice: number;
-	isPaid: boolean;
-	paidAt: number;
-	isDelivered: boolean;
-	deliveredAt: number;
+	orderItems: IBasketItem[],
+	billingAddress: IAddress,
+	shippingAddress: IAddress,
+	taxPrice: Number,
+	shippingPrice?:Number,
+	totalPrice: Number,
+	paidAt?: Date,
+	isDelivered: Boolean,
+	isDeliveredToShip: Boolean
 }
 
 export interface IOrder extends Order, Document {}
 
 const OrderSchema = new Schema(
 	{
-		user: {
+		user_id: {
 			type: Schema.Types.ObjectId,
 			required: true,
 			ref: 'User'
@@ -88,39 +87,47 @@ const OrderSchema = new Schema(
 		},
 		orderItems: [
 			{
+				id: {
+					type: String,
+					required: true
+				},
+				itemType: {
+					type: String,
+					required: true
+				},
 				name: {
 					type: String,
 					required: true
 				},
-				qty: {
-					type: Number,
-					required: true
-				},
-				image: {
+				category1: {
 					type: String,
 					required: true
+				},
+				category2: {
+					type: String,
+					required: false,
+					default: ""
 				},
 				price: {
 					type: Number,
 					required: true
-				},
-				product: {
-					type: Schema.Types.ObjectId,
-					required: true,
-					ref: 'Product'
 				}
 			}
 		],
 		billingAddress: {
+			contactName: {
+				type: String,
+				required: true,
+			},
 			address: {
 				type: String,
 				required: true
 			},
-			city: {
+			zipCode: {
 				type: String,
 				required: true
 			},
-			postalCode: {
+			city: {
 				type: String,
 				required: true
 			},
@@ -130,15 +137,19 @@ const OrderSchema = new Schema(
 			}
 		},
 		shippingAddress: {
+			contactName: {
+				type: String,
+				required: true,
+			},
 			address: {
 				type: String,
 				required: true
 			},
-			city: {
+			zipCode: {
 				type: String,
 				required: true
 			},
-			postalCode: {
+			city: {
 				type: String,
 				required: true
 			},
@@ -147,44 +158,32 @@ const OrderSchema = new Schema(
 				required: true
 			}
 		},
-		itemsPrice: {
-			type: Number,
-			required: true,
-			default: 0.0
-		},
 		taxPrice: {
 			type: Number,
-			required: true,
-			default: 0.0
+			required: true
 		},
 		shippingPrice: {
 			type: Number,
-			required: false,
-			default: 0.0
+			required: false
 		},
 		totalPrice: {
 			type: Number,
-			required: true,
-			default: 0.0
+			required: true
 		},
 		paidAt: {
-			type: Date
+			type: Date,
+			required: false,
+			default: Date.now()
 		},
 		isDelivered: {
 			type: Boolean,
 			required: true,
-			default: false
 		},
-		isDeliveredToShip:{
-			type:Boolean,
-			required: true,
-			default: false
+		isDeliveredToShip: {
+			type: Boolean,
+			required: true
 		}
 	},
-	{
-		timestamps: true,
-		versiyonKey: false
-	}
 );
 
-export default model<IOrder>('Order', OrderSchema);
+export default model<IOrder>('Orders', OrderSchema);

@@ -3,30 +3,34 @@ import { generateUniqueID } from '../generators';
 var Iyzipay = require('iyzipay');
 
 export const paymentRequestBuilder = (
-	price: Number,
-	paidPrice: Number,
-	installment: string,
-	card: IPaymentCard,
-	buyer: IBuyer,
-	shipAddress: IAddress,
-	billingAddress: IAddress,
-	items: IBasketItem[]
+	request: {
+		user_id: string,
+		price: Number,
+		paidPrice: Number,
+		installment: string,
+		card: IPaymentCard,
+		buyer: IBuyer,
+		shipAddress: IAddress,
+		billingAddress: IAddress,
+		items: IBasketItem[]
+	}
 ): IPaymentRequest => {
 	const paymentInfo: IPaymentRequest = {
 		locale: Iyzipay.LOCALE.TR,
 		conversationID: generateUniqueID(),
-		price: price,
-		paidPrice: paidPrice,
+		user_id: request.user_id,
+		price: request.price,
+		paidPrice: request.paidPrice,
 		currency: Iyzipay.CURRENCY.TRY,
-		installment: installment,
+		installment: request.installment,
 		basket_id: generateUniqueID(),
 		paymentChannel: Iyzipay.PAYMENT_CHANNEL.WEB,
 		paymentGroup: Iyzipay.PAYMENT_GROUP.LISTING,
-		paymentCard: card,
-		buyer: buyer,
-		shippingAddress: shipAddress,
-		billingAddress: billingAddress,
-		basketItems: items
+		paymentCard: request.card,
+		buyer: request.buyer,
+		shippingAddress: request.shipAddress,
+		billingAddress: request.billingAddress,
+		basketItems: request.items
 	};
 	return paymentInfo;
 };

@@ -1,5 +1,5 @@
-var v4 = require('uuid');
+import { v4 as uuidv4} from 'uuid';
 
 export const generateUniqueID = () => {
-    return (v4());
+    return uuidv4();
 }
