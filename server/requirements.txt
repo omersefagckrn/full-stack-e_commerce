@@ -82,11 +82,11 @@ address girişi yapılacak (profile adresler tutulacak) +
 
 adres profile kaydedilsin mi ? +
 adres seçildikten sonra kart bilgisi çıkartılacak
-iyzico ile ödeme yöntemi vs vs 192837
+iyzico ile ödeme yöntemi vs vs 192837 +
 ödeme tamamlanacak (örnek fatura çıktısı)
-siparişlerime düşecek
-siparişleri /id ile görüntüleme olacak
-siparişler yolda olanlar ve ulaştırılan önceki siparişler görüntülenecek
+siparişlerime düşecek +
+siparişleri /id ile görüntüleme olacak +
+siparişler yolda olanlar ve ulaştırılan önceki siparişler görüntülenecek (kısmen)
 
 // front end gerekli olan kısımlar
 
