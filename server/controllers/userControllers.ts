@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
+import Address from '../models/address';
 import User, { IUser } from '../models/User';
-import Address, {IAddress} from '../models/address'; 
 import { unhandledExceptionsHandler } from '../utils/error';
 import generateToken from '../utils/generateToken';
 
@@ -78,61 +78,88 @@ export const updateUserProfile = unhandledExceptionsHandler(async (req: Request,
 	});
 });
 
-export const getUserAddresses = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-  const user = (await User.findById(req.params.id)) as IUser;
-  if (!user)
-    return res.status(404).json({
-    status_code: 404,
-    message: "INVALID USER_ID",
-    requirement: "LOGOUT"
-  });
-  const addresses = (await Address.find({user_id: req.params.id}));
-  if (!addresses)
-    return res.status(200).json({status_code: 200, message: "This user doesn't have any address.", requirement: ""});
-  return res.status(200).json({
-    status_code: 200,
-    addresses: addresses,
-    requirement: ""
-  });
+export const addUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const user = await User.findById({ _id: req.user?.id });
+
+	if (!user) {
+		return res.status(404).json({ message: 'User not found!' });
+	}
+
+	const address = await Address.create({
+		user_id: user._id,
+		address: req.body.address,
+		zip_code: req.body.zip_code,
+		city_name: req.body.city_name,
+		country_name: req.body.country_name
+	});
+
+	return res.status(201).json({ message: 'Address has been successfully created!', address });
 });
 
-export const addNewAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-  const {user_id, address, zip_code, city_name, country_name} = req.body;
-  if(user_id && address && zip_code && city_name && country_name)
-  {
-    const user = (await User.findById(user_id) as IUser);
-    if(!user)
-      return res.status(404).json({status_code: 404, message: "INVALID USER_ID", requirement:"LOGOUT"});
-      const new_address: IAddress = {user_id, address, zip_code, city_name, country_name} as IAddress;
-      Address.create(new_address);
-    return res.status(200).json({
-      status_code: 200,
-      message: "The new address successfully added.",
-      requirement: "DISPATCH ADDRESSES"
-    });
-  }
-  else
-    return res.status(400).json({status_code: 404, message:"BAD request", requirement: ""});
-});
+export const getUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const user = await User.findById({ _id: req.user?.id });
 
-export const deleteAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const address = (await Address.findById(req.params.address)) as IAddress;
-	const user = (await User.findById(req.params.id) as IUser);
-	if (!user)
-		return res.status(400).json({
-			status_code: 400,
-			message:"INVALID USER_ID",
-			requirement: "LOGOUT"
-		})
-	if(!address)
-		return res.status(400).json({
-			status_code: 400,
-			message: "INVALID ID OF ADDRESS",
-		});
-	await Address.deleteOne(address);
+	if (!user) {
+		return res.status(404).json({ message: 'User not found!' });
+	}
+
+	const address = await Address.findOne({ user_id: user._id });
+
+	if (!address) {
+		return res.status(404).json({ message: 'Address not found!' });
+	}
+
 	return res.status(200).json({
-		status_code: 200,
-		message:"The address successfully deleted.",
-		requirement: "DISPATCH ADDRESSES"
+		_id: address._id,
+		user_id: address.user_id,
+		address: address.address,
+		zip_code: address.zip_code,
+		city_name: address.city_name,
+		country_name: address.country_name
+	});
+});
+
+export const updateUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const user = await User.findById({ _id: req.user?.id });
+
+	if (!user) {
+		return res.status(404).json({ message: 'User not found!' });
+	}
+
+	const address = await Address.findOneAndUpdate(
+		{ user_id: user._id },
+		{
+			address: req.body.address,
+			zip_code: req.body.zip_code,
+			city_name: req.body.city_name,
+			country_name: req.body.country_name
+		},
+		{ new: true }
+	);
+
+	if (!address) {
+		return res.status(404).json({ message: 'Address not found!' });
+	}
+
+	return res.status(200).json({
+		message: `Address updated successfully!`
+	});
+});
+
+export const deleteUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const user = await User.findById({ _id: req.user?.id });
+
+	if (!user) {
+		return res.status(404).json({ message: 'User not found!' });
+	}
+
+	const address = await Address.findOneAndDelete({ user_id: user._id });
+
+	if (!address) {
+		return res.status(404).json({ message: 'Address not found!' });
+	}
+
+	return res.status(200).json({
+		message: `Address deleted successfully!`
 	});
 });
