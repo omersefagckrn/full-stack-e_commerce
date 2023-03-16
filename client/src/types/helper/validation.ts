@@ -25,3 +25,11 @@ export type FormPaymentValues = {
 	cardExpiry: string;
 	cardCvc: string;
 };
+
+export type FormEditAddressValues = {
+	title: string | undefined;
+	address: string | undefined;
+	zip_code: string | undefined;
+	city_name: string | undefined;
+	country_name: string | undefined;
+};

@@ -6,4 +6,5 @@ export type ButtonProps = {
 	disabled?: boolean;
 	icon?: string;
 	text?: boolean;
+	ref?: any;
 };

@@ -13,6 +13,7 @@ import type { FormEditProfileValues } from 'types/helper/validation';
 const EditProfile: FC = () => {
 	const appDispatch = useAppDispatch();
 	const { user, isLoadingGetUser, isSuccessGetUser, isErrorUpdateUser, isLoadingUpdateUser, errorMessageUpdateUser, isSuccessUpdateUser } = useAppSelector((state) => state.profile);
+
 	const navigate = useNavigate();
 	useEffect(() => {
 		appDispatch(getUserProfile());

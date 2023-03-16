@@ -27,6 +27,7 @@ const router = createBrowserRouter(
 				<Route path='user' element={<Component.Profile />}>
 					<Route path='profile/information' element={<Pages.Profile />} />
 					<Route path='profile/edit' element={<Pages.EditProfile />} />
+					<Route path='profile/address' element={<Pages.Address />} />
 				</Route>
 				<Route path='user/checkout' element={<Pages.Checkout />} />
 			</Route>

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Address from '../models/address';
+import Address, { IAddress } from '../models/Address';
 import User, { IUser } from '../models/User';
 import { unhandledExceptionsHandler } from '../utils/error';
 import generateToken from '../utils/generateToken';
@@ -78,44 +78,37 @@ export const updateUserProfile = unhandledExceptionsHandler(async (req: Request,
 	});
 });
 
-export const addUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const user = await User.findById({ _id: req.user?.id });
+export const getUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const user = (await User.findById({ _id: req.user?.id })) as IUser;
 
 	if (!user) {
 		return res.status(404).json({ message: 'User not found!' });
 	}
 
-	const address = await Address.create({
-		user_id: user._id,
-		address: req.body.address,
-		zip_code: req.body.zip_code,
-		city_name: req.body.city_name,
-		country_name: req.body.country_name
-	});
+	const address = (await Address.find({ user_id: req.user?.id })) as IAddress[];
 
-	return res.status(201).json({ message: 'Address has been successfully created!', address });
+	if (!address) {
+		return res.status(404).json({ message: 'Address not found!' });
+	}
+
+	return res.status(200).json(address);
 });
 
-export const getUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const user = await User.findById({ _id: req.user?.id });
+export const deleteUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const user = (await User.findById({ _id: req.user?.id })) as IUser;
 
 	if (!user) {
 		return res.status(404).json({ message: 'User not found!' });
 	}
 
-	const address = await Address.findOne({ user_id: user._id });
+	const address = (await Address.findByIdAndDelete({ _id: req.params.id })) as IAddress;
 
 	if (!address) {
 		return res.status(404).json({ message: 'Address not found!' });
 	}
 
 	return res.status(200).json({
-		_id: address._id,
-		user_id: address.user_id,
-		address: address.address,
-		zip_code: address.zip_code,
-		city_name: address.city_name,
-		country_name: address.country_name
+		message: `Address deleted successfully!`
 	});
 });
 
@@ -126,9 +119,10 @@ export const updateUserAddress = unhandledExceptionsHandler(async (req: Request,
 		return res.status(404).json({ message: 'User not found!' });
 	}
 
-	const address = await Address.findOneAndUpdate(
-		{ user_id: user._id },
+	const address = await Address.findByIdAndUpdate(
+		{ _id: req.params.id },
 		{
+			title: req.body.title,
 			address: req.body.address,
 			zip_code: req.body.zip_code,
 			city_name: req.body.city_name,
@@ -141,25 +135,30 @@ export const updateUserAddress = unhandledExceptionsHandler(async (req: Request,
 		return res.status(404).json({ message: 'Address not found!' });
 	}
 
-	return res.status(200).json({
+	return res.status(201).json({
 		message: `Address updated successfully!`
 	});
 });
 
-export const deleteUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+export const addUserAddress = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	const user = await User.findById({ _id: req.user?.id });
 
 	if (!user) {
 		return res.status(404).json({ message: 'User not found!' });
 	}
 
-	const address = await Address.findOneAndDelete({ user_id: user._id });
+	const address = await Address.create({
+		user_id: user._id,
+		title: req.body.title,
+		address: req.body.address,
+		zip_code: req.body.zip_code,
+		city_name: req.body.city_name,
+		country_name: req.body.country_name
+	});
 
 	if (!address) {
-		return res.status(404).json({ message: 'Address not found!' });
+		return res.status(400).json({ message: 'Invalid address data!' });
 	}
 
-	return res.status(200).json({
-		message: `Address deleted successfully!`
-	});
+	return res.status(201).json({ message: 'Address has been successfully created!', address });
 });

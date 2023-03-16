@@ -30,3 +30,11 @@ export const validationSchemaPayment = Yup.object<FormPaymentValues>({
 	cardExpiry: Yup.string().required('Card expiry is required'),
 	cardCvc: Yup.string().required('Card cvv is required').min(3, 'Card cvv must be 3 digits').max(3, 'Card cvv must be 3 digits')
 });
+
+export const validationSchemaEditAddress = Yup.object({
+	title: Yup.string(),
+	address: Yup.string(),
+	zip_code: Yup.string().min(5, 'Zip code must be 5 digits').max(5, 'Zip code must be 5 digits'),
+	city_name: Yup.string(),
+	country_name: Yup.string()
+});

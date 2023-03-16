@@ -6,7 +6,6 @@ import express, { Application } from 'express';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
-/* Routes */
 import orderRoutes from './routes/orderRoutes';
 import productRoutes from './routes/productRoutes';
 import userRoutes from './routes/userRoutes';
@@ -29,8 +28,10 @@ if (process.env.NODE_ENV !== 'production') {
 
 (async () => {
 	try {
-		await mongoose.connect(process.env.MONGO_URL!);
-		console.log('Connected to db ✅');
+		await mongoose
+			.connect(process.env.MONGO_URL!)
+			.then(() => console.log('Connected to db ✅'))
+			.catch((err) => console.log(err));
 		app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
 	} catch (error) {
 		console.log('Failed to connect to the db: ❌', error);

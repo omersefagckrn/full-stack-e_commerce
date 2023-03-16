@@ -2,6 +2,7 @@ import { Document, model, Schema } from 'mongoose';
 
 export interface IAddress {
 	user_id: string;
+	title: string;
 	address: string;
 	zip_code: string;
 	city_name: string;
@@ -16,6 +17,10 @@ const AddressSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			required: true,
 			ref: 'User'
+		},
+		title: {
+			type: String,
+			required: true
 		},
 		address: {
 			type: String,

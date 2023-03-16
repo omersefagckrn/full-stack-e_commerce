@@ -54,3 +54,262 @@ export const products = [
 		rating: 4
 	}
 ];
+
+export const address = [
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Home',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	},
+	{
+		user_id: '63f48ab9abfebca8e2e76bb4',
+		title: 'Work',
+		address: '1234 Main St',
+		zip_code: '12345',
+		city_name: 'New York',
+		country_name: 'USA'
+	}
+];

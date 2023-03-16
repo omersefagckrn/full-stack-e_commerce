@@ -7,6 +7,7 @@ const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength
 		<InputText
 			hidden={hidden}
 			maxLength={maxLength}
+			minLength={1}
 			autoComplete={'off' || autoComplete}
 			id={id}
 			onChange={onChange}

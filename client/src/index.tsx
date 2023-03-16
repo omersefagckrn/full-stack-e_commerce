@@ -1,3 +1,4 @@
+import { ConfirmDialog } from 'primereact/confirmdialog';
 import ReactDOM from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
@@ -15,13 +16,16 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLDivEleme
 
 root.render(
 	<Provider store={store}>
-		<Toaster
-			toastOptions={{
-				duration: 1500
-			}}
-			position='top-right'
-			reverseOrder={false}
-		/>
-		<RouterProvider router={router} />
+		<>
+			<Toaster
+				toastOptions={{
+					duration: 1500
+				}}
+				position='top-right'
+				reverseOrder={false}
+			/>
+			<ConfirmDialog />
+			<RouterProvider router={router} />
+		</>
 	</Provider>
 );
