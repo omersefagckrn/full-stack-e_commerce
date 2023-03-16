@@ -1,7 +1,7 @@
-import { Document, model, Schema } from 'mongoose';
+import { Document, model, Schema, Types } from 'mongoose';
 
 export interface IAddress {
-	user_id: string;
+	user_id: Types.ObjectId;
 	title: string;
 	address: string;
 	zip_code: string;
