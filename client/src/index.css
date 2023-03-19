@@ -55,3 +55,11 @@
 .p-paginator-page {
 	@apply rounded-full !important;
 }
+
+.p-radiobutton-box {
+	@apply bg-transparent hidden !important;
+}
+
+.p-radiobutton-icon {
+	@apply border-none bg-transparent !important;
+}

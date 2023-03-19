@@ -160,5 +160,5 @@ export const addUserAddress = unhandledExceptionsHandler(async (req: Request, re
 		return res.status(400).json({ message: 'Invalid address data!' });
 	}
 
-	return res.status(201).json({ message: 'Address has been successfully created!', address });
+	return res.status(201).json({ address });
 });

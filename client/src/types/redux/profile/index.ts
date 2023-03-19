@@ -45,4 +45,9 @@ export type profileReduxState = {
 	isSuccessEditUserAddress: boolean;
 	isErrorEditUserAddress: boolean;
 	errorMessageEditUserAddress: string | null;
+
+	isLoadingAddUserAddress: boolean;
+	isSuccessAddUserAddress: boolean;
+	isErrorAddUserAddress: boolean;
+	errorMessageAddUserAddress: string | null;
 };

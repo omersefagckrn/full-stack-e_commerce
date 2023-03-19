@@ -134,6 +134,53 @@ export const editUserAddress = createAsyncThunk(
 	}
 );
 
+export const addUserAddress = createAsyncThunk(
+	'profile/addUserAddress',
+	async (
+		{
+			title,
+			address,
+			zip_code,
+			city_name,
+			country_name
+		}: {
+			title: string | undefined;
+			address: string | undefined;
+			zip_code: string | undefined;
+			city_name: string | undefined;
+			country_name: string | undefined;
+		},
+		thunkAPI
+	) => {
+		try {
+			const response = await apiHelper.post(
+				'/api/users/add-address',
+				{
+					title,
+					address,
+					zip_code,
+					city_name,
+					country_name
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`
+					}
+				}
+			);
+
+			if (response.status === 201) {
+				return response.data;
+			}
+
+			return thunkAPI.rejectWithValue(response.data.message);
+		} catch (error: any) {
+			const message = (error.response && error.response.data.message) || error.message;
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 const initialState = {
 	user: null as IUser | null,
 	address: null as IAddress | null,
@@ -160,7 +207,12 @@ const initialState = {
 	isLoadingEditUserAddress: false,
 	isSuccessEditUserAddress: false,
 	isErrorEditUserAddress: false,
-	errorMessageEditUserAddress: null as string | null
+	errorMessageEditUserAddress: null as string | null,
+
+	isLoadingAddUserAddress: false,
+	isSuccessAddUserAddress: false,
+	isErrorAddUserAddress: false,
+	errorMessageAddUserAddress: null as string | null
 } as profileReduxState;
 
 const profileSlice = createSlice({
@@ -271,6 +323,27 @@ const profileSlice = createSlice({
 			state.isSuccessEditUserAddress = false;
 			state.isErrorEditUserAddress = true;
 			state.errorMessageEditUserAddress = action.payload as string;
+		});
+
+		builder.addCase(addUserAddress.pending, (state) => {
+			state.isLoadingAddUserAddress = true;
+			state.isSuccessAddUserAddress = false;
+			state.isErrorAddUserAddress = false;
+			state.errorMessageAddUserAddress = null;
+		});
+
+		builder.addCase(addUserAddress.fulfilled, (state, action) => {
+			state.isLoadingAddUserAddress = false;
+			state.isSuccessAddUserAddress = true;
+			state.isErrorAddUserAddress = false;
+			state.errorMessageAddUserAddress = action.payload as string;
+		});
+
+		builder.addCase(addUserAddress.rejected, (state, action) => {
+			state.isLoadingAddUserAddress = false;
+			state.isSuccessAddUserAddress = false;
+			state.isErrorAddUserAddress = true;
+			state.errorMessageAddUserAddress = action.payload as string;
 		});
 	}
 });

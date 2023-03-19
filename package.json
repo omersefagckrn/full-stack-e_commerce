@@ -4,19 +4,13 @@
 	"description": "school-projects",
 	"main": "server/server.ts",
 	"scripts": {
-		"dev": "npx nodemon --exec ts-node server/server.ts",
-		"build": "tsc"
+		"dev": "npx nodemon --exec ts-node server/server.ts"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/omersefagckrn/full-stack-e_commerce.git"
 	},
 	"author": "Ömer Sefa Güçkıran",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/omersefagckrn/full-stack-e_commerce/issues"
-	},
-	"homepage": "https://github.com/omersefagckrn/full-stack-e_commerce#readme",
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
 		"@types/compression": "^1.7.2",

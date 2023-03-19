@@ -48,7 +48,7 @@ const PaymentOrder: FC = () => {
 		<>
 			<Tooltip target='#deleteAllItem' />
 			<div className='mt-4'>
-				<div className='text-primary text-3xl pb-6'>Order({cards.length})</div>
+				<div className='text-primary text-3xl'>Cart({cards.length})</div>
 				<div className='flex flex-col items-center justify-between w-full space-y-2'>
 					{cards && cards.length > 0 ? (
 						<>

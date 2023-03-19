@@ -1,4 +1,5 @@
 import { EditAddress, Loader } from 'components';
+import AddAddress from 'components/Modal/AddAddress';
 import { AppToast } from 'helper/toast';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { FC, useEffect, useState } from 'react';
@@ -11,6 +12,7 @@ const Address: FC = () => {
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [showEditModal, setShowEditModal] = useState<boolean | undefined>(false);
+	const [showAddModal, setShowAddModal] = useState<boolean | undefined>(false);
 	const [propsAddress, setPropsAddress] = useState<IAddress | null>(null);
 
 	const {
@@ -75,8 +77,19 @@ const Address: FC = () => {
 	return (
 		<>
 			{showEditModal && <EditAddress address={propsAddress} visible={showEditModal} setVisible={() => setShowEditModal(false)} />}
+			{showAddModal && <AddAddress visible={showAddModal} setVisible={() => setShowAddModal(false)} />}
 
-			<div className='text-xl text-black font-semibold select-none'>My Address</div>
+			<div className='flex items-center justify-between'>
+				<div className='text-xl text-black font-semibold select-none cursor-pointer'>My Address</div>
+				<div
+					onClick={() => {
+						setShowAddModal(true);
+					}}
+					className='text-sm underline font-light text-green cursor-pointer select-none'
+				>
+					Add new address
+				</div>
+			</div>
 
 			{isLoadingGetUserAddress && !isLoadingDeleteUserAddress ? (
 				<div className='flex items-center justify-center'>

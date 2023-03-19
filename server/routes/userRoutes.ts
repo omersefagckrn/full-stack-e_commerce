@@ -11,6 +11,6 @@ router.route('/profile').get(auth, getUserProfile).put(auth, updateUserProfile);
 router.route('/:id/get-address').get(auth, getUserAddress);
 router.route('/:id/delete-address').delete(auth, deleteUserAddress);
 router.route('/:id/update-address').put(auth, updateUserAddress);
-router.route('/:id/add-new-address').post(auth, addUserAddress);
+router.route('/add-address').post(auth, addUserAddress);
 
 export default router;

@@ -33,3 +33,11 @@ export type FormEditAddressValues = {
 	city_name: string | undefined;
 	country_name: string | undefined;
 };
+
+export type FormAddAddressValues = {
+	title: string;
+	address: string;
+	zip_code: string;
+	city_name: string;
+	country_name: string;
+};

@@ -70,7 +70,7 @@ const Navigation: FC = () => {
 			}
 		},
 		{
-			label: 'User Cart',
+			label: 'Order',
 			icon: 'pi pi-shopping-cart',
 			command: () => {
 				navigate('/user/checkout');
@@ -126,7 +126,7 @@ const Navigation: FC = () => {
 		<>
 			<TieredMenu ref={mobileMenuRef} popup model={isAuth ? LoggedInUserMenu : notLoggedInUserMenu} />
 			{/*  */}
-			<div className='bg-[#131319] select-none'>
+			<div className='bg-black select-none'>
 				<div className='lg:max-w-main lg:mx-auto'>
 					<div className='hidden lg:flex items-center justify-between py-2 px-3'>
 						<div className='flex items-center space-x-2'>

@@ -90,8 +90,8 @@ siparişler yolda olanlar ve ulaştırılan önceki siparişler görüntülenece
 
 // front end gerekli olan kısımlar
 
-profile address page
-profile saved payment card page
-add address modal
+profile address page + 
+profile saved payment card page + 
+add address modal + 
 add card modal olacak
-session storage cart count (sepetteki ürün sayısı)
+session storage cart count (sepetteki ürün sayısı) + 

@@ -1,46 +1,48 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
 import { AppToast } from 'helper/toast';
-import { validationSchemaEditAddress } from 'helper/validation';
+import { validationSchemaAddAddress } from 'helper/validation';
 import { Dialog } from 'primereact/dialog';
 import { FC, useEffect } from 'react';
-import { editUserAddress } from 'redux/profile/profileSlice';
+import { useNavigate } from 'react-router-dom';
+import { addUserAddress } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import type { EditAddressProps } from 'types/components/Modal/EditAddress';
-import type { FormEditAddressValues } from 'types/helper/validation';
-import type { IAddress } from 'types/redux/profile';
+import type { AddAddressProps } from 'types/components/Modal/AddAddress';
+import type { FormAddAddressValues } from 'types/helper/validation';
 
-const EditAddress: FC<EditAddressProps> = ({ address, visible, setVisible }) => {
-	const addressId = address?._id as IAddress['_id'];
+const AddAddress: FC<AddAddressProps> = ({ visible, setVisible }) => {
 	const AppDispatch = useAppDispatch();
-	const { isLoadingEditUserAddress, isErrorEditUserAddress, isSuccessEditUserAddress, errorMessageEditUserAddress } = useAppSelector((state) => state.profile);
+	const navigate = useNavigate();
+	const { isLoadingAddUserAddress, isErrorAddUserAddress, isSuccessAddUserAddress, errorMessageAddUserAddress } = useAppSelector((state) => state.profile);
 
 	useEffect(() => {
-		if (isErrorEditUserAddress) {
-			AppToast({
-				type: 'error',
-				message: errorMessageEditUserAddress
-			});
-		}
-
-		if (isSuccessEditUserAddress) {
+		if (isSuccessAddUserAddress) {
+			setVisible(false);
 			AppToast({
 				type: 'success',
-				message: 'Address updated successfully!'
+				message: 'Add address successfully!'
 			});
-			setVisible(false);
+			setTimeout(() => {
+				navigate(0);
+			}, 1500);
 		}
-	}, [isLoadingEditUserAddress, isErrorEditUserAddress, isSuccessEditUserAddress, setVisible, AppDispatch, address?.user_id, errorMessageEditUserAddress]);
 
-	const onSubmit = async ({ title, address, city_name, country_name, zip_code }: FormEditAddressValues) => {
+		if (isErrorAddUserAddress) {
+			AppToast({
+				type: 'error',
+				message: errorMessageAddUserAddress
+			});
+		}
+	}, [isSuccessAddUserAddress, isErrorAddUserAddress, errorMessageAddUserAddress, setVisible, navigate]);
+
+	const onSubmit = async ({ title, address, city_name, country_name, zip_code }: FormAddAddressValues) => {
 		await AppDispatch(
-			editUserAddress({
-				addressId,
+			addUserAddress({
+				title,
 				address,
 				city_name,
 				country_name,
-				zip_code,
-				title
+				zip_code
 			})
 		);
 	};
@@ -62,14 +64,14 @@ const EditAddress: FC<EditAddressProps> = ({ address, visible, setVisible }) => 
 					validateOnBlur={false}
 					validateOnChange={false}
 					initialValues={{
-						title: address?.title,
-						address: address?.address,
-						zip_code: address?.zip_code,
-						city_name: address?.city_name,
-						country_name: address?.country_name
+						title: 'Home',
+						address: '',
+						zip_code: '',
+						city_name: '',
+						country_name: ''
 					}}
-					validationSchema={validationSchemaEditAddress}
-					onSubmit={(values: FormEditAddressValues, { resetForm }) => {
+					validationSchema={validationSchemaAddAddress}
+					onSubmit={(values: FormAddAddressValues, { resetForm }) => {
 						resetForm();
 						onSubmit(values);
 					}}
@@ -97,7 +99,9 @@ const EditAddress: FC<EditAddressProps> = ({ address, visible, setVisible }) => 
 							<Error error={errors.country_name} />
 
 							<div className='pt-4 flex flex-col'>
-								<Button type='submit'>Update your address</Button>
+								<Button disabled={isLoadingAddUserAddress} type='submit'>
+									Add new address
+								</Button>
 							</div>
 						</form>
 					)}
@@ -107,4 +111,4 @@ const EditAddress: FC<EditAddressProps> = ({ address, visible, setVisible }) => 
 	);
 };
 
-export default EditAddress;
+export default AddAddress;

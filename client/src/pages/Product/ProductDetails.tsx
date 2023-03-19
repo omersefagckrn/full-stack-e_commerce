@@ -40,17 +40,18 @@ const ProductDetails: FC = () => {
 	return (
 		<Container>
 			<div className='lg:max-w-main lg:mx-auto space-y-4 m-4'>
+				<div className='mt-2'>
+					<BreadCrumb className='shadow-md' model={items} home={home} />
+				</div>
+
 				{isLoadingGetProductById ? (
 					<div className='flex items-center justify-center mt-2'>
 						<Loader />
 					</div>
 				) : (
 					<>
-						<div className='mt-2'>
-							<BreadCrumb className='shadow-md' model={items} home={home} />
-						</div>
 						<div className='grid lg:grid-cols-2 shadow-md gap-6 border border-gray rounded-lg p-4'>
-							<Image className='w-full h-full' src={product?.image} alt={product?.name} preview />
+							<Image preview className='w-full h-full' src={product?.image} alt={product?.name} />
 							<div className='flex flex-col'>
 								<div className='flex flex-col space-y-1'>
 									<div className='text-blue font-medium text-md'>{product?.category}</div>
@@ -70,7 +71,7 @@ const ProductDetails: FC = () => {
 								</div>
 								<div className='text-primary font-medium'>{product?.description}</div>
 								<div className='text-2xl font-bold text-black'>${product?.price}</div>
-								<Button onClick={() => addCard(product)} className='mt-3' children='Add to cart' />
+								<Button onClick={() => addCard(product)} className='mt-1' children='Add to cart' />
 							</div>
 						</div>
 					</>

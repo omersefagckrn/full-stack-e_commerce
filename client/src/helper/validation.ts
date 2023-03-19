@@ -38,3 +38,11 @@ export const validationSchemaEditAddress = Yup.object({
 	city_name: Yup.string(),
 	country_name: Yup.string()
 });
+
+export const validationSchemaAddAddress = Yup.object({
+	title: Yup.string().required('Title is required'),
+	address: Yup.string().required('Address is required'),
+	zip_code: Yup.string().min(5, 'Zip code must be 5 digits').max(5, 'Zip code must be 5 digits').required('Zip code is required'),
+	city_name: Yup.string().required('City name is required'),
+	country_name: Yup.string().required('Country name is required')
+});
