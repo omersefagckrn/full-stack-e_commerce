@@ -62,11 +62,11 @@ const EditAddress: FC<EditAddressProps> = ({ address, visible, setVisible }) => 
 					validateOnBlur={false}
 					validateOnChange={false}
 					initialValues={{
-						title: address?.title,
-						address: address?.address,
-						zip_code: address?.zip_code,
-						city_name: address?.city_name,
-						country_name: address?.country_name
+						title: address?.title || '',
+						address: address?.address || '',
+						zip_code: address?.zip_code || '',
+						city_name: address?.city_name || '',
+						country_name: address?.country_name || ''
 					}}
 					validationSchema={validationSchemaEditAddress}
 					onSubmit={(values: FormEditAddressValues, { resetForm }) => {

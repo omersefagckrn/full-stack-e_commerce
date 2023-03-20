@@ -13,21 +13,18 @@ const Info: FC = () => {
 				<div className='flex items-center space-x-4'>
 					<div className='font-bold text-4xl lg:text-[80px] text-white'>Business</div>
 					<img className='w-14 lg:w-28' src={ArrowRight} alt='arrow-right' />
-
 					<video autoPlay loop muted className='w-full max-w-[100px] lg:max-w-[215px] rounded-lg object-cover'>
 						<source src={HeroVideo} type='video/mp4' />
 					</video>
 				</div>
 				<div className='text-white text-4xl lg:text-[80px] font-bold'>with Pockie</div>
-				<div className='font-normal text-lg text-[#8B9197] text-center'>
-					On the product sales platform we have
-					<div>prepared for you, you can pay with the best performance and have your product</div>
-					shipped.
+				<div className='font-normal text-lg text-[#8B9197] text-center lg:w-[25rem]'>
+					On the product sales platform we have prepared for you, you can pay with the best performance and have your product shipped.
 				</div>
 				<div className='flex items-center space-x-4 mt-10'>
 					<Button>Get Started</Button>
 					<Button text>
-						<div className='flex space-x-2 '>
+						<div className='flex space-x-2'>
 							<div className='text-white whitespace-nowrap'>Leave a call</div>
 							<img src={ArrowRight} alt='arrow-right' className='w-5' />
 						</div>

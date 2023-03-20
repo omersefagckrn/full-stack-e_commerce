@@ -23,10 +23,6 @@ const ProductDetails: FC = () => {
 		appDispatch(getProductById(id as string));
 	}, [appDispatch, id]);
 
-	const items: MenuItem[] = [{ label: product?.name }];
-
-	const home: MenuItem = { icon: 'pi pi-home', url: '/' };
-
 	const addCard = (product: IProduct | null) => {
 		if (!isAuth) return navigate('/auth/login');
 		appDispatch(
@@ -36,6 +32,10 @@ const ProductDetails: FC = () => {
 			})
 		);
 	};
+
+	const items: MenuItem[] = [{ label: product?.name }];
+
+	const home: MenuItem = { icon: 'pi pi-home', url: '/' };
 
 	return (
 		<Container>

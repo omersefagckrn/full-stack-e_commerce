@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { ThemeState } from 'types/redux/theme';
 
-const initialState: ThemeState = {
+const initialState = {
 	mode: (window.localStorage.getItem('theme') as string) || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-};
+} as ThemeState;
 
 export const themeSlice = createSlice({
 	name: 'theme',

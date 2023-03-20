@@ -5,8 +5,8 @@ import type { cardReduxState } from 'types/redux/card';
 
 const initialState = {
 	cards: JSON.parse(sessionStorage.getItem('card') as string) || [],
-	cardTotalQuantity: 0,
-	cardTotalPrice: 0
+	cardTotalQuantity: 0 as number,
+	cardTotalPrice: 0 as number
 } as cardReduxState;
 
 export const cardSlice = createSlice({
@@ -15,7 +15,7 @@ export const cardSlice = createSlice({
 	reducers: {
 		reset: () => initialState,
 		addToCard: (state, action) => {
-			const { product, quantity } = action.payload;
+			const { product, quantity = 1 } = action.payload;
 			const index = state.cards.findIndex((card) => card.product._id === product._id);
 			if (index !== -1) {
 				state.cards[index].quantity += quantity;

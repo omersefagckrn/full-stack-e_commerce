@@ -40,7 +40,7 @@ const Navigation: FC = () => {
 
 	const mobileMenuRef = useRef<TieredMenu>(null);
 
-	const [selectedProducts, setSelectedProducts] = useState<IProduct[] | null>(null);
+	const [selectedProducts, setSelectedProducts] = useState<IProduct | null>(null);
 	const [filteredProducts, setFilteredProducts] = useState<IProduct[] | []>([]);
 
 	const search = (event: AutoCompleteCompleteEvent) => {
@@ -166,9 +166,7 @@ const Navigation: FC = () => {
 								children='Search'
 								type='button'
 								onClick={() => {
-									/* @ts-ignore */
 									if (selectedProducts && selectedProducts?._id) {
-										/* @ts-ignore */
 										navigate(`/product/${selectedProducts?._id}`);
 									} else {
 										AppToast({
