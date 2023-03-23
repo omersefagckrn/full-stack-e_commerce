@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { unhandledExceptionsHandler } from '../utils/error';
-import { createPayment } from '../utils/PaymentSystem/createPayment';
 
 /**
  * @access user,
@@ -8,9 +7,7 @@ import { createPayment } from '../utils/PaymentSystem/createPayment';
  */
 
 export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const { user_id, price, paidPrice, installment, card, buyer, shipAddress, billingAddress, items } = await req.body;
-	const result: any = createPayment(user_id, price, paidPrice, installment, card, buyer, shipAddress, billingAddress, items);
-	return res.status(200).json(result);
+	return res.status(200).json();
 });
 
 /**
