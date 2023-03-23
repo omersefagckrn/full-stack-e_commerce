@@ -1,6 +1,6 @@
 import { InputText } from 'primereact/inputtext';
 import { FC } from 'react';
-import type { InputProps } from 'types/components/Utils/Input';
+import type { InputProps } from '../../types/components/utils/Input';
 
 const Input: FC<InputProps> = ({ placeholder, value, onChange, hidden, maxLength, autoComplete, id, type, className }) => {
 	return (

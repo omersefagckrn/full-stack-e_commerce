@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { Button } from 'primereact/button';
-import type { ButtonProps } from 'types/components/Utils/Button';
+import type { ButtonProps } from '../../types/components/utils/Button';
 
 const AppButton: FC<ButtonProps> = ({ onClick, children, icon, className, type = 'button', disabled, text, ref }) => {
 	return (
