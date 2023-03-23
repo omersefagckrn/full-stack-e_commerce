@@ -1,5 +1,3 @@
-import bodyParser from 'body-parser';
-import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application } from 'express';
@@ -14,12 +12,10 @@ const app: Application = express();
 const PORT: number | string = process.env.PORT || 4000;
 
 app.use(express.json());
-app.use(compression());
-app.use(cors({ origin: '*' }));
-app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(bodyParser.json());
 mongoose.set('strictQuery', true);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -28,10 +24,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 (async () => {
 	try {
-		await mongoose
-			.connect(process.env.MONGO_URL!)
-			.then(() => console.log('Connected to db ✅'))
-			.catch((err) => console.log(err));
+		await mongoose.connect(process.env.MONGO_URL!);
+		console.log('Connected to the db: ✅');
 		app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
 	} catch (error) {
 		console.log('Failed to connect to the db: ❌', error);

@@ -13,8 +13,8 @@ import { IAddress } from 'types/redux/profile';
 
 const PaymentDetails: FC = () => {
 	const { user, address, isLoadingGetUserAddress } = useAppSelector((state) => state.profile);
-	const [selectedAddress, setSelectedAddress] = useState<boolean | IAddress>(false);
 	const AppDispatch = useAppDispatch();
+	const [selectedAddress, setSelectedAddress] = useState<boolean | IAddress>(false);
 
 	useEffect(() => {
 		AppDispatch(getUserAddress(user?._id));
@@ -85,7 +85,7 @@ const PaymentDetails: FC = () => {
 				validateOnChange={false}
 				initialValues={{ cardName: '', cardNumber: '', cardExpiry: '', cardCvc: '' }}
 				validationSchema={validationSchemaPayment}
-				onSubmit={(values: FormPaymentValues, { resetForm }) => {
+				onSubmit={(values: FormPaymentValues) => {
 					onSubmit(values);
 				}}
 			>
