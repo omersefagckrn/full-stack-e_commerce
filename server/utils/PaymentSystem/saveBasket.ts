@@ -13,3 +13,6 @@ user_id: string,
 	isDelivered: Boolean,
 isDeliveredToShip: Boolean
 */
+export const SaveOrder = () => {}
+export const SavePayment = () => {}
+export const SaveOrderDetails = () => {}

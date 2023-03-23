@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { unhandledExceptionsHandler } from '../utils/error';
+import { createPayment } from '../utils/PaymentSystem/createPayment';
 
 /**
  * @access user,
@@ -7,7 +8,7 @@ import { unhandledExceptionsHandler } from '../utils/error';
  */
 
 export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	return res.status(200).json();
+	return res.json();
 });
 
 /**
