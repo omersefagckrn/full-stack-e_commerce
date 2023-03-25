@@ -2,30 +2,32 @@ import { BasketItem, Buyer, IPaymentRequest, PaymentCard, IngAddress } from '../
 import { generateUniqueID } from '../generators';
 import { CURRENCY, PAYMENT_CHANNEL, PAYMENT_GROUP } from 'iyzipay-ts';
 export const RequestBuilder = (
-    price:           string,
-    paidPrice:       string,
-    installment:     number,
-    PaymentCard:     PaymentCard,
-    Buyer:           Buyer,
-    ShippingAddress: IngAddress,
-    BillingAddress:  IngAddress,
-    BasketItems:     BasketItem[],
-    currency: string,
+    body: {
+        price:           string,
+        paidPrice:       string,
+        installment:     string,
+        paymentCard:     PaymentCard,
+        buyer:           Buyer,
+        shippingAddress: IngAddress,
+        billingAddress:  IngAddress,
+        basketItems:     BasketItem[],
+        currency: string,
+    }
 ): IPaymentRequest => {
     const request: IPaymentRequest = {
         locale: "tr",
         conversationId: generateUniqueID(),
-        price: price,
-        paidPrice: paidPrice,
-        installment: installment,
+        price: body.price,
+        paidPrice: body.paidPrice,
+        installment: body.installment,
         paymentChannel: "WEB",
         basketId: generateUniqueID(),
         paymentGroup: "PRODUCT",
-        paymentCard: PaymentCard,
-        buyer: Buyer,
-        shippingAddress: ShippingAddress,
-        billingAddress: BillingAddress,
-        basketItems: BasketItems,
+        paymentCard: body.paymentCard,
+        buyer: body.buyer,
+        shippingAddress: body.shippingAddress,
+        billingAddress: body.billingAddress,
+        basketItems: body.basketItems,
         currency: CURRENCY.TRY
     }
     return request;

@@ -4,7 +4,7 @@ export interface IPaymentRequest {
     conversationId:  string; // api set this variable
     price:           string; // come from request body
     paidPrice:       string; // come from request body
-    installment:     number; // come from request body
+    installment:     string; // come from request body
     paymentChannel:  string; // api set this variable
     basketId:        string; // api set this variable
     paymentGroup:    string; // api set this variable
@@ -40,8 +40,8 @@ export interface Buyer {
     identityNumber:      string;
     email:               string;
     gsmNumber:           string;
-    registrationDate:    Date;
-    lastLoginDate:       Date;
+    registrationDate:    string;
+    lastLoginDate:       string;
     registrationAddress: string;
     city:                string;
     country:             string;
@@ -55,7 +55,7 @@ export interface PaymentCard {
     expireYear:     string;
     expireMonth:    string;
     cvc:            string;
-    registerCard:   number;
+    registerCard:   string;
 }
 
 //////////////////////////////////// Payment Response ////////////////////////////////

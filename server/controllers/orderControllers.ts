@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
+import User from '../models/User';
 import { unhandledExceptionsHandler } from '../utils/error';
 import { createPayment } from '../utils/PaymentSystem/createPayment';
+import { PaymentCard, Buyer, IngAddress, BasketItem, IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment.types';
 
 /**
  * @access user,
@@ -8,7 +10,36 @@ import { createPayment } from '../utils/PaymentSystem/createPayment';
  */
 
 export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	return res.json();
+	const {
+		user_id,
+		price, 
+		paidPrice,
+		installment,
+		paymentCard,
+		buyer,
+		shippingAddress,
+        billingAddress,
+        basketItems,
+        currency,
+	} = req.body;
+	const user = await User.findById(user_id);
+	if(user)
+	{
+		var response: IPaymentResponse | IPaymentFailResponse = await createPayment({
+				price,
+            	paidPrice,
+            	installment,
+            	paymentCard,
+            	buyer,
+				shippingAddress,
+				billingAddress,
+				basketItems,
+            	currency
+			});
+		console.log(response);
+		
+	}
+	return res.status(200).json();
 });
 
 /**

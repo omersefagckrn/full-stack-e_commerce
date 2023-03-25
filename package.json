@@ -32,7 +32,6 @@
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
 		"helmet": "^6.0.1",
-		"iyzipay": "^2.0.26",
 		"iyzipay-ts": "^1.0.4",
 		"jsonwebtoken": "^9.0.0",
 		"mongoose": "^6.9.1",
