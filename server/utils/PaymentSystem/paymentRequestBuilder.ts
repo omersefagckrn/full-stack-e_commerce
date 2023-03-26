@@ -16,19 +16,19 @@ export const RequestBuilder = (
 ): IPaymentRequest => {
     const request: IPaymentRequest = {
         locale: "tr",
-        conversationId: generateUniqueID(),
+        conversationId: "123456789",
         price: body.price,
         paidPrice: body.paidPrice,
         installment: body.installment,
         paymentChannel: "WEB",
-        basketId: generateUniqueID(),
+        basketId: "B67832",
         paymentGroup: "PRODUCT",
         paymentCard: body.paymentCard,
         buyer: body.buyer,
         shippingAddress: body.shippingAddress,
         billingAddress: body.billingAddress,
         basketItems: body.basketItems,
-        currency: CURRENCY.TRY
+        currency: body.currency,
     }
     return request;
 }

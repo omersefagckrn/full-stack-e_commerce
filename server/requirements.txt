@@ -1,97 +1,74 @@
-order - modal ()
-order - controllers ()
-order - dummy datas (required)
------------------------
-
-order request & response
-{
-    locale: Iyzipay.LOCALE.TR,
-    conversationID: "random_id ticketid",
-    price: 1.0, // odenecek tutar,
-    paidPrice: 1.2 // nihai tutar,
-    currency: Iyzipay.CURRENCY.TRY,
-    installment: "1" taksit bilgisi,
-    basket_id: "sipariş_id",
-    paymentChannel: Iyzipay.PAYMENT_CHANNEL.WEB,
-    paymentGroup: Iyzipay.PAYMENT_GROUP.LISTING,
-    paymentCard:{
-        cardHolderName: "name",
-        cardNumber: '5528790000000008',
-        expireMonth: '12',
-        expireYear: '2030',
-        cvc: '123',
-        registerCard: '0'
-    },
-    buyer: {
-        id: "user_id",
-        name: "user_name",
-        surname: "user_surname",
-        identityNumber: "tckn",
-        city: "şehir",
-        country: "ülke",
-        email: "user_mail",
-        ip: "ipaddress",
-        registrationAddress: "user_address",
-        zipCode: "zipcode",
-    },
-    shippingAddress: {
-        contactName: "user name and surname",
-        address: "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
-        zipCode: "34742",
-        city: "Istanbul",
-        country: "Turkey"
-    },
-    billingAddress: {
-        contactName: "user name and surname",
-        address: "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
-        zipCode: "34742",
-        contactName: "Jane Doe",
-        city: "Istanbul",
-        country: "Turkey"
-    },
-    basketItems: [
-        {
-            id: "BI101",
-            itemType: "PHYSICAL"
-            name: "Binocular",
-            category1: "Collectibles",
-            category2: "Accessories",
-            price: "0.3"
-        },
-    ],
-
-    "callbackUrl": "https://merchantwebsite.com",
-    "currency": "TRY",
-    "paidPrice": "1.2"
-}
-
-//Response
-{
-    "status": "success",
+ {
     "locale": "tr",
-    "systemTime": 1570477711152,
     "conversationId": "123456789",
-    "token": "15327f52-e048-4z09-9928-4g083dfdf25c",
-    "tokenExpireTime": 1800,
-    "payWithIyzicoPageUrl": "https://sandbox-consumer.iyzico.com/checkout?token=15327f52-e048-4z09-9928-4g083dfdf25c&lang=tr"
+    "price": "1.0",
+    "paidPrice": "1.1",
+    "installment": 1,
+    "paymentChannel": "WEB",
+    "basketId": "B67832",
+    "paymentGroup": "PRODUCT",
+    "paymentCard": {
+        "cardHolderName": "John Doe",
+        "cardNumber": "5528790000000008",
+        "expireYear": "2030",
+        "expireMonth": "12",
+        "cvc": "123",
+        "registerCard": 0
+    },
+    "buyer": {
+        "id": "BY789",
+        "name": "John",
+        "surname": "Doe",
+        "identityNumber": "74300864791",
+        "email": "email@email.com",
+        "gsmNumber": "+905350000000",
+        "registrationDate": "2013-04-21 15:12:09",
+        "lastLoginDate": "2015-10-05 12:43:35",
+        "registrationAddress": "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+        "city": "Istanbul",
+        "country": "Turkey",
+        "zipCode": "34732",
+        "ip": "85.34.78.112"
+    },
+    "shippingAddress": {
+        "address": "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+        "zipCode": "34742",
+        "contactName": "Jane Doe",
+        "city": "Istanbul",
+        "country": "Turkey"
+    },
+    "billingAddress": {
+        "address": "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+        "zipCode": "34742",
+        "contactName": "Jane Doe",
+        "city": "Istanbul",
+        "country": "Turkey"
+    },
+    "basketItems": [
+        {
+            "id": "BI101",
+            "price": "0.3",
+            "name": "Binocular",
+            "category1": "Collectibles",
+            "category2": "Accessories",
+            "itemType": "PHYSICAL"
+        },
+        {
+            "id": "BI102",
+            "price": "0.5",
+            "name": "Game code",
+            "category1": "Game",
+            "category2": "Online Game Items",
+            "itemType": "VIRTUAL"
+        },
+        {
+            "id": "BI103",
+            "price": "0.2",
+            "name": "Usb",
+            "category1": "Electronics",
+            "category2": "Usb / Cable",
+            "itemType": "PHYSICAL"
+        }
+    ],
+    "currency": "TRY"
 }
-
-
-
-address girişi yapılacak (profile adresler tutulacak) +
-
-adres profile kaydedilsin mi ? +
-adres seçildikten sonra kart bilgisi çıkartılacak
-iyzico ile ödeme yöntemi vs vs 192837 +
-ödeme tamamlanacak (örnek fatura çıktısı)
-siparişlerime düşecek +
-siparişleri /id ile görüntüleme olacak +
-siparişler yolda olanlar ve ulaştırılan önceki siparişler görüntülenecek (kısmen)
-
-// front end gerekli olan kısımlar
-
-profile address page + 
-profile saved payment card page + 
-add address modal + 
-add card modal olacak
-session storage cart count (sepetteki ürün sayısı) + 
