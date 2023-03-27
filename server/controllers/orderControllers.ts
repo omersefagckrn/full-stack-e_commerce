@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import Iyzico from 'iyzipay-ts'
 import { unhandledExceptionsHandler } from '../utils/error';
 import { createPayment } from '../utils/PaymentSystem/createPayment';
-import { PaymentCard, Buyer, IngAddress, BasketItem, IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment.types';
+import { IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment.types';
 
 /**
  * @access user,
@@ -36,11 +35,10 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 				billingAddress,
 				basketItems,
             	currency
-			});		
+			}); 		
 		return res.status(200).json(response);
-
 	}
-	return res.status(200).json();
+	return res.status(404).json();
 });
 
 /**

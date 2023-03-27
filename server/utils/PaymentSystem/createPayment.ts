@@ -15,15 +15,10 @@ export const createPayment = async(body: {
     basketItems:     BasketItem[],
     currency: string,
 }):Promise<IPaymentResponse | IPaymentFailResponse> => {
-    // const paymentController = new Iyzipay({
-    //     apiKey: (process.env.IYZICO_API_KEY as string),
-    //     secretKey: (process.env.IYZICO_SECRET as string),
-    //     uri: (process.env.IYZICO_URI as string)
-    // });
     const paymentController = new Iyzipay({
-        apiKey: "sandbox-in97I8lqIHIM1FVeYSNgWy7ojDhVU02d",
-        secretKey: "IK1DA6cNA9Htb3O590aHtVISMQc8gGFj",
-        uri: "https://sandbox-api.iyzipay.com"
+        apiKey: (process.env.IYZICO_API_KEY as string),
+        secretKey: (process.env.IYZICO_SECRET as string),
+        uri: (process.env.IYZICO_URI as string)
     });    
     const request: IPaymentRequest = RequestBuilder(body);
     let response = await paymentController.payment.create(request as CreatePaymentRequest) as (IPaymentResponse | IPaymentFailResponse);
@@ -34,5 +29,4 @@ export const createPayment = async(body: {
     
     
     return response;
-    
 }
