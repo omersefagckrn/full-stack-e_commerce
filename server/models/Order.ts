@@ -1,21 +1,20 @@
 import {Document, model, Schema, Types} from 'mongoose';
 
 export interface OrderFields {
-	self_id?: Types.ObjectId;
-	user_id: Types.ObjectId;
+	_id?: Types.ObjectId | string;
+	user_id: string;
 	status: string;
 	payment_type: string;
-	payment_id: Types.ObjectId;
-	created_at: Date
+	payment_id: string;
+	created_at?: Date
 }
 
 export interface IOrder extends Document {}
 const OrderSchema = new Schema(
 	{
 		user_id: {
-			type: Types.ObjectId,
+			type: String,
 			required: true,
-            ref: 'User'
 		},
 		status: {
 			type: String,
@@ -27,9 +26,14 @@ const OrderSchema = new Schema(
 			default:"SINGLE PAYMENT"
 		},
 		payment_id: {
-			type: Types.ObjectId,
+			type: String,
             required: true,
-		}
+		},
+		created_at: {
+            type: Date,
+            required: false,
+            default: Date.now
+        }
 	}
 );
 export default model<IOrder>('Order', OrderSchema);

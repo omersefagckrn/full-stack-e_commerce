@@ -32,6 +32,7 @@ export interface IngAddress {
     city:        string;
     country:     string;
 }
+export type IngAddressType = IngAddress;
 
 export interface Buyer {
     id:                  string;

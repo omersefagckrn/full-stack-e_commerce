@@ -1,8 +1,8 @@
 import Iyzipay from 'iyzipay-ts';
 import { BasketItem, Buyer, IngAddress, PaymentCard, IPaymentRequest, IPaymentFailResponse, IPaymentResponse, ItemTransaction } from '../../types/Payment/Payment.types';
 import { RequestBuilder } from './paymentRequestBuilder'
-import { json } from 'stream/consumers';
 import { CreatePaymentRequest } from 'iyzipay-ts/dist/resources/models';
+import { SaveOrder } from './saveBasket';
 
 export const createPayment = async(body: {
     price:           string,
@@ -14,7 +14,7 @@ export const createPayment = async(body: {
     billingAddress:  IngAddress,
     basketItems:     BasketItem[],
     currency: string,
-}):Promise<IPaymentResponse | IPaymentFailResponse> => {
+}, user_id: string):Promise<any> => {
     const paymentController = new Iyzipay({
         apiKey: (process.env.IYZICO_API_KEY as string),
         secretKey: (process.env.IYZICO_SECRET as string),
@@ -23,10 +23,28 @@ export const createPayment = async(body: {
     const request: IPaymentRequest = RequestBuilder(body);
     let response = await paymentController.payment.create(request as CreatePaymentRequest) as (IPaymentResponse | IPaymentFailResponse);
     if(response.status === "success")
-        response = response as IPaymentResponse;
+    {
+        try
+        {
+            response = response as IPaymentResponse;
+            SaveOrder(request, user_id, response.cardType);
+            return {
+                status:"success",
+                message: "Ürün ödemesi başarıyla tamamlandı.",
+                requirement: "DISPATCH_ORDERS"
+            }
+        }
+        catch(err)
+        {
+            return {
+                status:"error",
+                message: err,
+                requirement:""
+            }
+        }
+        
+    }
     else
         response = response as IPaymentFailResponse;
-    
-    
     return response;
 }

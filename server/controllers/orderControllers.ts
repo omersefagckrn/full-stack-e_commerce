@@ -3,7 +3,8 @@ import User from '../models/User';
 import { unhandledExceptionsHandler } from '../utils/error';
 import { createPayment } from '../utils/PaymentSystem/createPayment';
 import { IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment.types';
-
+import Order,{ OrderFields } from '../models/Order';
+import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 /**
  * @access user,
  * @method /api/orders/new-order POST
@@ -35,7 +36,7 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 				billingAddress,
 				basketItems,
             	currency
-			}); 		
+			}, user_id);
 		return res.status(200).json(response);
 	}
 	return res.status(404).json();
@@ -47,17 +48,41 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
  */
 
 export const getUserOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	return res.json();
+	const orders: OrderFields[] = await Order.find({user_id: req.params.user});	
+	if(orders)
+	{
+		return res.status(200).json({
+			orders: orders,
+		});
+	}
+	return res.status(404).json();
+});
+/**
+ * @access user
+ * @method /api/orders/user/:order
+ */
+export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const orderDetails: OrderDeatilFields[] = await OrderDetail.find({user_id: req.params.user, order_id: req.params.order});
+	if(orderDetails.length > 0)
+		return res.status(200).json(orderDetails);
+	return res.status(404).json({
+		message: "Order not found"
+	});
 });
 
 /**
  * @access admin
- * @method /api/admin/orders GET
+ * @method /api/orders/admin GET
  */
-
 export const getAllOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	
-	return res.status(404).json({ message: 'No Orders' });
+	const orders: OrderFields[] = await Order.find({});	
+	if(orders)
+	{
+		return res.status(200).json({
+			orders: orders,
+		});
+	}
+	return res.status(404).json();
 });
 
 /**
@@ -84,3 +109,4 @@ const deleteOrderByID = unhandledExceptionsHandler(async (req: Request, res: Res
 const refundOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	return res.json();
 });
+
