@@ -66,7 +66,9 @@ export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Reques
 	if(orderDetails.length > 0)
 		return res.status(200).json(orderDetails);
 	return res.status(404).json({
-		message: "Order not found"
+		status: "not found",
+		message: "Order not found",
+		requirement: ""
 	});
 });
 
