@@ -1,6 +1,6 @@
 import { Document, model, Schema, Types } from 'mongoose';
 
-export interface IAddress {
+export interface AddressField {
 	_id?:string;
 	user_id: Types.ObjectId;
 	title: string;

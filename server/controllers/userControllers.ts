@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Address, { IAddress } from '../models/Address';
+import Address, { AddressField } from '../models/address';
 import User, { IUser } from '../models/User';
 import { unhandledExceptionsHandler } from '../utils/error';
 import generateToken from '../utils/generateToken';
@@ -85,7 +85,7 @@ export const getUserAddress = unhandledExceptionsHandler(async (req: Request, re
 		return res.status(404).json({ message: 'User not found!' });
 	}
 
-	const address = (await Address.find({ user_id: req.user?.id })) as IAddress[];
+	const address = (await Address.find({ user_id: req.user?.id })) as AddressField[];
 
 	if (!address) {
 		return res.status(404).json({ message: 'Address not found!' });
@@ -101,7 +101,7 @@ export const deleteUserAddress = unhandledExceptionsHandler(async (req: Request,
 		return res.status(404).json({ message: 'User not found!' });
 	}
 
-	const address = (await Address.findByIdAndDelete({ _id: req.params.id })) as IAddress;
+	const address = (await Address.findByIdAndDelete({ _id: req.params.id })) as AddressField;
 
 	if (!address) {
 		return res.status(404).json({ message: 'Address not found!' });

@@ -1,5 +1,6 @@
 import { BasketItem, Buyer, IPaymentRequest, PaymentCard, IngAddress } from '../../types/Payment/Payment.types';
 import { generateUniqueID } from '../generators';
+import {Types} from 'mongoose';
 export const RequestBuilder = (
     body: {
         price:           string,
@@ -13,9 +14,10 @@ export const RequestBuilder = (
         currency: string,
     }
 ): IPaymentRequest => {
+    let id = new Types.ObjectId();
     const request: IPaymentRequest = {
         locale: "tr",
-        conversationId: generateUniqueID(),
+        conversationId: id._id.toString(),
         price: body.price,
         paidPrice: body.paidPrice,
         installment: body.installment,
