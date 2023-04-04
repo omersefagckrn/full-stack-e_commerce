@@ -44,10 +44,7 @@ export const ManageOrderDetailsByOrderID = async(order: OrderFields):Promise<IUs
                 productName : details[i].product_name,
             };
             userOrders.orders.push(singleOrder);
-            i++;
         }
-        
-        
         return userOrders;
     }
     return null;
