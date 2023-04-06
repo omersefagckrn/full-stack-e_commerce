@@ -6,8 +6,8 @@ import { IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment
 import Order,{ OrderFields } from '../models/Order';
 import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 import Payment from '../models/Payment';
-import { IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
-import { GetOrderDetails, GetUserRecentOrders } from '../utils/OrderManager/OrderResponseController';
+import { IAdminOrdersResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
+import { GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders } from '../utils/OrderManager/OrderResponseController';
 import { IGetOrderDetailResponse } from '../types/OrderTypes/Order.responses.types';
 /**
  * @access user,
@@ -75,19 +75,27 @@ export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Reques
 
 /**
  * @access admin
- * @method /api/orders/admin GET
+ * @method /api/orders/ GET
  */
-export const getAllOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const orders: OrderFields[] = await Order.find({});	
+export const getAllOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {	
+	const orders: IAdminOrdersResponse = await GetAllOrdersForAdmin() as IAdminOrdersResponse;
 	if(orders)
 	{
-		return res.status(200).json({
-			orders: orders,
-		});
+		return res.status(200).json(orders);
 	}
 	return res.status(404).json();
 });
-
+/**
+ * @access admin
+ * @method /api/orders/:order
+ */
+export const adminViewOrderDetail = unhandledExceptionsHandler(async (req: Request, res:Response) => {
+	const order_id = req.params.order;
+	const detailResponse: IGetOrderDetailResponse = await GetOrderDetailAdmin(order_id) as IGetOrderDetailResponse;
+	if(detailResponse)
+		return res.status(200).json(detailResponse);
+	return res.status(500).json();
+});
 /**
  * @access admin
  * @method /api/admin/orders/:id/to-shipping POST

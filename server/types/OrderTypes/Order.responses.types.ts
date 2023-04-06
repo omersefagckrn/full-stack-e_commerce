@@ -33,7 +33,14 @@ export interface IUserOrderResponse {
     },
 }
 /////////////////////////////////////////////////////////////////////
-export interface IAdminOrdersResponse {}
+export interface IAdminOrdersResponse {
+    orders: SubOrdersResponse[];
+    colors: {
+        delivered: string,
+        pending: string,
+        cancelled: string,
+    },
+}
 /////////////////////////////////////////////////////////////////////
 export interface IGetOrderDetailResponse {
     details: SubDetailResponse[];
