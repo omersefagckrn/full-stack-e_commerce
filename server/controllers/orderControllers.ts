@@ -7,7 +7,7 @@ import Order,{ OrderFields } from '../models/Order';
 import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 import Payment from '../models/Payment';
 import { IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
-import { ManageOrderDetailsByOrderID } from '../utils/OrderManager/OrderResponseController';
+import { GetUserRecentOrders } from '../utils/OrderManager/OrderResponseController';
 
 /**
  * @access user,
@@ -55,15 +55,8 @@ export const getUserOrders = unhandledExceptionsHandler(async (req: Request, res
 	const orders: OrderFields[] = await Order.find({user_id: req.params.user});
 	if(orders)
 	{
-		const ordersResponse: IUserOrderResponse = await ManageOrderDetailsByOrderID(orders[0]) as IUserOrderResponse;
-		if(ordersResponse)
-		{
-			return res.status(200).json(ordersResponse);
-		}
-		else
-		{
-            return res.status(404).json();
-        }
+		const ordersResponse: IUserOrderResponse = await GetUserRecentOrders(orders);
+		return res.status(200).json(ordersResponse);
 	}
 	return res.status(404).json();
 });
@@ -122,9 +115,9 @@ const refundOrder = unhandledExceptionsHandler(async (req: Request, res: Respons
 	return res.json();
 });
 export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	//let orders = await Order.deleteMany({});
-	//let details = await OrderDetail.deleteMany({});
-	//let payment = await Payment.deleteMany({});
+	let orders = await Order.deleteMany({});
+	let details = await OrderDetail.deleteMany({});
+	let payment = await Payment.deleteMany({});
 	
 	let response = {
 		orders: await Order.find({}),

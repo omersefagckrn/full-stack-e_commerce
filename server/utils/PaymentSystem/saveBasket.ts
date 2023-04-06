@@ -22,7 +22,7 @@ export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string,
 				storedItem.countInStock -=1;
 				storedItem.save();
 			}
-			SaveOrderDetails(item, storedOrder._id, paymentRequest.price as unknown as number)
+			SaveOrderDetails(item, storedOrder._id, paymentRequest.paidPrice as unknown as number)
 		});
 		SavePayment(paymentRequest, user_id, storedOrder._id, paymentType);
 	}

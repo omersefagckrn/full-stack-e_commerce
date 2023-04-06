@@ -2,14 +2,11 @@ import { AddressField } from '../../models/address';
 import { IPaymentResponse, IPaymentFailResponse } from '../Payment/Payment.types';
 
 export interface SubOrdersResponse {
-    order_id: string;    
-    productName: string;
-    address: AddressField;
-    image: string;
-    price: number;
     date: Date;
+    order_id: string;
     status: string;
-    contact_name: string;
+    total_price: number;
+    item_count: number;
 }
 export const defaultDeliveredColorCode: string = "#00FF00";
 export const defaultPendingColorCode: string = "#F4CA16";
@@ -25,7 +22,10 @@ export interface IUserOrderResponse {
 /////////////////////////////////////////////////////////////////////
 export interface IAdminOrdersResponse {}
 /////////////////////////////////////////////////////////////////////
-export interface IGetOrderDetailResponse {}
+export interface IGetOrderDetailResponse {
+    details:{},
+    payment_info: {},
+}
 /////////////////////////////////////////////////////////////////////
 export interface IOrderToShippingResponse {}
 /////////////////////////////////////////////////////////////////////
