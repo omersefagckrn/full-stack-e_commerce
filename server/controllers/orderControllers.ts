@@ -7,8 +7,8 @@ import Order,{ OrderFields } from '../models/Order';
 import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 import Payment from '../models/Payment';
 import { IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
-import { GetUserRecentOrders } from '../utils/OrderManager/OrderResponseController';
-
+import { GetOrderDetails, GetUserRecentOrders } from '../utils/OrderManager/OrderResponseController';
+import { IGetOrderDetailResponse } from '../types/OrderTypes/Order.responses.types';
 /**
  * @access user,
  * @method /api/orders/new-order POST
@@ -62,17 +62,15 @@ export const getUserOrders = unhandledExceptionsHandler(async (req: Request, res
 });
 /**
  * @access user
- * @method /api/orders/user/:order
+ * @method /api/orders/:user/:order
  */
 export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const orderDetails: OrderDeatilFields[] = await OrderDetail.find({user_id: req.params.user, order_id: req.params.order});
-	if(orderDetails.length > 0)
-		return res.status(200).json(orderDetails);
-	return res.status(404).json({
-		status: "not found",
-		message: "Order not found",
-		requirement: ""
-	});
+	const user = req.params.user;
+	const order = req.params.order;
+	const detailResponse: IGetOrderDetailResponse = (await GetOrderDetails(order, user)) as IGetOrderDetailResponse;
+	if(detailResponse)
+		res.status(200).json(detailResponse);
+	return res.status(404).json();
 });
 
 /**

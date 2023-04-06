@@ -41,7 +41,7 @@ export const SavePayment = async(paymentRequest: IPaymentRequest,user_id: string
 			user_id: user_id,
 			order_id: order_id.toString(),
 			price: paymentRequest.price as unknown as number,
-			contact_name: paymentRequest.buyer.name + " " + paymentRequest.buyer.surname,
+			buyer: paymentRequest.buyer,
 			billing_address_id: billingAddress._id?.toString() as string,
 			shipping_address_id: shippingAddress._id?.toString() as string,
 			payment_type: payment_type
