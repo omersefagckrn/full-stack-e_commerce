@@ -1,3 +1,4 @@
+import Iyzipay, {LOCALE} from 'iyzipay-ts';
 import Order, { OrderFields } from '../../models/Order';
 import Product, { IProduct } from '../../models/Product';
 import OrderDetail,{ OrderDeatilFields } from '../../models/OrderDetail';
@@ -15,7 +16,8 @@ import {
 import Payment, { PaymentFields } from '../../models/Payment';
 import { SubDetailResponse } from '../../types/OrderTypes/Order.responses.types';
 import User, { IUser } from '../../models/User';
-import { builtinModules } from 'module';
+import { ICancelPaymentRequest, ICancelPaymentResponse } from '../../types/Payment/Cancel.types';
+import { IPaymentFailResponse } from '../../types/Payment/Payment.types';
 
 export const GetUserRecentOrders = async(orders: OrderFields[]) : Promise<IUserOrderResponse> => {
     let userOrderResponse: IUserOrderResponse = {
@@ -136,4 +138,27 @@ export const SetOrderToShipping = async(order_id: string): Promise<boolean> => {
     }
     else
         return false;
+}
+export const CancelPayment = async(order_id: string): Promise<IPaymentFailResponse | ICancelPaymentResponse | null> => {
+    let paymentController = new Iyzipay({
+        apiKey: (process.env.IYZICO_API_KEY as string),
+        secretKey: (process.env.IYZICO_SECRET as string),
+        uri: (process.env.IYZICO_URI as string)
+    });
+    const payment:PaymentFields = await Payment.findOne({order_id: order_id}) as PaymentFields;
+    if(payment)
+    {
+        const request: ICancelPaymentRequest ={
+            locale: LOCALE.TR,
+            conversationId: payment._id?.toString() as string,
+            paymentId: payment.transactionId,
+            ip: payment.buyer.ip as string            
+        }
+        await Payment.deleteOne(payment);
+        await Order.findByIdAndDelete(order_id);
+        await OrderDetail.deleteMany({order_id: order_id});
+        return await paymentController.cancel.create(request) as IPaymentFailResponse| ICancelPaymentResponse;
+    }
+    else
+        return null;
 }

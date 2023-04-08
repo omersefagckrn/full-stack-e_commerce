@@ -6,6 +6,7 @@ export interface PaymentFields {
     _id?: string;
     user_id: string;
     order_id: string;
+    transactionId: string;
     price: Number;
     buyer: Buyer;
     billing_address_id: string;
@@ -19,6 +20,7 @@ const PaymentSchema = new Schema(
     {
         user_id: {type: String, required: true, ref: 'User'},
         order_id: {type: String, required: true, ref: 'Order'},
+        transactionId: {type: String, required: true},
         price: {type: Number, required: true},
         buyer: {type: Object, required: true},
         billing_address_id: {type: String, required: true},

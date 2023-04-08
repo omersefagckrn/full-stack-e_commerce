@@ -63,6 +63,7 @@ export interface PaymentCard {
 export interface IPaymentFailResponse {
     status:         string;
     errorCode:      string;
+    errorGroup:     string;
     errorMessage:   string;
     locale:         string;
     systemTime:     number;

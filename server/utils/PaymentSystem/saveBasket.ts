@@ -5,7 +5,7 @@ import Payment, { PaymentFields } from '../../models/Payment';
 import { BasketItem, IPaymentRequest } from '../../types/Payment/Payment.types';
 import Address, { AddressField, IAddress } from '../../models/address';
 
-export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string, paymentType: string) => {
+export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string, paymentType: string, paymentId: string) => {
 	try
 	{
 		const newOrder:OrderFields = {
@@ -24,14 +24,14 @@ export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string,
 			}
 			SaveOrderDetails(item, storedOrder._id, paymentRequest.paidPrice as unknown as number)
 		});
-		SavePayment(paymentRequest, user_id, storedOrder._id, paymentType);
+		SavePayment(paymentRequest, user_id, storedOrder._id, paymentType, paymentId);
 	}
 	catch(err){
 		console.log(err);
 	}
 	
 };
-export const SavePayment = async(paymentRequest: IPaymentRequest,user_id: string, order_id: string, payment_type: string) => {
+export const SavePayment = async(paymentRequest: IPaymentRequest,user_id: string, order_id: string, payment_type: string, paymentId: string) => {
 	const billingAddress: AddressField = await Address.findOne({user_id: user_id, zip_code: paymentRequest.billingAddress.zipCode, address: paymentRequest.billingAddress.address}) as AddressField;
 	const shippingAddress: AddressField = await Address.findOne({user_id: user_id, zip_code: paymentRequest.shippingAddress.zipCode, address: paymentRequest.shippingAddress.address}) as AddressField;
 	if(billingAddress && shippingAddress)
@@ -40,6 +40,7 @@ export const SavePayment = async(paymentRequest: IPaymentRequest,user_id: string
 			_id: paymentRequest.conversationId,
 			user_id: user_id,
 			order_id: order_id.toString(),
+			transactionId: paymentId,
 			price: paymentRequest.price as unknown as number,
 			buyer: paymentRequest.buyer,
 			billing_address_id: billingAddress._id?.toString() as string,

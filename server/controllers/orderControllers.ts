@@ -7,8 +7,10 @@ import Order,{ OrderFields } from '../models/Order';
 import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 import Payment from '../models/Payment';
 import { IAdminOrdersResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
-import { GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
+import { CancelPayment, GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
 import { IGetOrderDetailResponse } from '../types/OrderTypes/Order.responses.types';
+import { ICancelPaymentRequest, ICancelPaymentResponse } from '../types/Payment/Cancel.types';
+import { resourceLimits } from 'worker_threads';
 /**
  * @access user,
  * @method /api/orders/new-order POST
@@ -118,10 +120,15 @@ export const orderToShipping = unhandledExceptionsHandler(async (req: Request, r
 
 /**
  * @access admin
- * @method /api/admin/orders/:id DELETE
+ * @method /api/orders/admin/cancel/:id DELETE
  */
-const deleteOrderByID = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	return res.json();
+export const cancelOrderByID = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const order_id = req.params.id;
+	const result:IPaymentFailResponse | ICancelPaymentResponse | null = await CancelPayment(order_id);
+	if(result && result.status == 'success')
+		return res.status(200).json(result);
+	else
+		return res.status(500).json(result);
 });
 
 /**
@@ -133,9 +140,9 @@ const refundOrder = unhandledExceptionsHandler(async (req: Request, res: Respons
 	return res.json();
 });
 export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	//let orders = await Order.deleteMany({});
-	//let details = await OrderDetail.deleteMany({});
-	//let payment = await Payment.deleteMany({});
+	let orders = await Order.deleteMany({});
+	let details = await OrderDetail.deleteMany({});
+	let payment = await Payment.deleteMany({});
 	
 	let response = {
 		orders: await Order.find({}),
@@ -148,6 +155,7 @@ export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, r
 		}
 		*/
 	}
+
 	return res.status(200).json({message: "success", response});
 	
 });

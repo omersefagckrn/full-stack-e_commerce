@@ -15,7 +15,7 @@ export const createPayment = async(body: {
     basketItems:     BasketItem[],
     currency: string,
 }, user_id: string):Promise<any> => {
-    const paymentController = new Iyzipay({
+    let paymentController:any = new Iyzipay({
         apiKey: (process.env.IYZICO_API_KEY as string),
         secretKey: (process.env.IYZICO_SECRET as string),
         uri: (process.env.IYZICO_URI as string)
@@ -27,7 +27,7 @@ export const createPayment = async(body: {
         try
         {
             response = response as IPaymentResponse;
-            SaveOrder(request, user_id, response.cardType);
+            SaveOrder(request, user_id, response.cardType, response.paymentId);
             return {
                 status:"success",
                 message: "Ürün ödemesi başarıyla tamamlandı.",
@@ -42,7 +42,7 @@ export const createPayment = async(body: {
                 requirement:""
             }
         }
-        
+        paymentController = null;
     }
     else
         response = response as IPaymentFailResponse;
