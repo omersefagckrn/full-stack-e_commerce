@@ -7,7 +7,7 @@ import Order,{ OrderFields } from '../models/Order';
 import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 import Payment from '../models/Payment';
 import { IAdminOrdersResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
-import { GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders } from '../utils/OrderManager/OrderResponseController';
+import { GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
 import { IGetOrderDetailResponse } from '../types/OrderTypes/Order.responses.types';
 /**
  * @access user,
@@ -98,10 +98,22 @@ export const adminViewOrderDetail = unhandledExceptionsHandler(async (req: Reque
 });
 /**
  * @access admin
- * @method /api/admin/orders/:id/to-shipping POST
+ * @method /api/admin/orders/:id/to-shipping UPDATE
  */
-const orderToShipping = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	return res.json();
+export const orderToShipping = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const order_id: string = req.params.id;
+	if(order_id)
+	{
+		const result:boolean = await SetOrderToShipping(order_id);
+		return result ? res.status(200).json({
+			message: "Başarılı şekilde kargoya verildi.",
+			requirement: "DISPATCH ORDERS"
+		}) : res.status(400).json({
+			message: "Ürün zaten kargoya verilmiştir.",
+			requirement: ""
+		})
+	}
+	return res.status(404).json();
 });
 
 /**
@@ -121,9 +133,9 @@ const refundOrder = unhandledExceptionsHandler(async (req: Request, res: Respons
 	return res.json();
 });
 export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	let orders = await Order.deleteMany({});
-	let details = await OrderDetail.deleteMany({});
-	let payment = await Payment.deleteMany({});
+	//let orders = await Order.deleteMany({});
+	//let details = await OrderDetail.deleteMany({});
+	//let payment = await Payment.deleteMany({});
 	
 	let response = {
 		orders: await Order.find({}),

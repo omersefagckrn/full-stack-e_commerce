@@ -126,3 +126,14 @@ export const GetOrderDetailAdmin = async(order_id: string): Promise<IGetOrderDet
 
     return null;
 }
+export const SetOrderToShipping = async(order_id: string): Promise<boolean> => {
+    const updateVal = {status: 'SHIPPING'};
+    let doc = await Order.findByIdAndUpdate(order_id, updateVal);
+    let changedOrder = await Order.findById(order_id) as OrderFields;
+    if(changedOrder && changedOrder.status == 'SHIPPING')
+    {
+        return true;
+    }
+    else
+        return false;
+}
