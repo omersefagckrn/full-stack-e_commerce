@@ -1,4 +1,4 @@
-import Iyzipay, {LOCALE} from 'iyzipay-ts';
+import Iyzipay, {CURRENCY, LOCALE} from 'iyzipay-ts';
 import Order, { OrderFields } from '../../models/Order';
 import Product, { IProduct } from '../../models/Product';
 import OrderDetail,{ OrderDeatilFields } from '../../models/OrderDetail';
@@ -12,11 +12,12 @@ import {
     IGetOrderDetailResponse,
     SubDetailPaymentInfo,
     IAdminOrdersResponse,
+    IRefundOrderResponse,
 } from '../../types/OrderTypes/Order.responses.types';
 import Payment, { PaymentFields } from '../../models/Payment';
 import { SubDetailResponse } from '../../types/OrderTypes/Order.responses.types';
 import User, { IUser } from '../../models/User';
-import { ICancelPaymentRequest, ICancelPaymentResponse } from '../../types/Payment/Cancel.types';
+import { ICancelPaymentRequest, ICancelPaymentResponse, IRefundPaymentRequest } from '../../types/Payment/Cancel.types';
 import { IPaymentFailResponse } from '../../types/Payment/Payment.types';
 
 export const GetUserRecentOrders = async(orders: OrderFields[]) : Promise<IUserOrderResponse> => {
@@ -161,4 +162,21 @@ export const CancelPayment = async(order_id: string): Promise<IPaymentFailRespon
     }
     else
         return null;
+}
+export const RefundOrder = async(order_id: string, conversation_id: string, item_transaction_id: string, price: number, currency: string, ip: string):Promise<IPaymentFailResponse | IRefundOrderResponse> => {
+    let paymentController = new Iyzipay({
+        apiKey: (process.env.IYZICO_API_KEY as string),
+        secretKey: (process.env.IYZICO_SECRET as string),
+        uri: (process.env.IYZICO_URI as string)
+    });
+    var request = {
+        locale: LOCALE.TR,
+        conversationId: conversation_id,
+        paymentTransactionId: item_transaction_id,
+        price: price.toString(),
+        currency: currency,
+        ip: ip
+    }
+    console.log(request);
+    return await paymentController.refund.create(request) as IPaymentFailResponse | IRefundOrderResponse;
 }

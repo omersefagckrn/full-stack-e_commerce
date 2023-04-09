@@ -9,6 +9,7 @@ export interface PaymentFields {
     transactionId: string;
     price: Number;
     buyer: Buyer;
+    currency: string;
     billing_address_id: string;
     shipping_address_id: string;
     payment_date?: Date;
@@ -23,6 +24,7 @@ const PaymentSchema = new Schema(
         transactionId: {type: String, required: true},
         price: {type: Number, required: true},
         buyer: {type: Object, required: true},
+        currency: {type: String, required: true},
         billing_address_id: {type: String, required: true},
         shipping_address_id: {type: String, required: true},
         payment_date: {type: Date, required: false, default: Date.now()},

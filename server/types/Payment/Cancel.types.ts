@@ -13,3 +13,22 @@ export interface ICancelPaymentResponse {
     price:          number;
     currency:       string;
 }
+
+export interface IRefundPaymentRequest {
+    locale: string;
+    conversationId: string;
+    paymentTransactionId: string;
+    price: string;
+    currency: string;
+    ip: string;
+}
+export interface IRefundPaymentResponse {
+    status: string;
+    locale: string;
+    systemTime: number;
+    conversationId: string;
+    paymentId: string;
+    paymentTransactionId: string;
+    price: number;
+    currency: string;
+}

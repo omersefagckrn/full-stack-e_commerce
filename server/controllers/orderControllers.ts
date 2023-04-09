@@ -6,11 +6,10 @@ import { IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment
 import Order,{ OrderFields } from '../models/Order';
 import OrderDetail, { OrderDeatilFields, OrderDeatilResponse } from '../models/OrderDetail';
 import Payment from '../models/Payment';
-import { IAdminOrdersResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
-import { CancelPayment, GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
+import { IAdminOrdersResponse, IRefundOrderResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
+import { CancelPayment, GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, RefundOrder, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
 import { IGetOrderDetailResponse } from '../types/OrderTypes/Order.responses.types';
-import { ICancelPaymentRequest, ICancelPaymentResponse } from '../types/Payment/Cancel.types';
-import { resourceLimits } from 'worker_threads';
+import { ICancelPaymentResponse, IRefundPaymentResponse } from '../types/Payment/Cancel.types';
 /**
  * @access user,
  * @method /api/orders/new-order POST
@@ -103,7 +102,7 @@ export const adminViewOrderDetail = unhandledExceptionsHandler(async (req: Reque
  * @method /api/admin/orders/:id/to-shipping UPDATE
  */
 export const orderToShipping = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const order_id: string = req.params.id;
+	const order_id: string = req.params.order;
 	if(order_id)
 	{
 		const result:boolean = await SetOrderToShipping(order_id);
@@ -123,7 +122,7 @@ export const orderToShipping = unhandledExceptionsHandler(async (req: Request, r
  * @method /api/orders/admin/cancel/:id DELETE
  */
 export const cancelOrderByID = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const order_id = req.params.id;
+	const order_id = req.params.order;
 	const result:IPaymentFailResponse | ICancelPaymentResponse | null = await CancelPayment(order_id);
 	if(result && result.status == 'success')
 		return res.status(200).json(result);
@@ -133,29 +132,35 @@ export const cancelOrderByID = unhandledExceptionsHandler(async (req: Request, r
 
 /**
  * @access user,
- * @method /api/user/orders/:id
+ * @method /api/user/orders/refund
  */
 
-const refundOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	return res.json();
+export const refundOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
+	const {order_id, payment_id, item_transaction_id, price, currency, ip} = req.body;
+	console.log(payment_id);
+	const result = await RefundOrder(order_id, payment_id, item_transaction_id, price, currency, ip) as IPaymentFailResponse | IRefundPaymentResponse;
+	if(result.status == 'success')
+		return res.status(200).json(result);
+	else
+		return res.status(400).json(result);
 });
 export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	let orders = await Order.deleteMany({});
 	let details = await OrderDetail.deleteMany({});
-	let payment = await Payment.deleteMany({});
-	
+	let payments = await Payment.deleteMany({});
 	let response = {
-		orders: await Order.find({}),
-		details: await OrderDetail.find({}),
-		payments: await Payment.find({}),
-		/*results: {
-			order: orders,
-			details: details,
-			payment: payment,
+		orders: orders,
+		details: details,
+		payments: payments,
+		/*
+		results: {
+			order: orders.deletedCount,
+			details: details.deletedCount,
+			payment: payments.deletedCount,
 		}
 		*/
+		
 	}
-
 	return res.status(200).json({message: "success", response});
 	
 });

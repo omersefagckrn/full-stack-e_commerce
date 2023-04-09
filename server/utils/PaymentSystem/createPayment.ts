@@ -27,7 +27,7 @@ export const createPayment = async(body: {
         try
         {
             response = response as IPaymentResponse;
-            SaveOrder(request, user_id, response.cardType, response.paymentId);
+            SaveOrder(request, user_id, response.cardType, response.paymentId,response.itemTransactions);
             return {
                 status:"success",
                 message: "Ürün ödemesi başarıyla tamamlandı.",

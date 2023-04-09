@@ -2,10 +2,10 @@ import Product, {IProduct} from '../../models/Product';
 import Order,{ OrderFields } from '../../models/Order';
 import OrderDetail, {OrderDeatilFields} from '../../models/OrderDetail';
 import Payment, { PaymentFields } from '../../models/Payment';
-import { BasketItem, IPaymentRequest } from '../../types/Payment/Payment.types';
+import { BasketItem, IPaymentRequest, ItemTransaction } from '../../types/Payment/Payment.types';
 import Address, { AddressField, IAddress } from '../../models/address';
 
-export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string, paymentType: string, paymentId: string) => {
+export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string, paymentType: string, paymentId: string, item_transactions: ItemTransaction[]) => {
 	try
 	{
 		const newOrder:OrderFields = {
@@ -15,6 +15,7 @@ export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string,
 		payment_id: paymentRequest.conversationId,
 		};
 		let storedOrder = await Order.create(newOrder);
+		let counter = 0; 
 		paymentRequest.basketItems.forEach(async(item) => {
 			let storedItem = await Product.findById(item.id) as IProduct;
 			if(storedItem)
@@ -22,7 +23,9 @@ export const SaveOrder = async(paymentRequest: IPaymentRequest, user_id: string,
 				storedItem.countInStock -=1;
 				storedItem.save();
 			}
-			SaveOrderDetails(item, storedOrder._id, paymentRequest.paidPrice as unknown as number)
+			let paymentTransactionId = item_transactions[counter].paymentTransactionId;
+			SaveOrderDetails(item, storedOrder._id, paymentRequest.paidPrice as unknown as number, paymentTransactionId)
+			counter++;
 		});
 		SavePayment(paymentRequest, user_id, storedOrder._id, paymentType, paymentId);
 	}
@@ -43,6 +46,7 @@ export const SavePayment = async(paymentRequest: IPaymentRequest,user_id: string
 			transactionId: paymentId,
 			price: paymentRequest.price as unknown as number,
 			buyer: paymentRequest.buyer,
+			currency: paymentRequest.currency,
 			billing_address_id: billingAddress._id?.toString() as string,
 			shipping_address_id: shippingAddress._id?.toString() as string,
 			payment_type: payment_type
@@ -51,12 +55,13 @@ export const SavePayment = async(paymentRequest: IPaymentRequest,user_id: string
 	}
 	
 }
-export const SaveOrderDetails = (item: BasketItem, order_id: string, total_price: number, discount_amount?: number) => {
+export const SaveOrderDetails = (item: BasketItem, order_id: string, total_price: number, item_transaction_id: string, discount_amount?: number) => {
 	let orderDetail: OrderDeatilFields;
 	orderDetail = {
 		order_id: order_id,
 		product_id: item.id ,
 		product_name: item.name,
+		item_transaction_id: item_transaction_id,
 		quantity: 1,
 		unit_price: item.price as unknown as Number,
 		discount: discount_amount ? discount_amount : 0,
