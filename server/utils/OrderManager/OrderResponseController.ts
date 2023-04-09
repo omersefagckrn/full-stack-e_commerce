@@ -1,4 +1,4 @@
-import Iyzipay, {CURRENCY, LOCALE} from 'iyzipay-ts';
+import Iyzipay, {CURRENCY, LOCALE, REFUND_REASON} from 'iyzipay-ts';
 import Order, { OrderFields } from '../../models/Order';
 import Product, { IProduct } from '../../models/Product';
 import OrderDetail,{ OrderDeatilFields } from '../../models/OrderDetail';
@@ -17,7 +17,7 @@ import {
 import Payment, { PaymentFields } from '../../models/Payment';
 import { SubDetailResponse } from '../../types/OrderTypes/Order.responses.types';
 import User, { IUser } from '../../models/User';
-import { ICancelPaymentRequest, ICancelPaymentResponse, IRefundPaymentRequest } from '../../types/Payment/Cancel.types';
+import { ICancelPaymentRequest, ICancelPaymentResponse, IRefundPaymentRequest, IRefundPaymentResponse } from '../../types/Payment/Cancel.types';
 import { IPaymentFailResponse } from '../../types/Payment/Payment.types';
 
 export const GetUserRecentOrders = async(orders: OrderFields[]) : Promise<IUserOrderResponse> => {
@@ -157,13 +157,21 @@ export const CancelPayment = async(order_id: string): Promise<IPaymentFailRespon
         }
         await Payment.deleteOne(payment);
         await Order.findByIdAndDelete(order_id);
+        let details = await OrderDetail.find({order_id: order_id}) as OrderDeatilFields[];
+        details.forEach(async(detail) => {
+            let newStock = await Product.findById(detail.product_id) as IProduct;
+            newStock.countInStock += detail.quantity as number;
+            await Product.findByIdAndUpdate(detail.product_id, newStock);
+        })
         await OrderDetail.deleteMany({order_id: order_id});
+        
         return await paymentController.cancel.create(request) as IPaymentFailResponse| ICancelPaymentResponse;
+    
     }
     else
         return null;
 }
-export const RefundOrder = async(order_id: string, conversation_id: string, item_transaction_id: string, price: number, currency: string, ip: string):Promise<IPaymentFailResponse | IRefundOrderResponse> => {
+export const RefundOrder = async(order_id: string, conversation_id: string, item_transaction_id: string, unitPrice: number, currency: string, ip: string, description: string):Promise<IPaymentFailResponse | IRefundOrderResponse> => {
     let paymentController = new Iyzipay({
         apiKey: (process.env.IYZICO_API_KEY as string),
         secretKey: (process.env.IYZICO_SECRET as string),
@@ -173,10 +181,16 @@ export const RefundOrder = async(order_id: string, conversation_id: string, item
         locale: LOCALE.TR,
         conversationId: conversation_id,
         paymentTransactionId: item_transaction_id,
-        price: price.toString(),
+        price: unitPrice.toFixed(1).toString(),
+        ip: ip,
         currency: currency,
-        ip: ip
     }
-    console.log(request);
-    return await paymentController.refund.create(request) as IPaymentFailResponse | IRefundOrderResponse;
+    const response = await paymentController.refund.create(request) as IPaymentFailResponse | IRefundPaymentResponse;
+    let detail = await OrderDetail.findOne({item_transaction_id: item_transaction_id}) as OrderDeatilFields;
+    let product = await Product.findById(detail.product_id) as IProduct;
+    product.countInStock = product.countInStock + (detail.quantity as number);
+    await Product.findByIdAndUpdate(detail.product_id, product); 
+    await Payment.findByIdAndUpdate(conversation_id, {price: (detail.total_price as number) - unitPrice});
+    await OrderDetail.deleteOne(detail);
+    return response;
 }

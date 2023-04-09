@@ -21,17 +21,17 @@ mongoose.set('strictQuery', true);
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config({ path: './server/.env' });
 }
+app.use('/api/users/', userRoutes);
+app.use('/api/products/', productRoutes);
+app.use('/api/orders/', orderRoutes);
 
 (async () => {
 	try {
 		await mongoose.connect(process.env.MONGO_URL!);
-		console.log('Connected to the db: ✅');
+		console.log('Connected to the db: Mongoose ✅');
 		app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
 	} catch (error) {
 		console.log('Failed to connect to the db: ❌', error);
 	}
 })();
 
-app.use('/api/users/', userRoutes);
-app.use('/api/products/', productRoutes);
-app.use('/api/orders/', orderRoutes);

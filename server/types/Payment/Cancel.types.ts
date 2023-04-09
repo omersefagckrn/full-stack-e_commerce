@@ -19,7 +19,6 @@ export interface IRefundPaymentRequest {
     conversationId: string;
     paymentTransactionId: string;
     price: string;
-    currency: string;
     ip: string;
 }
 export interface IRefundPaymentResponse {
