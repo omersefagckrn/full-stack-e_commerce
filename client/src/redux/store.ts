@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 
 import authReducer from './auth/authSlice';
 import cardReducer from './card/cardSlice';
+import orderReducer from './order/orderSlice';
 import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
@@ -15,7 +16,8 @@ const appReducer = combineReducers({
 	auth: authReducer,
 	profile: profileReducer,
 	products: productReducer,
-	card: cardReducer
+	card: cardReducer,
+	order: orderReducer
 });
 
 const store = configureStore({

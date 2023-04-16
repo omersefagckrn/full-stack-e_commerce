@@ -1,5 +1,4 @@
 import Delete from 'assets/icons/Delete.svg';
-
 import { DataView } from 'primereact/dataview';
 import { Tooltip } from 'primereact/tooltip';
 import { FC, useEffect } from 'react';
@@ -13,6 +12,7 @@ const PaymentOrder: FC = () => {
 	const { cards, cardTotalPrice } = useAppSelector((state) => state.card);
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		appDispatch(getTotals());
 	}, [cards, appDispatch]);

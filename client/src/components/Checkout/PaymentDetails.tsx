@@ -6,19 +6,52 @@ import { validationSchemaPayment } from 'helper/validation';
 import { InputMask } from 'primereact/inputmask';
 import { RadioButton, RadioButtonChangeEvent } from 'primereact/radiobutton';
 import { FC, useEffect, useState } from 'react';
-import { getUserAddress } from 'redux/profile/profileSlice';
+import { createOrder } from 'redux/order/orderSlice';
+import { getUserAddress, getUserProfile } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import type { FormPaymentValues } from 'types/helper/validation';
 import { IAddress } from 'types/redux/profile';
 
 const PaymentDetails: FC = () => {
 	const { user, address, isLoadingGetUserAddress } = useAppSelector((state) => state.profile);
+	const { cardTotalPrice, cards } = useAppSelector((state) => state.card);
+	const { paymentResponse, isSuccessCreateOrder, isErrorCreateOrder, errorMessageCreateOrder } = useAppSelector((state) => state.order);
 	const AppDispatch = useAppDispatch();
 	const [selectedAddress, setSelectedAddress] = useState<boolean | IAddress>(false);
 
 	useEffect(() => {
 		AppDispatch(getUserAddress(user?._id));
+		AppDispatch(getUserProfile());
 	}, [AppDispatch, user?._id]);
+
+	useEffect(() => {
+		if (isSuccessCreateOrder) {
+			console.log(paymentResponse);
+		}
+		if (isErrorCreateOrder) {
+			AppToast({
+				type: 'error',
+				message: errorMessageCreateOrder
+			});
+		}
+	}, [isSuccessCreateOrder, paymentResponse, isErrorCreateOrder, errorMessageCreateOrder]);
+
+	const setCards = () => {
+		let basketItems = [];
+		basketItems.push(
+			cards.map((item: any) => {
+				return {
+					id: item.product._id,
+					name: item.product.name,
+					price: item.product.price.toString(),
+					category1: item.product.category,
+					category2: item.product.category,
+					itemType: 'PHYSICAL'
+				};
+			})
+		);
+		return basketItems;
+	};
 
 	const onSubmit = async ({ cardName, cardNumber, cardExpiry, cardCvc }: FormPaymentValues) => {
 		if (selectedAddress === false) {
@@ -27,8 +60,54 @@ const PaymentDetails: FC = () => {
 				message: 'Please select an address'
 			});
 		} else {
-			/* ##TODO: Order dispatch */
-			console.log(cardName, cardNumber, cardExpiry, cardCvc, selectedAddress);
+			AppDispatch(
+				createOrder({
+					user_id: user?._id,
+					price: cardTotalPrice.toString(),
+					paidPrice: cardTotalPrice.toString(),
+					installment: 1,
+					paymentCard: {
+						cardHolderName: cardName,
+						cardNumber: cardNumber.replace(/ /g, ''),
+						expireYear: '20' + cardExpiry.split('/')[1].trim(),
+						expireMonth: cardExpiry.split('/')[0].trim(),
+						cvc: cardCvc,
+						registerCard: 0
+					},
+					buyer: {
+						id: user?._id,
+						name: user?.name,
+						surname: user?.surname,
+						identityNumber: '11111111111',
+						email: user?.email,
+						gsmNumber: user?.phone,
+						registrationDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
+						lastLoginDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
+						registrationAddress: (selectedAddress as IAddress).address,
+						city: (selectedAddress as IAddress).city_name,
+						country: (selectedAddress as IAddress).country_name,
+						zipCode: (selectedAddress as IAddress).zip_code,
+						ip: '85.34.78.112'
+					},
+					shippingAddress: {
+						address: (selectedAddress as IAddress).address,
+						zipCode: (selectedAddress as IAddress).zip_code,
+						contactName: user?.name,
+						city: (selectedAddress as IAddress).city_name,
+						country: (selectedAddress as IAddress).country_name
+					},
+					billingAddress: {
+						address: (selectedAddress as IAddress).address,
+						zipCode: (selectedAddress as IAddress).zip_code,
+						contactName: user?.name,
+						city: (selectedAddress as IAddress).city_name,
+						country: (selectedAddress as IAddress).country_name
+					},
+					basketItems: setCards(),
+					currency: 'TRY'
+				})
+			);
+			// console.log(cardName, cardNumber.replace(/ /g, ''), cardExpiry, cardCvc, selectedAddress);
 		}
 	};
 

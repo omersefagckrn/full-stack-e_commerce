@@ -75,7 +75,7 @@ export const updateProduct = createAsyncThunk('products/updateProduct', async (p
 });
 
 const initialState = {
-	products: [],
+	products: [] as IProduct[],
 	product: null as IProduct | null,
 	isLoadingGetAllProduct: false,
 	isSuccessGetAllProduct: false,
