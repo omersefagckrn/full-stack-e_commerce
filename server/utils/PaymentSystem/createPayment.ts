@@ -32,7 +32,7 @@ export const createPayment = async (
 			return response;
 		} catch (err) {
 			console.log(err);
-			return null;
+			return response;
 		}
 		paymentController = null;
 	} else return response as IPaymentFailResponse;

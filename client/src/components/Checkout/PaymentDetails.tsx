@@ -80,14 +80,14 @@ const PaymentDetails: FC = () => {
 						surname: user?.surname,
 						identityNumber: '11111111111',
 						email: user?.email,
-						gsmNumber: user?.phone,
+						gsmNumber: "+90" + user?.phone,
 						registrationDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
 						lastLoginDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
 						registrationAddress: (selectedAddress as IAddress).address,
 						city: (selectedAddress as IAddress).city_name,
 						country: (selectedAddress as IAddress).country_name,
 						zipCode: (selectedAddress as IAddress).zip_code,
-						ip: '85.34.78.112'
+						ip: '85.34.78.110'
 					},
 					shippingAddress: {
 						address: (selectedAddress as IAddress).address,
