@@ -6,7 +6,7 @@ export const unhandledExceptionsHandler = (asyncFunction: (req: Request, res: Re
 			await asyncFunction(request, response);
 		} catch (error) {
 			console.error(error);
-			response.status(500).send({ message: 'error'});
+			response.status(500).send({ message: 'Something went wrong!'});
 		}
 	};
 };

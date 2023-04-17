@@ -22,7 +22,7 @@ import { IPaymentFailResponse } from '../../types/Payment/Payment.types';
 
 export const GetUserRecentOrders = async(orders: OrderFields[]) : Promise<IUserOrderResponse> => {
     let userOrderResponse: IUserOrderResponse = {
-        orders:[],
+        orders:[] as SubOrdersResponse[],
         colors: {
             cancelled: defaultCancelledColorCode,
             delivered: defaultDeliveredColorCode,
@@ -30,14 +30,15 @@ export const GetUserRecentOrders = async(orders: OrderFields[]) : Promise<IUserO
         }
     } 
     for(let i = 0; i < orders.length; i++) {
-        let currentDetail = await OrderDetail.find({order_id: orders[i]._id}) as OrderDeatilFields[];
+        let currentDetails = await OrderDetail.find({order_id: orders[i]._id}) as OrderDeatilFields[];
         let unitOrderResponse: SubOrdersResponse = {
             date: orders[i].created_at as Date,
-            item_count: currentDetail.length,
-            order_id: currentDetail[i].order_id,
+            item_count: currentDetails.length,
+            order_id: currentDetails[0].order_id,
             status: orders[i].status,
-            total_price: currentDetail[i].total_price as number
+            total_price: currentDetails[0].total_price as number,
         }
+        console.log(unitOrderResponse.order_id);
         userOrderResponse.orders.push(unitOrderResponse);
     }
     return userOrderResponse;
