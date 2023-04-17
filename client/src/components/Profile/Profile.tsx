@@ -30,6 +30,13 @@ const Profile: FC = () => {
 			command: () => {
 				navigate('/user/profile/address');
 			}
+		},
+		{
+			label: 'Orders',
+			icon: 'pi pi-shopping-cart',
+			command: () => {
+				navigate('/user/profile/orders');
+			}
 		}
 	];
 

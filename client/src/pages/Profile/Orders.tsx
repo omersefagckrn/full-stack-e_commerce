@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-const Order: FC = () => {
+const Orders: FC = () => {
 	return (
 		<>
 			<div className='text-xl text-black font-semibold select-none'>Your orders</div>
@@ -8,4 +8,4 @@ const Order: FC = () => {
 	);
 };
 
-export default Order;
+export default Orders;

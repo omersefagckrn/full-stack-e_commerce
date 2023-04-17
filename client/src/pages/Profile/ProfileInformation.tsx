@@ -57,7 +57,9 @@ const ProfileInformation: FC = () => {
 
 					<div>
 						<div className='text-sm text-black font-semibold'>Phone Number</div>
-						<div className='text-xs text-purple font-normal'>{user?.phone}</div>
+						<div className='text-xs text-purple font-normal'>
+							{user?.phone?.replace(/[\s()-]+/g, '').replace(/^(?:\+|0)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+90 $1 $2 $3 $4')}
+						</div>
 					</div>
 				</div>
 			)}

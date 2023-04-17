@@ -5,4 +5,5 @@ export { default as Dashboard } from './Dashboard/Dashboard';
 export { default as ProductDetails } from './Product/ProductDetails';
 export { default as Address } from './Profile/Address';
 export { default as EditProfile } from './Profile/EditProfile';
+export { default as Orders } from './Profile/Orders';
 export { default as Profile, default as ProfileInformation } from './Profile/ProfileInformation';

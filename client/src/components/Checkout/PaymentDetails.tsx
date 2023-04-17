@@ -55,7 +55,6 @@ const PaymentDetails: FC = () => {
 				message: paymentResponse.message
 			});
 			AppDispatch(resetCreateOrder());
-			setBasketItems([]);
 			AppCartStorage.removeItem('card');
 			setTimeout(() => {
 				navigate('/');
