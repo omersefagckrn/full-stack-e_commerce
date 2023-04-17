@@ -44,7 +44,7 @@ export const orderSlice = createSlice({
 			state.isSuccessCreateOrder = true;
 			state.isErrorCreateOrder = false;
 			state.errorMessageCreateOrder = '';
-			state.paymentResponse = action.payload as IPaymentResponse;
+			state.paymentResponse = action.payload;
 		});
 		builder.addCase(createOrder.rejected, (state, action) => {
 			state.isLoadingCreateOrder = false;

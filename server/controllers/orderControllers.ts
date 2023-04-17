@@ -29,7 +29,7 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 			user_id
 		);
 		if (response.status == 'success') {
-			return res.status(200).json({
+			return res.status(201).json({
 				status: 'success',
 				message: 'Ödeme başarıyla gerçekleştirildi.',
 				requirement: 'DISPATCH_ORDERS'
