@@ -10,4 +10,6 @@
 
 [![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/omersefagckrn/)
 
-© 2023 Ömer Sefa Güçkıran
+© 2023 Ömer Sefa Güçkıran Frontend Dev.
+© 2023 Muhammed Ali Bekdaş Backend Dev.
+
