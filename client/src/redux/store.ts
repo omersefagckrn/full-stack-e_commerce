@@ -9,8 +9,6 @@ import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
 
-export type RootState = ReturnType<typeof store.getState>;
-
 const appReducer = combineReducers({
 	theme: themeReducer,
 	auth: authReducer,
@@ -25,6 +23,8 @@ const store = configureStore({
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 	devTools: process.env.NODE_ENV !== 'production'
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;

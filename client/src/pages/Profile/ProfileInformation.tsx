@@ -1,29 +1,15 @@
 import { Loader } from 'components';
-import { AppToast } from 'helper/toast';
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { getUserProfile } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
 const ProfileInformation: FC = () => {
 	const appDispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const { user, isLoadingGetUser, errorMessageGetUser, isErrorGetUser } = useAppSelector((state) => state.profile);
+	const { user, isLoadingGetUser } = useAppSelector((state) => state.profile);
 
 	useEffect(() => {
 		appDispatch(getUserProfile());
-	}, [appDispatch, user?._id]);
-
-	useEffect(() => {
-		if (isErrorGetUser) {
-			AppToast({
-				type: 'error',
-				message: errorMessageGetUser
-			});
-			localStorage.removeItem('token');
-			navigate('/auth/login');
-		}
-	}, [isErrorGetUser, errorMessageGetUser, navigate]);
+	}, [appDispatch]);
 
 	const formatToLocalDate = (expectedDate: string | undefined): string => {
 		const date = new Date(expectedDate as string);

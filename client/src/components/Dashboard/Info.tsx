@@ -30,7 +30,6 @@ const Info: FC = () => {
 						</div>
 					</Button>
 				</div>
-
 				<div className='py-2 px-3 text-center bg-white rounded-full mt-10 text-black'>support@pockie.com</div>
 			</div>
 		</div>

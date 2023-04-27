@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import Address, { AddressField } from '../models/address';
 import User, { IUser } from '../models/User';
+import Address, { AddressField } from '../models/address';
 import { unhandledExceptionsHandler } from '../utils/error';
 import generateToken from '../utils/generateToken';
 
@@ -22,6 +22,7 @@ export const loginUser = unhandledExceptionsHandler(async (req: Request, res: Re
 		name: user.name,
 		surname: user.surname,
 		email: user.email,
+		isAdmin: user.isAdmin,
 		token: generateToken(user._id)
 	});
 });

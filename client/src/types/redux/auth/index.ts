@@ -1,5 +1,7 @@
+import { IUser } from '../profile';
+
 export type AuthReduxState = {
-	user: string | null;
+	user: IUser | null;
 
 	isErrorLogin: boolean;
 	isLoadingLogin: boolean;
@@ -16,4 +18,5 @@ export type AuthReduxState = {
 	messageRegister: string;
 
 	isAuth: boolean;
+	isAdmin: boolean;
 };

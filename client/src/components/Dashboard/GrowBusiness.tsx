@@ -8,7 +8,7 @@ import { FC } from 'react';
 
 const Elements = (img: any, title: string, desc: string) => (
 	<div className='bg-[#F3F5F7] flex flex-col items-center justify-center lg:items-start lg:justify-start p-8 '>
-		<img src={img} alt='icon-1' className='w-20 h-20 mb-[36px] ' />
+		<img src={img} alt='icon-1' className='w-20 h-20 mb-[36px]' />
 		<div className='font-medium text-xl text-center lg:text-left'>{title}</div>
 		<div className='mb-4 font-normal text-sm pt-4 text-center lg:text-left'>{desc}</div>
 	</div>

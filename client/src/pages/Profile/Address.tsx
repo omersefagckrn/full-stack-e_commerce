@@ -33,15 +33,6 @@ const Address: FC = () => {
 	}, [appDispatch, user?._id]);
 
 	useEffect(() => {
-		if (isErrorGetUserAddress) {
-			AppToast({
-				type: 'error',
-				message: errorMessageGetUserAddress
-			});
-			localStorage.removeItem('token');
-			navigate('/auth/login');
-		}
-
 		if (isErrorDeleteUserAddress) {
 			AppToast({
 				type: 'error',

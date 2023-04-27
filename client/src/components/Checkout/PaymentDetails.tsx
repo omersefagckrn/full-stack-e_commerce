@@ -55,7 +55,11 @@ const PaymentDetails: FC = () => {
 				message: paymentResponse.message
 			});
 			AppDispatch(resetCreateOrder());
+			setBasketItems([]);
 			AppCartStorage.removeItem('card');
+			setTimeout(() => {
+				navigate(0);
+			}, 2000);
 			setTimeout(() => {
 				navigate('/');
 			}, 2000);
@@ -65,6 +69,7 @@ const PaymentDetails: FC = () => {
 				type: 'error',
 				message: errorMessageCreateOrder
 			});
+			AppDispatch(resetCreateOrder());
 		}
 	}, [isSuccessCreateOrder, paymentResponse, isErrorCreateOrder, errorMessageCreateOrder, AppDispatch, navigate]);
 
@@ -233,3 +238,12 @@ const PaymentDetails: FC = () => {
 };
 
 export default PaymentDetails;
+
+/* {
+        cardHolderName: 'John Doe',
+        cardNumber: '5528790000000008',
+        expireMonth/Year: '12/30',
+        cvc: '123',
+        registerCard: '0'
+    } 
+*/

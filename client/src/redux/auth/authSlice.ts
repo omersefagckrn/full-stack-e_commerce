@@ -19,11 +19,13 @@ const initialState: AuthReduxState = {
 	isSuccessRegister: false,
 	messageRegister: '',
 
-	isAuth: JSON.stringify(localStorage.getItem('user')) !== 'null'
+	isAuth: JSON.stringify(localStorage.getItem('user')) !== 'null',
+	isAdmin: JSON.stringify(localStorage.getItem('isAdmin')) !== 'null'
 };
 
 export const logout = createAsyncThunk('auth/logout', async () => {
 	localStorage.removeItem('user');
+	localStorage.removeItem('isAdmin');
 });
 
 export const login = createAsyncThunk(
@@ -43,8 +45,12 @@ export const login = createAsyncThunk(
 				email,
 				password
 			});
-			if (response.data.token) {
+			if (response.data?.token) {
 				localStorage.setItem('user', JSON.stringify(response.data?.token));
+				if (response.data?.isAdmin) {
+					localStorage.setItem('isAdmin', JSON.stringify(response.data?.isAdmin));
+					return response.data;
+				}
 				return response.data;
 			}
 		} catch (error: any) {
@@ -106,7 +112,7 @@ export const authSlice = createSlice({
 			state.isLoadingLogin = false;
 			state.isErrorLogin = false;
 			state.isSuccessLogin = true;
-			state.user = action.payload.token;
+			state.user = action.payload;
 			state.messageLogin = 'Successfully logged in!';
 			state.isAuth = true;
 		});
