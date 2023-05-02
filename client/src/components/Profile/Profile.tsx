@@ -57,7 +57,7 @@ const Profile: FC = () => {
 						className='pt-4'
 						model={items}
 					/>
-					<div className='rounded-lg border-black border-[1px] my-4 p-4 w-full'>
+					<div className='my-4 w-full'>
 						<Outlet />
 					</div>
 				</div>

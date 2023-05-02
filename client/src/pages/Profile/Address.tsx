@@ -11,12 +11,12 @@ import { IAddress } from 'types/redux/profile';
 const Address: FC = () => {
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const { id } = useAppSelector((state) => state.auth);
 	const [showEditModal, setShowEditModal] = useState<boolean | undefined>(false);
 	const [showAddModal, setShowAddModal] = useState<boolean | undefined>(false);
 	const [propsAddress, setPropsAddress] = useState<IAddress | null>(null);
 
 	const {
-		user,
 		address,
 		isLoadingGetUserAddress,
 		isErrorGetUserAddress,
@@ -29,8 +29,8 @@ const Address: FC = () => {
 	} = useAppSelector((state) => state.profile);
 
 	useEffect(() => {
-		appDispatch(getUserAddress(user?._id));
-	}, [appDispatch, user?._id]);
+		appDispatch(getUserAddress(id));
+	}, [appDispatch, id]);
 
 	useEffect(() => {
 		if (isErrorDeleteUserAddress) {
@@ -45,12 +45,12 @@ const Address: FC = () => {
 				type: 'success',
 				message: 'Delete address successfully!'
 			});
-			appDispatch(getUserAddress(user?._id));
+			appDispatch(getUserAddress(id));
 			appDispatch(reset());
 		}
 
 		if (isSuccessEditUserAddress) {
-			appDispatch(getUserAddress(user?._id));
+			appDispatch(getUserAddress(id));
 			appDispatch(reset());
 		}
 	}, [
@@ -61,7 +61,7 @@ const Address: FC = () => {
 		isSuccessDeleteUserAddress,
 		navigate,
 		appDispatch,
-		user?._id,
+		id,
 		isSuccessEditUserAddress
 	]);
 

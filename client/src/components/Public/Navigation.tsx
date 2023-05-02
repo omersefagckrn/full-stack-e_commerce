@@ -67,7 +67,7 @@ const Navigation: FC = () => {
 			}
 		},
 		{
-			label: 'Order',
+			label: 'Cart',
 			icon: 'pi pi-shopping-cart',
 			command: () => {
 				navigate('/user/checkout');

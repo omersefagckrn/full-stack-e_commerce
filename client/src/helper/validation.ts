@@ -1,4 +1,4 @@
-import type { FormEditProfileValues, FormLoginValues, FormPaymentValues, FormRegisterValues } from 'types/helper/validation';
+import { FormAddAddressValues, FormEditAddressValues, FormEditProfileValues, FormLoginValues, FormPaymentValues, FormRegisterValues } from 'types/helper/validation';
 import * as Yup from 'yup';
 
 export const validationSchemaLogin: Yup.ObjectSchema<FormLoginValues> = Yup.object({
@@ -31,7 +31,7 @@ export const validationSchemaPayment = Yup.object<FormPaymentValues>({
 	cardCvc: Yup.string().required('Card cvv is required').min(3, 'Card cvv must be 3 digits').max(3, 'Card cvv must be 3 digits')
 });
 
-export const validationSchemaEditAddress = Yup.object({
+export const validationSchemaEditAddress = Yup.object<FormEditAddressValues>({
 	title: Yup.string(),
 	address: Yup.string(),
 	zip_code: Yup.string().min(5, 'Zip code must be 5 digits').max(5, 'Zip code must be 5 digits'),
@@ -39,7 +39,7 @@ export const validationSchemaEditAddress = Yup.object({
 	country_name: Yup.string()
 });
 
-export const validationSchemaAddAddress = Yup.object({
+export const validationSchemaAddAddress = Yup.object<FormAddAddressValues>({
 	title: Yup.string().required('Title is required'),
 	address: Yup.string().required('Address is required'),
 	zip_code: Yup.string().min(5, 'Zip code must be 5 digits').max(5, 'Zip code must be 5 digits').required('Zip code is required'),

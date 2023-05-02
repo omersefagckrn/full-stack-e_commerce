@@ -18,12 +18,35 @@ export const createOrder = createAsyncThunk('order/createOrder', async (order: a
 	}
 });
 
+export const getOrders = createAsyncThunk('order/getOrders', async (user: string, thunkAPI) => {
+	try {
+		const response = await apiHelper.get(`/api/orders/user/${user}`, {
+			headers: {
+				Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`
+			}
+		});
+
+		if (response.status === 200) {
+			return response.data;
+		}
+	} catch (error: any) {
+		const message = (error.response && error.response.data.message) || error.message;
+		return thunkAPI.rejectWithValue(message);
+	}
+});
+
 const initialState = {
 	paymentResponse: {} as IPaymentResponse,
+	orders: {},
 	isLoadingCreateOrder: false,
 	isSuccessCreateOrder: false,
 	isErrorCreateOrder: false,
-	errorMessageCreateOrder: ''
+	errorMessageCreateOrder: '',
+
+	isLoadingGetOrder: false,
+	isSuccessGetOrder: false,
+	isErrorGetOrder: false,
+	errorMessageGetOrder: ''
 } as orderReduxState;
 
 export const orderSlice = createSlice({
@@ -51,6 +74,26 @@ export const orderSlice = createSlice({
 			state.isSuccessCreateOrder = false;
 			state.isErrorCreateOrder = true;
 			state.errorMessageCreateOrder = action.payload as string;
+		});
+
+		builder.addCase(getOrders.pending, (state) => {
+			state.isLoadingGetOrder = true;
+			state.isSuccessGetOrder = false;
+			state.isErrorGetOrder = false;
+			state.errorMessageGetOrder = '';
+		});
+		builder.addCase(getOrders.fulfilled, (state, action) => {
+			state.isLoadingGetOrder = false;
+			state.isSuccessGetOrder = true;
+			state.isErrorGetOrder = false;
+			state.errorMessageGetOrder = '';
+			state.orders = action.payload;
+		});
+		builder.addCase(getOrders.rejected, (state, action) => {
+			state.isLoadingGetOrder = false;
+			state.isSuccessGetOrder = false;
+			state.isErrorGetOrder = true;
+			state.errorMessageGetOrder = action.payload as string;
 		});
 	}
 });

@@ -19,4 +19,5 @@ export type AuthReduxState = {
 
 	isAuth: boolean;
 	isAdmin: boolean;
+	id: string;
 };

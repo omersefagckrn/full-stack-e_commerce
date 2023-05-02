@@ -17,6 +17,7 @@ import { IAddress } from 'types/redux/profile';
 const PaymentDetails: FC = () => {
 	const { user, address, isLoadingGetUserAddress } = useAppSelector((state) => state.profile);
 	const { cardTotalPrice, cards } = useAppSelector((state) => state.card);
+	const { id } = useAppSelector((state) => state.auth);
 	const { paymentResponse, isSuccessCreateOrder, isErrorCreateOrder, errorMessageCreateOrder } = useAppSelector((state) => state.order);
 
 	const navigate = useNavigate();
@@ -26,7 +27,7 @@ const PaymentDetails: FC = () => {
 	const AppDispatch = useAppDispatch();
 
 	useEffect(() => {
-		AppDispatch(getUserAddress(user?._id));
+		AppDispatch(getUserAddress(id));
 		AppDispatch(getUserProfile());
 		setBasketItems(() => {
 			let primaryBasketItems: any = [];
@@ -46,7 +47,7 @@ const PaymentDetails: FC = () => {
 
 			return primaryBasketItems;
 		});
-	}, [AppDispatch, user?._id, cards]);
+	}, [AppDispatch, id, cards]);
 
 	useEffect(() => {
 		if (isSuccessCreateOrder) {

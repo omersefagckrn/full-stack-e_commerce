@@ -28,10 +28,9 @@ app.use('/api/orders/', orderRoutes);
 (async () => {
 	try {
 		await mongoose.connect(process.env.MONGO_URL!);
-		console.log('Connected to the db: Mongoose ✅');
 		app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));
+		console.log('Connected to the db: Mongoose ✅');
 	} catch (error) {
 		console.log('Failed to connect to the db: ❌', error);
 	}
 })();
-

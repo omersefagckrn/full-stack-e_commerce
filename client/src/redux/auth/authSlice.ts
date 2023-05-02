@@ -20,12 +20,14 @@ const initialState: AuthReduxState = {
 	messageRegister: '',
 
 	isAuth: JSON.stringify(localStorage.getItem('user')) !== 'null',
-	isAdmin: JSON.stringify(localStorage.getItem('isAdmin')) !== 'null'
+	isAdmin: JSON.stringify(localStorage.getItem('isAdmin')) !== 'null',
+	id: JSON.parse(localStorage.getItem('id') as string)
 };
 
 export const logout = createAsyncThunk('auth/logout', async () => {
 	localStorage.removeItem('user');
 	localStorage.removeItem('isAdmin');
+	localStorage.removeItem('id');
 });
 
 export const login = createAsyncThunk(
@@ -47,6 +49,7 @@ export const login = createAsyncThunk(
 			});
 			if (response.data?.token) {
 				localStorage.setItem('user', JSON.stringify(response.data?.token));
+				localStorage.setItem('id', JSON.stringify(response.data?._id));
 				if (response.data?.isAdmin) {
 					localStorage.setItem('isAdmin', JSON.stringify(response.data?.isAdmin));
 					return response.data;

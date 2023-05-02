@@ -57,7 +57,7 @@ export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Reques
 	const user = req.params.user;
 	const order = req.params.order;
 	const detailResponse: IGetOrderDetailResponse = (await GetOrderDetails(order, user)) as IGetOrderDetailResponse;
-	if (detailResponse) res.status(200).json(detailResponse);
+	if (detailResponse) return res.status(200).json(detailResponse);
 	return res.status(404).json();
 });
 
