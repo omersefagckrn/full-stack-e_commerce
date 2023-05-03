@@ -21,3 +21,4 @@
 ![editProdile](https://user-images.githubusercontent.com/55755233/235907980-cb245a2c-ab2b-4eed-800f-e1d8f664260a.png)
 ![Addresses](https://user-images.githubusercontent.com/55755233/235907994-3b4c4ce9-1583-49eb-b5e8-c4c0eb5c65e8.png)
 ![cartPage](https://user-images.githubusercontent.com/55755233/235908002-e836d8a8-18ce-4dee-81a2-6b9748cfbc1b.png)
+![orders](https://user-images.githubusercontent.com/55755233/235910427-ea40fd61-ce14-4d91-89a3-0b8e05d526d3.png)
