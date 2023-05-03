@@ -35,7 +35,7 @@ const Register: FC = () => {
 				type: 'success',
 				message: messageRegister
 			});
-			navigate('/auth/login');
+			navigate('/auth/login', { replace: true, preventScrollReset: true });
 			appDispatch(reset());
 		}
 

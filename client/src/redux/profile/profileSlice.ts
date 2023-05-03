@@ -10,7 +10,7 @@ export const getUserProfile = createAsyncThunk('profile/getUserProfile', async (
 			}
 		});
 
-		if (response?.status === 200) {
+		if (response.status === 200) {
 			return response.data;
 		}
 	} catch (error: any) {

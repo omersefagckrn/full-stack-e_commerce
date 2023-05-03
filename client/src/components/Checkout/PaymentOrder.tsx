@@ -1,6 +1,5 @@
 import Delete from 'assets/icons/Delete.svg';
 import { DataView } from 'primereact/dataview';
-import { Tooltip } from 'primereact/tooltip';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addToCard, deleteAllItemQuantity, getTotals, removeFromCard } from 'redux/card/cardSlice';
@@ -46,25 +45,22 @@ const PaymentOrder: FC = () => {
 
 	return (
 		<>
-			<Tooltip target='#deleteAllItem' />
-			<div className='mt-4'>
-				<div className='text-primary text-3xl'>Cart({cards.length})</div>
-				<div className='flex flex-col items-center justify-between w-full space-y-2'>
+			<>
+				<div className='text-primary text-3xl my-4'>Cart</div>
+				<div className='flex flex-col items-center justify-between w-full space-y-2 mb-6'>
 					{cards && cards.length > 0 ? (
 						<>
 							<DataView
 								value={cards}
 								itemTemplate={(card: ICard) => (
-									<div className='flex items-center w-full flex-row space-x-10 p-4'>
+									<div className='flex lg:items-center w-full flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-10 p-4 select-none'>
 										<img
 											src={card.product?.image}
 											alt={card.product?._id as string}
 											className='h-[100px] w-[100px] object-cover rounded-lg select-none'
 										/>
-										<div className='flex justify-center flex-col space-y-2 w-full'>
-											<div className='text-primary font-normal text-xs w-[85%] truncate'>
-												{card.product?.name}
-											</div>
+										<div className='flex flex-col space-y-2 w-full'>
+											<div className='text-primary font-normal text-xs '>{card.product?.name}</div>
 											<div className='text-[#666666] font-normal text-xs'>{card.product?.description}</div>
 											<div className='text-[#666666] font-normal text-md underline'>
 												Quantity: {card.quantity}
@@ -87,9 +83,6 @@ const PaymentOrder: FC = () => {
 												</div>
 												<div className='font-bold text-primary text-md'>{card.product?.price}$</div>
 												<img
-													data-pr-tooltip='Delete all item'
-													data-pr-position='bottom'
-													id='deleteAllItem'
 													onClick={() => deleteAllItem(card.product as IProduct)}
 													src={Delete}
 													alt='Delete'
@@ -104,19 +97,22 @@ const PaymentOrder: FC = () => {
 							/>
 							<div className='flex space-x-2 items-center justify-between'>
 								<div className='font-semibold text-primary text-md'>Total</div>
-								<div className='font-semibold text-primary text-md'>${cardTotalPrice.toLocaleString().slice(0, 8)} </div>
+								<div className='font-semibold text-primary text-md'>${cardTotalPrice.toLocaleString().slice(0, 8)}</div>
 							</div>
 						</>
 					) : (
-						<div className='flex flex-col text-center space-y-2 mb-20'>
-							<div className='text-red-500 font-bold'>There are no products in your cart.</div>
-							<div onClick={() => navigate('/')} className='underline cursor-pointer text-black font-medium'>
-								Click for new products!
+						<div className='flex items-center justify-center py-4'>
+							<div className='text-xs text-redsoft font-semibold select-none text-center'>
+								You have no items in your shopping cart.{' '}
+								<span onClick={() => navigate('/')} className='underline cursor-pointer'>
+									Click here
+								</span>{' '}
+								to continue shopping.
 							</div>
 						</div>
 					)}
 				</div>
-			</div>
+			</>
 		</>
 	);
 };

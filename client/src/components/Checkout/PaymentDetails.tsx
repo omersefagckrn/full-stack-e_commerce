@@ -135,7 +135,16 @@ const PaymentDetails: FC = () => {
 		<>
 			<div className='text-primary text-3xl my-4'>Payment Details</div>
 
-			{address && address.length === 0 && <div className='text-sm text-redsoft underline font-semibold'>You don't have any address.</div>}
+			{address && address.length === 0 && !isLoadingGetUserAddress && (
+				<div className='flex items-center justify-center py-4'>
+					<div className='text-xs text-redsoft font-semibold select-none text-center'>
+						You don't have any address yet.{' '}
+						<span onClick={() => navigate('/user/profile/address')} className='underline cursor-pointer'>
+							Please add new address.
+						</span>
+					</div>
+				</div>
+			)}
 
 			{isLoadingGetUserAddress ? (
 				<div className='flex items-center justify-center my-2'>
@@ -207,7 +216,7 @@ const PaymentDetails: FC = () => {
 							/>
 							<Error error={errors.cardNumber} />
 						</div>
-						<div className='flex space-x-2'>
+						<div className='flex flex-col lg:flex-row lg:space-x-2'>
 							<div className='flex flex-col space-y-2 w-full'>
 								<Label label='MM/YY' />
 								<InputMask

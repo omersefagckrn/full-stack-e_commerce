@@ -60,17 +60,17 @@ const Navigation: FC = () => {
 
 	const LoggedInUserMenu: MenuItem[] = [
 		{
-			label: 'User Information',
-			icon: 'pi pi-user',
-			command: () => {
-				navigate('/user/profile/information');
-			}
-		},
-		{
 			label: 'Cart',
 			icon: 'pi pi-shopping-cart',
 			command: () => {
 				navigate('/user/checkout');
+			}
+		},
+		{
+			label: 'Profile',
+			icon: 'pi pi-user',
+			command: () => {
+				navigate('/user/profile/information');
 			}
 		},
 		{

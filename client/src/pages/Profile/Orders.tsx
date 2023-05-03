@@ -71,7 +71,7 @@ const Orders: FC = () => {
 	};
 
 	const totalPriceBody = (order: SubOrdersResponse) => {
-		return <span>{formatCurrency(order.total_price)}</span>;
+		return <div>{formatCurrency(order.total_price)}</div>;
 	};
 
 	const itemCountBody = (order: SubOrdersResponse) => {
@@ -81,28 +81,43 @@ const Orders: FC = () => {
 	return (
 		<>
 			<div className='text-xl text-black font-semibold select-none'>Your orders</div>
+			{!isLoadingGetOrder && orders?.orders?.length === 0 && (
+				<div className='flex items-center justify-center py-4'>
+					<div className='text-lg text-black font-semibold select-none text-center'>You have no orders.</div>
+				</div>
+			)}
 			{isLoadingGetOrder ? (
 				<div className='flex items-center justify-center py-4'>
 					<Loader />
 				</div>
 			) : (
-				<div className='my-4'>
-					<DataTable selectionMode='single' paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} footer={footer} value={orders.orders} size='normal'>
-						<Column field='order_id' header='Order ID' sortable body={orderIdBody}></Column>
-						<Column
-							headerStyle={{
-								alignItems: 'center',
-								textAlign: 'center'
-							}}
-							field='item_count'
-							header='Item Count'
-							sortable
-							body={itemCountBody}
-						></Column>
-						<Column field='total_price' header='Total Price' sortable body={totalPriceBody}></Column>
-						<Column field='status' header='Status' sortable body={statusBody}></Column>
-					</DataTable>
-				</div>
+				orders?.orders?.length > 0 && (
+					<div className='my-4'>
+						<DataTable
+							selectionMode='single'
+							paginator
+							rows={5}
+							rowsPerPageOptions={[5, 10, 25, 50]}
+							footer={footer}
+							value={orders.orders}
+							size='normal'
+						>
+							<Column field='order_id' header='Order ID' sortable body={orderIdBody}></Column>
+							<Column
+								headerStyle={{
+									alignItems: 'center',
+									textAlign: 'center'
+								}}
+								field='item_count'
+								header='Item Count'
+								sortable
+								body={itemCountBody}
+							></Column>
+							<Column field='total_price' header='Total Price' sortable body={totalPriceBody}></Column>
+							<Column field='status' header='Status' sortable body={statusBody}></Column>
+						</DataTable>
+					</div>
+				)
 			)}
 		</>
 	);

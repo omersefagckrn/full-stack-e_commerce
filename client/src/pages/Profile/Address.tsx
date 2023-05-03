@@ -72,15 +72,16 @@ const Address: FC = () => {
 
 			<div className='flex items-center justify-between'>
 				<div className='text-xl text-black font-semibold select-none cursor-pointer'>My Address</div>
-				<div
-					onClick={() => {
-						setShowAddModal(true);
-					}}
-					className='text-sm underline font-light text-green cursor-pointer select-none'
-				>
+				<div onClick={() => setShowAddModal(true)} className='text-xs underline font-semibold text-green cursor-pointer select-none'>
 					Add new address
 				</div>
 			</div>
+
+			{address && !isLoadingGetUserAddress && address.length === 0 && (
+				<div className='flex items-center justify-center py-4'>
+					<div className='text-lg text-black font-semibold select-none text-center'>You don't have any address yet. Please add new address.</div>
+				</div>
+			)}
 
 			{isLoadingGetUserAddress && !isLoadingDeleteUserAddress ? (
 				<div className='flex items-center justify-center'>
@@ -136,9 +137,7 @@ const Address: FC = () => {
 												maskStyle: {
 													backgroundColor: 'rgba(0,0,0,0.5)'
 												},
-												accept: () => {
-													appDispatch(deleteUserAddress(item._id));
-												}
+												accept: () => appDispatch(deleteUserAddress(item._id))
 											});
 										}}
 									>
@@ -158,8 +157,6 @@ const Address: FC = () => {
 						))}
 				</div>
 			)}
-
-			{address && address.length === 0 && <div className='text-sm text-redsoft underline font-semibold'>You don't have any address.</div>}
 		</>
 	);
 };
