@@ -6,6 +6,7 @@
 
 * {
 	@apply m-0 p-0 box-border font-workSans placeholder:font-workSans;
+	scroll-behavior: smooth;
 }
 
 *:focus {
@@ -37,7 +38,7 @@
 }
 
 .p-rating .p-rating-item.p-rating-item-active .p-rating-icon {
-	@apply text-yellow;
+	@apply text-purple;
 }
 
 .p-inputtext {

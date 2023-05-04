@@ -27,9 +27,7 @@ const Panel: FC = () => {
 						<div className='flex flex-col space-y-2 p-4'>
 							{route.map((item, index) => (
 								<div
-									onClick={() => {
-										navigate(item.path);
-									}}
+									onClick={() => navigate(item.path)}
 									key={index}
 									className={`p-2 rounded-md cursor-pointer 
 								${window.location.pathname === item.path ? 'bg-white text-black' : 'text-white'}`}

@@ -2,6 +2,7 @@ export { default as Auth } from './Auth/Auth';
 export { default as GrowBusiness } from './Dashboard/GrowBusiness';
 export { default as Info } from './Dashboard/Info';
 export { default as ProductTable } from './Dashboard/ProductTable';
+export { default as ProductView } from './Dashboard/ProductView';
 export { default as EditAddress } from './Modal/EditAddress';
 export { default as Panel } from './Panel/Panel';
 export { default as Profile } from './Profile/Profile';

@@ -104,7 +104,17 @@ const PaymentOrder: FC = () => {
 						<div className='flex items-center justify-center py-4'>
 							<div className='text-xs text-redsoft font-semibold select-none text-center'>
 								You have no items in your shopping cart.{' '}
-								<span onClick={() => navigate('/')} className='underline cursor-pointer'>
+								<span
+									onClick={() => {
+										navigate('/');
+										setTimeout(() => {
+											const link = document.createElement('a');
+											link.href = '/#products';
+											link.click();
+										}, 1000);
+									}}
+									className='underline cursor-pointer'
+								>
 									Click here
 								</span>{' '}
 								to continue shopping.
