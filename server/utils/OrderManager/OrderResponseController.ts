@@ -1,5 +1,5 @@
 import Iyzipay, { LOCALE } from 'iyzipay-ts';
-import Order, { OrderFields } from '../../models/Order';
+import Order, { IOrder, OrderFields } from '../../models/Order';
 import OrderDetail, { OrderDeatilFields } from '../../models/OrderDetail';
 import Payment, { PaymentFields } from '../../models/Payment';
 import Product, { IProduct } from '../../models/Product';
@@ -20,6 +20,8 @@ import {
 } from '../../types/OrderTypes/Order.responses.types';
 import { ICancelPaymentRequest, ICancelPaymentResponse, IRefundPaymentResponse } from '../../types/Payment/Cancel.types';
 import { IPaymentFailResponse } from '../../types/Payment/Payment.types';
+import { Image } from 'primereact/image';
+import { IProduct } from '../../../client/src/types/redux/product/index';
 
 export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserOrderResponse> => {
 	let userOrderResponse: IUserOrderResponse = {
@@ -32,7 +34,7 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 		}
 	};
 	for (let i = 0; i < orders.length; i++) {
-		let currentDetails = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDeatilFields[];
+		let currentDetails = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDeatilFields[]; 
 		let unitOrderResponse: SubOrdersResponse = {
 			date: orders[i].created_at as Date,
 			item_count: currentDetails.length,
@@ -41,6 +43,12 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 			total_price: currentDetails[0].total_price as number
 		};
 		userOrderResponse.orders.push(unitOrderResponse);
+		userOrderResponse.orders[i].image = [];
+		for (let j = 0; j < currentDetails.length; j++)
+		{
+			let product = await Product.findById(currentDetails[j].product_id) as IProduct;
+			userOrderResponse.orders[i].image?.push(product.image);
+		}
 	}
 	return userOrderResponse;
 };
