@@ -5,15 +5,31 @@ import Payment from '../models/Payment';
 import User from '../models/User';
 import { IAdminOrdersResponse, IGetOrderDetailResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
 import { ICancelPaymentResponse, IRefundPaymentResponse } from '../types/Payment/Cancel.types';
-import { IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment.types';
+import { IPaymentFailResponse, IPaymentResponse, BasketItem } from '../types/Payment/Payment.types';
 import { CancelPayment, GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, RefundOrder, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
-import { createPayment } from '../utils/PaymentSystem/createPayment';
+import { createPayment, productCountChecker } from '../utils/PaymentSystem/createPayment';
 import { unhandledExceptionsHandler } from '../utils/error';
+import Product, { IProduct } from '../models/Product';
 
 export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	const { user_id, price, paidPrice, installment, paymentCard, buyer, shippingAddress, billingAddress, basketItems, currency } = req.body;
 	const user = await User.findById(user_id);
 	if (user) {
+		let convertedItems = basketItems as BasketItem[];
+		let checked = true
+
+		convertedItems.every(async(product) => {
+			if(productCountChecker(await Product.findById(product.id) as IProduct))
+			{
+				return res.status(400).json({
+					status: "Failure",
+					message: "Stoktan olmayan ürün sipariş edilemez.",
+					requirement: ""
+				})
+			}
+
+		})
+
 		var response: IPaymentResponse | IPaymentFailResponse = await createPayment(
 			{
 				price,
@@ -40,7 +56,9 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 			message: (response as IPaymentFailResponse).errorMessage,
 			requirement: ''
 		});
+
 	}
+		
 	return res.status(404).json();
 });
 
