@@ -20,8 +20,6 @@ import {
 } from '../../types/OrderTypes/Order.responses.types';
 import { ICancelPaymentRequest, ICancelPaymentResponse, IRefundPaymentResponse } from '../../types/Payment/Cancel.types';
 import { IPaymentFailResponse } from '../../types/Payment/Payment.types';
-import { Image } from 'primereact/image';
-import { IProduct } from '../../../client/src/types/redux/product/index';
 
 export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserOrderResponse> => {
 	let userOrderResponse: IUserOrderResponse = {

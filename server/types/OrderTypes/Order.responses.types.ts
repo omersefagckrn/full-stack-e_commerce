@@ -12,7 +12,7 @@ export interface SubOrdersResponse {
 }
 export interface SubDetailResponse {
 	item: OrderDeatilFields;
-	item_image: string;
+	item_image: Buffer;
 }
 export interface SubDetailPaymentInfo {
 	payment_tpye: string;
