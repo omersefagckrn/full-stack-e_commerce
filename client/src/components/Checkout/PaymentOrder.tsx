@@ -60,7 +60,7 @@ const PaymentOrder: FC = () => {
 											className='h-[100px] w-[100px] object-cover rounded-lg select-none'
 										/>
 										<div className='flex flex-col space-y-2 w-full'>
-											<div className='text-primary font-normal text-xs '>{card.product?.name}</div>
+											<div className='text-primary font-normal text-xs'>{card.product?.name}</div>
 											<div className='text-[#666666] font-normal text-xs'>{card.product?.description}</div>
 											<div className='text-[#666666] font-normal text-md underline'>
 												Quantity: {card.quantity}

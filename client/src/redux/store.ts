@@ -9,13 +9,19 @@ import productReducer from './product/productSlice';
 import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
 
+/* Panel */
+import panelProductReducer from './panel/product/productSlice';
+
 const appReducer = combineReducers({
 	theme: themeReducer,
 	auth: authReducer,
 	profile: profileReducer,
 	products: productReducer,
 	card: cardReducer,
-	order: orderReducer
+	order: orderReducer,
+	panel: combineReducers({
+		products: panelProductReducer
+	})
 });
 
 const store = configureStore({

@@ -13,65 +13,47 @@ const headerBuilder = (headers?: object) => {
 	return { ...defaultHeaders, ...(headers ?? {}) };
 };
 
+const handleUnauthorized = (error: any) => {
+	if (error.response?.statusText === 'Unauthorized') {
+		localStorage.clear();
+		window.location.href = '/auth/login';
+		setTimeout(() => {
+			AppToast({ message: 'Please login again.', type: 'error' });
+		}, 1500);
+	}
+};
+
 export const apiHelper = {
 	get: async (endpoint: string, headers?: object): Promise<AxiosResponse> => {
 		try {
 			return await axios.get(confirmEndpoint(endpoint), headerBuilder(headers));
 		} catch (error) {
-			if (error.response.statusText === 'Unauthorized') {
-				localStorage.clear();
-				window.location.href = '/auth/login';
-				AppToast({
-					type: 'error',
-					message: error.response.data.message
-				});
-			}
-			return await axios.get(confirmEndpoint(endpoint), headerBuilder(headers));
+			handleUnauthorized(error);
+			return error.response;
 		}
 	},
 	post: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse> => {
 		try {
 			return await axios.post(confirmEndpoint(endpoint), body, headerBuilder(headers));
 		} catch (error) {
-			if (error.response.statusText === 'Unauthorized') {
-				localStorage.clear();
-				window.location.href = '/auth/login';
-				AppToast({
-					type: 'error',
-					message: error.response.data.message
-				});
-			}
-			return await axios.post(confirmEndpoint(endpoint), body, headerBuilder(headers));
+			handleUnauthorized(error);
+			return error.response;
 		}
 	},
 	put: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse> => {
 		try {
 			return await axios.put(confirmEndpoint(endpoint), body, headerBuilder(headers));
 		} catch (error) {
-			if (error.response.statusText === 'Unauthorized') {
-				localStorage.clear();
-				window.location.href = '/auth/login';
-				AppToast({
-					type: 'error',
-					message: error.response.data.message
-				});
-			}
-			return await axios.put(confirmEndpoint(endpoint), body, headerBuilder(headers));
+			handleUnauthorized(error);
+			return error.response;
 		}
 	},
 	delete: async (endpoint: string, headers?: object): Promise<AxiosResponse> => {
 		try {
 			return await axios.delete(confirmEndpoint(endpoint), headerBuilder(headers));
 		} catch (error) {
-			if (error.response.statusText === 'Unauthorized') {
-				localStorage.clear();
-				window.location.href = '/auth/login';
-				AppToast({
-					type: 'error',
-					message: error.response.data.message
-				});
-			}
-			return await axios.delete(confirmEndpoint(endpoint), headerBuilder(headers));
+			handleUnauthorized(error);
+			return error.response;
 		}
 	}
 };

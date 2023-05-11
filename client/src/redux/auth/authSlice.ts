@@ -25,9 +25,8 @@ const initialState: AuthReduxState = {
 };
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-	localStorage.removeItem('user');
-	localStorage.removeItem('isAdmin');
-	localStorage.removeItem('id');
+	localStorage.clear();
+	window.location.href = '/';
 });
 
 export const login = createAsyncThunk(

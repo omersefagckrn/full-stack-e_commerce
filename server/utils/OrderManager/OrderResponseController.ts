@@ -32,7 +32,7 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 		}
 	};
 	for (let i = 0; i < orders.length; i++) {
-		let currentDetails = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDeatilFields[]; 
+		let currentDetails = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDeatilFields[];
 		let unitOrderResponse: SubOrdersResponse = {
 			date: orders[i].created_at as Date,
 			item_count: currentDetails.length,
@@ -42,9 +42,8 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 		};
 		userOrderResponse.orders.push(unitOrderResponse);
 		userOrderResponse.orders[i].image = [];
-		for (let j = 0; j < currentDetails.length; j++)
-		{
-			let product = await Product.findById(currentDetails[j].product_id) as IProduct;
+		for (let j = 0; j < currentDetails.length; j++) {
+			let product = (await Product.findById(currentDetails[j].product_id)) as IProduct;
 			userOrderResponse.orders[i].image?.push(product.image);
 		}
 	}

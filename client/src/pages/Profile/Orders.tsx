@@ -78,6 +78,20 @@ const Orders: FC = () => {
 		return <div>{order.item_count}</div>;
 	};
 
+	const dateBody = (order: SubOrdersResponse) => {
+		/* @ts-ignore */
+		return (
+			<div>
+				{new Date(order.date).toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				})}
+			</div>
+		);
+	};
+	console.log(orders.orders);
+
 	return (
 		<>
 			<div className='text-xl text-black font-semibold select-none'>Your orders</div>
@@ -113,6 +127,7 @@ const Orders: FC = () => {
 								sortable
 								body={itemCountBody}
 							></Column>
+							<Column field='date' header='Date' sortable body={dateBody}></Column>
 							<Column field='total_price' header='Total Price' sortable body={totalPriceBody}></Column>
 							<Column field='status' header='Status' sortable body={statusBody}></Column>
 						</DataTable>

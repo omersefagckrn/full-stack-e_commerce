@@ -1,10 +1,12 @@
 import Logo from 'assets/hero/logo.svg';
 import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { logout } from 'redux/auth/authSlice';
+import { useAppDispatch } from 'redux/store';
 
 const Panel: FC = () => {
 	const navigate = useNavigate();
-
+	const appDispatch = useAppDispatch();
 	const route = [
 		{
 			path: '/panel/products',
@@ -16,10 +18,14 @@ const Panel: FC = () => {
 		}
 	] as { path: string; text: string }[];
 
+	const logoutUser = async () => {
+		await appDispatch(logout());
+	};
+
 	return (
 		<>
 			<div className='flex flex-row'>
-				<div className='flex flex-col justify-between fixed left-0 w-64 top-0 h-screen bg-gray-200 overflow-y-scroll bg-black'>
+				<div className='hidden lg:flex flex-col justify-between fixed left-0 w-64 top-0 h-screen bg-gray-200 overflow-y-scroll bg-black'>
 					<div className='flex flex-col'>
 						<div className='flex items-center justify-center py-2'>
 							<img src={Logo} alt='HeroLogo' className='cursor-pointer' onClick={() => navigate('/')} />
@@ -38,13 +44,13 @@ const Panel: FC = () => {
 						</div>
 					</div>
 					<div className='w-64 fixed left-0 bottom-0 p-4 bg-black'>
-						<div className='bg-white rounded-md p-2 text-center w-full cursor-pointer'>
+						<div onClick={logoutUser} className='bg-white rounded-md p-2 text-center w-full cursor-pointer'>
 							<div className='text-black font-normal'>Logout</div>
 						</div>
 					</div>
 				</div>
-				<div className='w-full h-screen overflow-y-scroll ml-64'>
-					<div className='mx-auto max-w-5xl'>
+				<div className='w-full h-screen overflow-y-scroll'>
+					<div className='lg:mx-auto lg:max-w-3xl m-4'>
 						<Outlet />
 					</div>
 				</div>

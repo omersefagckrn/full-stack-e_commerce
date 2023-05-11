@@ -5,17 +5,23 @@ export const getStock = (stock: number | undefined) => {
 			text: 'No stock information'
 		};
 	}
-	if (stock >= 0 && stock <= 3)
+	if (stock === 0) {
+		return {
+			stock: 'bg-redsoft',
+			text: 'Out stock'
+		};
+	}
+	if (stock >= 0 && stock <= 20)
 		return {
 			stock: 'bg-redsoft',
 			text: 'Low'
 		};
-	if (stock >= 6 && stock <= 10)
+	if (stock >= 20 && stock <= 100)
 		return {
 			stock: 'bg-purple',
 			text: 'Medium'
 		};
-	if (stock >= 10)
+	if (stock >= 200)
 		return {
 			stock: 'bg-green',
 			text: 'High'

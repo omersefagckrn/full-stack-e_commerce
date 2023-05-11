@@ -46,3 +46,21 @@ export const validationSchemaAddAddress = Yup.object<FormAddAddressValues>({
 	city_name: Yup.string().required('City name is required'),
 	country_name: Yup.string().required('Country name is required')
 });
+
+export const validationSchemaPanelAddProduct = Yup.object({
+	name: Yup.string().required('Name is required'),
+	price: Yup.number().required('Price is required'),
+	category: Yup.string().required('Category is required'),
+	countInStock: Yup.number().required('Count in stock is required'),
+	description: Yup.string().required('Description is required'),
+	rating: Yup.number().required('Rating is required').min(0, 'Rating must be between 0 and 5').max(5, 'Rating must be between 0 and 5')
+});
+
+export const validationSchemaPanelEditProduct = Yup.object({
+	name: Yup.string(),
+	price: Yup.number(),
+	category: Yup.string(),
+	countInStock: Yup.number(),
+	description: Yup.string(),
+	rating: Yup.number().min(0, 'Rating must be between 0 and 5').max(5, 'Rating must be between 0 and 5')
+});

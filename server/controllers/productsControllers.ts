@@ -66,21 +66,15 @@ export const createProduct = unhandledExceptionsHandler(async (req: Request, res
  */
 
 export const updateProduct = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const products = (await Product.findByIdAndUpdate(
-		req.params.id,
-		{
-			name: req.body.name,
-			price: req.body.price,
-			image: req.body.image,
-			category: req.body.category,
-			countInStock: req.body.countInStock,
-			description: req.body.description,
-			rating: req.body.rating
-		},
-		{
-			new: true
-		}
-	)) as IProduct;
+	const products = (await Product.findByIdAndUpdate(req.params.id, {
+		name: req.body.name,
+		price: req.body.price,
+		image: req.body.image,
+		category: req.body.category,
+		countInStock: req.body.countInStock,
+		description: req.body.description,
+		rating: req.body.rating
+	})) as IProduct;
 
 	if (!products) {
 		return res.status(404).json({ message: 'Product not found!' });

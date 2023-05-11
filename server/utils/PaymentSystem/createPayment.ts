@@ -1,9 +1,9 @@
 import Iyzipay from 'iyzipay-ts';
 import { CreatePaymentRequest } from 'iyzipay-ts/dist/resources/models';
+import { IProduct } from '../../models/Product';
 import { BasketItem, Buyer, IPaymentFailResponse, IPaymentRequest, IPaymentResponse, IngAddress, PaymentCard } from '../../types/Payment/Payment.types';
 import { RequestBuilder } from './paymentRequestBuilder';
 import { SaveOrder } from './saveBasket';
-import Product, { IProduct } from '../../models/Product';
 
 export const createPayment = async (
 	body: {
@@ -40,5 +40,4 @@ export const createPayment = async (
 };
 export const productCountChecker = (product: IProduct): boolean => {
 	return product.countInStock > 0;
-	
-}
+};
