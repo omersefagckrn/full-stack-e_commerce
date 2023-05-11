@@ -4,10 +4,10 @@ import { admin, auth } from '../middleware/auth';
 
 const router: Router = express.Router();
 
-router.route('/').get(getAllProducts).post(auth, admin, createProduct);
+router.route('/').get(getAllProducts);
 router.route('/:id').get(getProductById);
 // admin side
-router.route('/admin/products')
-router.route('/admin/products/:id').delete(auth, admin, deleteProduct).put(auth, admin, updateProduct)
+router.route('/admin/products').get(auth , getAllProducts).post(auth, createProduct);
+router.route('/admin/products/:id').delete(auth, deleteProduct).put(auth, updateProduct)
 
 export default router;

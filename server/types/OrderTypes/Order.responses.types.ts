@@ -8,11 +8,11 @@ export interface SubOrdersResponse {
 	status: string;
 	total_price: number;
 	item_count: number;
-	image?: Buffer[]
+	image: String[]
 }
 export interface SubDetailResponse {
 	item: OrderDeatilFields;
-	item_image: Buffer;
+	item_image: string;
 }
 export interface SubDetailPaymentInfo {
 	payment_tpye: string;

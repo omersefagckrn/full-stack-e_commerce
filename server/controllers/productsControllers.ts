@@ -77,9 +77,6 @@ export const updateProduct = unhandledExceptionsHandler(async (req: Request, res
 			description: req.body.description,
 			rating: req.body.rating
 		},
-		{
-			new: true
-		}
 	)) as IProduct;
 
 	if (!products) {

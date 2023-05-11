@@ -29,7 +29,7 @@ export const createPayment = async (
 	if (response.status === 'success') {
 		try {
 			response = response as IPaymentResponse;
-			SaveOrder(request, user_id, response.cardType, response.paymentId, response.itemTransactions);
+			await SaveOrder(request, user_id, response.cardType, response.paymentId, response.itemTransactions);
 			return response;
 		} catch (err) {
 			console.log(err);

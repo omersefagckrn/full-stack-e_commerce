@@ -4,7 +4,7 @@ export interface IProduct extends Document {
 	_id?: Types.ObjectId | string;
 	name: string;
 	description: string;
-	image: Buffer;
+	image: string;
 	price: number;
 	category: string;
 	countInStock: number;
@@ -15,7 +15,7 @@ const ProductSchema = new Schema(
 	{
 		name: { type: String, required: true },
 		description: { type: String, required: true },
-		image: { type: Buffer, required: true, contentType: String },
+		image: { type: String, required: true, },
 		price: { type: Number, required: true },
 		category: { type: String, required: true },
 		countInStock: { type: Number, required: true },
