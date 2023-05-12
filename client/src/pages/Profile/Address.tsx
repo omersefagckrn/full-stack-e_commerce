@@ -25,7 +25,8 @@ const Address: FC = () => {
 		errorMessageDeleteUserAddress,
 		isLoadingDeleteUserAddress,
 		isSuccessDeleteUserAddress,
-		isSuccessEditUserAddress
+		isSuccessEditUserAddress,
+		isLoadingEditUserAddress
 	} = useAppSelector((state) => state.profile);
 
 	useEffect(() => {
@@ -83,7 +84,7 @@ const Address: FC = () => {
 				</div>
 			)}
 
-			{isLoadingGetUserAddress && !isLoadingDeleteUserAddress ? (
+			{isLoadingGetUserAddress || isLoadingDeleteUserAddress || isLoadingEditUserAddress ? (
 				<div className='flex items-center justify-center'>
 					<Loader />
 				</div>
@@ -97,7 +98,7 @@ const Address: FC = () => {
 								<div className='flex flex-col space-y-2 border-[#C2C2C2] border-l-2 p-3 bg-[#F9F9F9]'>
 									<div>
 										<div className='text-sm text-black font-semibold'>{item.title}</div>
-										<div className='text-xs text-purple font-normal'>{item.address}</div>
+										<div className='text-xs text-purple font-normal truncate max-w-[260px]'>{item.address}</div>
 									</div>
 
 									<div className='flex items-center justify-between space-x-2'>

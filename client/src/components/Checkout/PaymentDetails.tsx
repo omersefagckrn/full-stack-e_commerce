@@ -21,10 +21,10 @@ const PaymentDetails: FC = () => {
 	const { paymentResponse, isSuccessCreateOrder, isErrorCreateOrder, errorMessageCreateOrder } = useAppSelector((state) => state.order);
 
 	const navigate = useNavigate();
+	const AppDispatch = useAppDispatch();
+
 	const [basketItems, setBasketItems] = useState<[] | any>([]);
 	const [selectedAddress, setSelectedAddress] = useState<boolean | IAddress>(false);
-
-	const AppDispatch = useAppDispatch();
 
 	useEffect(() => {
 		AppDispatch(getUserAddress(id));
@@ -76,7 +76,7 @@ const PaymentDetails: FC = () => {
 
 	const onSubmit = async ({ cardName, cardNumber, cardExpiry, cardCvc }: FormPaymentValues) => {
 		if (selectedAddress === false) {
-			AppToast({
+			return AppToast({
 				type: 'error',
 				message: 'Please select an address'
 			});
@@ -191,11 +191,9 @@ const PaymentDetails: FC = () => {
 			<Formik
 				validateOnBlur={false}
 				validateOnChange={false}
-				initialValues={{ cardName: '', cardNumber: '', cardExpiry: '', cardCvc: '' }}
+				initialValues={{ cardName: 'John doe', cardNumber: '5528 7900 0000 0008', cardExpiry: '12/30', cardCvc: '123' }}
 				validationSchema={validationSchemaPayment}
-				onSubmit={(values: FormPaymentValues) => {
-					onSubmit(values);
-				}}
+				onSubmit={(values: FormPaymentValues) => onSubmit(values)}
 			>
 				{({ handleSubmit, handleChange, values, errors }) => (
 					<form onSubmit={handleSubmit} className='flex flex-col space-y-2 w-full'>

@@ -57,7 +57,7 @@ const PaymentOrder: FC = () => {
 										<img
 											src={card.product?.image}
 											alt={card.product?._id as string}
-											className='h-[100px] w-[100px] object-cover rounded-lg select-none'
+											className='h-[100px] object-cover rounded-lg select-none'
 										/>
 										<div className='flex flex-col space-y-2 w-full'>
 											<div className='text-primary font-normal text-xs'>{card.product?.name}</div>
@@ -65,7 +65,7 @@ const PaymentOrder: FC = () => {
 											<div className='text-[#666666] font-normal text-md underline'>
 												Quantity: {card.quantity}
 											</div>
-											<div className='flex items-center space-x-6'>
+											<div className='flex items-center text-center space-x-6'>
 												<div className='flex items-center space-x-2 w-full'>
 													<div
 														onClick={() => removeCard(card.product as IProduct)}
@@ -81,7 +81,9 @@ const PaymentOrder: FC = () => {
 														+
 													</div>
 												</div>
-												<div className='font-bold text-primary text-md'>{card.product?.price}$</div>
+												<div className='font-bold text-primary text-md text-center'>
+													{card.product?.price}$
+												</div>
 												<img
 													onClick={() => deleteAllItem(card.product as IProduct)}
 													src={Delete}

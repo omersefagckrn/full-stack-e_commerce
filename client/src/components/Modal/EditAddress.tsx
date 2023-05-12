@@ -4,7 +4,7 @@ import { AppToast } from 'helper/toast';
 import { validationSchemaEditAddress } from 'helper/validation';
 import { Dialog } from 'primereact/dialog';
 import { FC, useEffect } from 'react';
-import { editUserAddress } from 'redux/profile/profileSlice';
+import { editUserAddress, reset } from 'redux/profile/profileSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import type { EditAddressProps } from 'types/components/Modal/EditAddress';
 import type { FormEditAddressValues } from 'types/helper/validation';
@@ -29,6 +29,7 @@ const EditAddress: FC<EditAddressProps> = ({ address, visible, setVisible }) => 
 				message: 'Address updated successfully!'
 			});
 			setVisible(false);
+			AppDispatch(reset());
 		}
 	}, [isLoadingEditUserAddress, isErrorEditUserAddress, isSuccessEditUserAddress, setVisible, AppDispatch, address?.user_id, errorMessageEditUserAddress]);
 

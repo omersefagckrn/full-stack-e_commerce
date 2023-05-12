@@ -119,7 +119,7 @@ const PanelProducts: FC = () => {
 											/>
 											<div
 												onClick={() => navigate(`/product/${product._id}`)}
-												className='font-semibold text-sm max-w-[200px] truncate w-full lg:max-w-[250px] lg:text-base underline'
+												className='font-semibold text-sm max-w-[200px] truncate w-full lg:max-w-[250px] lg:text-base underline cursor-pointer'
 											>
 												{product.name}
 											</div>

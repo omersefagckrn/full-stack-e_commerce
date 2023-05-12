@@ -29,8 +29,8 @@ const EditProfile: FC = () => {
 				type: 'success',
 				message: 'Your information has been updated'
 			});
-			navigate('/user/profile/information', { replace: true });
 			appDispatch(reset());
+			appDispatch(getUserProfile());
 		}
 		if (isErrorUpdateUser) {
 			appDispatch(getUserProfile());
