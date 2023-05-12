@@ -8,7 +8,7 @@ export interface SubOrdersResponse {
 	status: string;
 	total_price: number;
 	item_count: number;
-	image?: string[];
+	image: String[];
 }
 export interface SubDetailResponse {
 	item: OrderDeatilFields;

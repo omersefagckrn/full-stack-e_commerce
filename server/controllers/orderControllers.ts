@@ -16,10 +16,9 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 	const user = await User.findById(user_id);
 	if (user) {
 		let convertedItems = basketItems as BasketItem[];
-		let checked = true
 
 		convertedItems.every(async(product) => {
-			if(productCountChecker(await Product.findById(product.id) as IProduct))
+			if(!productCountChecker(await Product.findById(product.id) as IProduct))
 			{
 				return res.status(400).json({
 					status: "Failure",
@@ -63,7 +62,7 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 });
 
 export const getUserOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const orders: OrderFields[] = await Order.find({ user_id: req.params.user });
+	const orders: OrderFields[] = await Order.find({ user_id: req.params.user }).sort({'created_at': -1}) as unknown as  OrderFields[];
 	if (orders) {
 		const ordersResponse: IUserOrderResponse = await GetUserRecentOrders(orders);
 		return res.status(200).json(ordersResponse);
@@ -75,7 +74,7 @@ export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Reques
 	const user = req.params.user;
 	const order = req.params.order;
 	const detailResponse: IGetOrderDetailResponse = (await GetOrderDetails(order, user)) as IGetOrderDetailResponse;
-	if (detailResponse) return res.status(200).json(detailResponse);
+	if (detailResponse && detailResponse !== null) return res.status(200).json(detailResponse);
 	return res.status(404).json();
 });
 
@@ -131,9 +130,9 @@ export const refundOrder = unhandledExceptionsHandler(async (req: Request, res: 
 	else return res.status(400).json(result);
 });
 export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	//await Order.deleteMany({});
-	//await OrderDetail.deleteMany({});
-	//await Payment.deleteMany({});
+	await Order.deleteMany({});
+	await OrderDetail.deleteMany({});
+	await Payment.deleteMany({});
 	let response = {
 		//orders: await Order.find({}),
 		//details: await OrderDetail.find({}),
@@ -142,7 +141,7 @@ export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, r
 		results: {
 			order: await Order.find({}),
 			details: await OrderDetail.find({}),
-			payment: await Payment.find({})
+			payments: await Payment.find({})
 		}
 	};
 	return res.status(200).json({ message: 'success', response });

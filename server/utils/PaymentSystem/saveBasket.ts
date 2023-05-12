@@ -22,10 +22,10 @@ export const SaveOrder = async (paymentRequest: IPaymentRequest, user_id: string
 				storedItem.save();
 			}
 			let paymentTransactionId = item_transactions[counter].paymentTransactionId;
-			SaveOrderDetails(item, storedOrder._id, paymentRequest.paidPrice as unknown as number, paymentTransactionId);
+			await SaveOrderDetails(item, storedOrder._id, paymentRequest.paidPrice as unknown as number, paymentTransactionId);
 			counter++;
 		});
-		SavePayment(paymentRequest, user_id, storedOrder._id, paymentType, paymentId);
+		await SavePayment(paymentRequest, user_id, storedOrder._id, paymentType, paymentId);
 	} catch (err) {
 		console.log(err);
 	}
@@ -41,6 +41,7 @@ export const SavePayment = async (paymentRequest: IPaymentRequest, user_id: stri
 		zip_code: paymentRequest.shippingAddress.zipCode,
 		address: paymentRequest.shippingAddress.address
 	})) as AddressField;
+	console.log(billingAddress, shippingAddress);
 	if (billingAddress && shippingAddress) {
 		let newPayment: PaymentFields = {
 			_id: paymentRequest.conversationId,
@@ -54,10 +55,11 @@ export const SavePayment = async (paymentRequest: IPaymentRequest, user_id: stri
 			shipping_address_id: shippingAddress._id?.toString() as string,
 			payment_type: payment_type
 		};
-		let savedPayment = await Payment.create(newPayment);
+		console.log(newPayment);
+		(await Payment.create(newPayment)).save();
 	}
 };
-export const SaveOrderDetails = (item: BasketItem, order_id: string, total_price: number, item_transaction_id: string, discount_amount?: number) => {
+export const SaveOrderDetails = async (item: BasketItem, order_id: string, total_price: number, item_transaction_id: string, discount_amount?: number) => {
 	let orderDetail: OrderDeatilFields;
 	orderDetail = {
 		order_id: order_id,
@@ -69,5 +71,5 @@ export const SaveOrderDetails = (item: BasketItem, order_id: string, total_price
 		discount: discount_amount ? discount_amount : 0,
 		total_price: total_price
 	};
-	OrderDetail.create(orderDetail);
+	await OrderDetail.create(orderDetail);
 };

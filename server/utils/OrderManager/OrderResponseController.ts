@@ -1,5 +1,5 @@
 import Iyzipay, { LOCALE } from 'iyzipay-ts';
-import Order, { IOrder, OrderFields } from '../../models/Order';
+import Order, { OrderFields } from '../../models/Order';
 import OrderDetail, { OrderDeatilFields } from '../../models/OrderDetail';
 import Payment, { PaymentFields } from '../../models/Payment';
 import Product, { IProduct } from '../../models/Product';
@@ -38,7 +38,8 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 			item_count: currentDetails.length,
 			order_id: currentDetails[0].order_id,
 			status: orders[i].status,
-			total_price: currentDetails[0].total_price as number
+			total_price: currentDetails[0].total_price as number,
+			image: Array<String>()
 		};
 		userOrderResponse.orders.push(unitOrderResponse);
 		userOrderResponse.orders[i].image = [];
@@ -75,7 +76,6 @@ export const GetOrderDetails = async (order_id: string, user_id: string): Promis
 		}
 		return detailResponse;
 	}
-
 	return null;
 };
 export const GetAllOrdersForAdmin = async (): Promise<IAdminOrdersResponse | null> => {
@@ -97,7 +97,8 @@ export const GetAllOrdersForAdmin = async (): Promise<IAdminOrdersResponse | nul
 				item_count: currentDetail.length,
 				order_id: currentDetail[0].order_id,
 				status: orders[i].status,
-				total_price: currentDetail[0].total_price as number
+				total_price: currentDetail[0].total_price as number,
+				image: []
 			};
 			allOrdersResponse.orders.push(unitOrderResponse);
 		}
