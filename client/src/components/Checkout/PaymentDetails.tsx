@@ -18,7 +18,7 @@ const PaymentDetails: FC = () => {
 	const { user, address, isLoadingGetUserAddress } = useAppSelector((state) => state.profile);
 	const { cardTotalPrice, cards } = useAppSelector((state) => state.card);
 	const { id } = useAppSelector((state) => state.auth);
-	const { paymentResponse, isSuccessCreateOrder, isErrorCreateOrder, errorMessageCreateOrder } = useAppSelector((state) => state.order);
+	const { paymentResponse, isSuccessCreateOrder, isErrorCreateOrder } = useAppSelector((state) => state.order);
 
 	const navigate = useNavigate();
 	const AppDispatch = useAppDispatch();
@@ -36,7 +36,7 @@ const PaymentDetails: FC = () => {
 				for (let i = 0; i < item.quantity; i++) {
 					primaryBasketItems.push({
 						id: item.product._id,
-						price: item.product.price,
+						price: item.product.price.toFixed(1).toString(),
 						name: item.product.name,
 						category1: item.product.category,
 						category2: item.product.category,
@@ -53,26 +53,23 @@ const PaymentDetails: FC = () => {
 		if (isSuccessCreateOrder) {
 			AppToast({
 				type: 'success',
-				message: paymentResponse.message
+				message: paymentResponse?.message
 			});
 			AppDispatch(resetCreateOrder());
 			setBasketItems([]);
 			AppCartStorage.removeItem('card');
 			setTimeout(() => {
-				navigate(0);
-			}, 2000);
-			setTimeout(() => {
-				navigate('/');
+				navigate('/user/profile/orders');
 			}, 2000);
 		}
 		if (isErrorCreateOrder) {
 			AppToast({
 				type: 'error',
-				message: errorMessageCreateOrder
+				message: paymentResponse?.message
 			});
 			AppDispatch(resetCreateOrder());
 		}
-	}, [isSuccessCreateOrder, paymentResponse, isErrorCreateOrder, errorMessageCreateOrder, AppDispatch, navigate]);
+	}, [isSuccessCreateOrder, paymentResponse, isErrorCreateOrder, AppDispatch, navigate]);
 
 	const onSubmit = async ({ cardName, cardNumber, cardExpiry, cardCvc }: FormPaymentValues) => {
 		if (selectedAddress === false) {
@@ -84,8 +81,8 @@ const PaymentDetails: FC = () => {
 			await AppDispatch(
 				createOrder({
 					user_id: user?._id,
-					price: cardTotalPrice.toString(),
-					paidPrice: cardTotalPrice.toString(),
+					price: cardTotalPrice.toFixed(1).toString(),
+					paidPrice: cardTotalPrice.toFixed(1).toString(),
 					installment: 1,
 					paymentCard: {
 						cardHolderName: cardName,
@@ -246,12 +243,3 @@ const PaymentDetails: FC = () => {
 };
 
 export default PaymentDetails;
-
-/* {
-        cardHolderName: 'John Doe',
-        cardNumber: '5528790000000008',
-        expireMonth/Year: '12/30',
-        cvc: '123',
-        registerCard: '0'
-    } 
-*/

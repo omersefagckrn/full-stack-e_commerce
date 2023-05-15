@@ -1,5 +1,5 @@
 import Order, { OrderFields } from '../../models/Order';
-import OrderDetail, { OrderDeatilFields } from '../../models/OrderDetail';
+import OrderDetail, { OrderDetailFields } from '../../models/OrderDetail';
 import Payment, { PaymentFields } from '../../models/Payment';
 import Product, { IProduct } from '../../models/Product';
 import Address, { AddressField } from '../../models/address';
@@ -41,7 +41,7 @@ export const SavePayment = async (paymentRequest: IPaymentRequest, user_id: stri
 		zip_code: paymentRequest.shippingAddress.zipCode,
 		address: paymentRequest.shippingAddress.address
 	})) as AddressField;
-	console.log(billingAddress, shippingAddress);
+
 	if (billingAddress && shippingAddress) {
 		let newPayment: PaymentFields = {
 			_id: paymentRequest.conversationId,
@@ -55,12 +55,11 @@ export const SavePayment = async (paymentRequest: IPaymentRequest, user_id: stri
 			shipping_address_id: shippingAddress._id?.toString() as string,
 			payment_type: payment_type
 		};
-		console.log(newPayment);
 		(await Payment.create(newPayment)).save();
 	}
 };
 export const SaveOrderDetails = async (item: BasketItem, order_id: string, total_price: number, item_transaction_id: string, discount_amount?: number) => {
-	let orderDetail: OrderDeatilFields;
+	let orderDetail: OrderDetailFields;
 	orderDetail = {
 		order_id: order_id,
 		product_id: item.id,

@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 import Order, { OrderFields } from '../models/Order';
 import OrderDetail from '../models/OrderDetail';
 import Payment from '../models/Payment';
+import Product, { IProduct } from '../models/Product';
 import User from '../models/User';
 import { IAdminOrdersResponse, IGetOrderDetailResponse, IUserOrderResponse } from '../types/OrderTypes/Order.responses.types';
 import { ICancelPaymentResponse, IRefundPaymentResponse } from '../types/Payment/Cancel.types';
-import { IPaymentFailResponse, IPaymentResponse, BasketItem } from '../types/Payment/Payment.types';
+import { BasketItem, IPaymentFailResponse, IPaymentResponse } from '../types/Payment/Payment.types';
 import { CancelPayment, GetAllOrdersForAdmin, GetOrderDetailAdmin, GetOrderDetails, GetUserRecentOrders, RefundOrder, SetOrderToShipping } from '../utils/OrderManager/OrderResponseController';
 import { createPayment, productCountChecker } from '../utils/PaymentSystem/createPayment';
 import { unhandledExceptionsHandler } from '../utils/error';
-import Product, { IProduct } from '../models/Product';
 
 export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	const { user_id, price, paidPrice, installment, paymentCard, buyer, shippingAddress, billingAddress, basketItems, currency } = req.body;
@@ -17,17 +17,24 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 	if (user) {
 		let convertedItems = basketItems as BasketItem[];
 
-		convertedItems.every(async(product) => {
-			if(!productCountChecker(await Product.findById(product.id) as IProduct))
-			{
-				return res.status(400).json({
-					status: "Failure",
-					message: "Stoktan olmayan ürün sipariş edilemez.",
-					requirement: ""
-				})
-			}
+		if (convertedItems.length < 1) {
+			return res.status(400).json({
+				status: 'Failure',
+				message: 'Sepetinizde ürün bulunmamaktadır.',
+				requirement: ''
+			});
+		}
 
-		})
+		for (const product of convertedItems) {
+			const fetchedProduct = await Product.findById(product.id);
+			if (!productCountChecker(fetchedProduct as IProduct)) {
+				return res.status(400).json({
+					status: 'Failure',
+					message: 'Stokta olmayan bir ürün sipariş edilemez.',
+					requirement: ''
+				});
+			}
+		}
 
 		var response: IPaymentResponse | IPaymentFailResponse = await createPayment(
 			{
@@ -50,19 +57,23 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 				requirement: 'DISPATCH_ORDERS'
 			});
 		}
-		return res.status(400).json({
-			status: (response as IPaymentFailResponse).status,
-			message: (response as IPaymentFailResponse).errorMessage,
+		const object = {
+			status: (response as IPaymentFailResponse).status.toString(),
+			message: (response as IPaymentFailResponse).errorMessage.toString(),
 			requirement: ''
-		});
-
+		};
+		return res.status(400).json(object);
 	}
-		
-	return res.status(404).json();
+
+	return res.status(401).json({
+		status: 'failure',
+		message: 'Unauthorized',
+		requirement: ''
+	});
 });
 
 export const getUserOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
-	const orders: OrderFields[] = await Order.find({ user_id: req.params.user }).sort({'created_at': -1}) as unknown as  OrderFields[];
+	const orders: OrderFields[] = (await Order.find({ user_id: req.params.user }).sort({ created_at: -1 })) as unknown as OrderFields[];
 	if (orders) {
 		const ordersResponse: IUserOrderResponse = await GetUserRecentOrders(orders);
 		return res.status(200).json(ordersResponse);

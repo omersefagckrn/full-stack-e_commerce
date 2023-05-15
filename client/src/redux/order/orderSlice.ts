@@ -13,8 +13,7 @@ export const createOrder = createAsyncThunk('order/createOrder', async (order: a
 			return response.data;
 		}
 	} catch (error: any) {
-		const message = (error.response && error.response.data.message) || error.message;
-		return thunkAPI.rejectWithValue(message);
+		return thunkAPI.rejectWithValue(error.response.data);
 	}
 });
 
@@ -35,18 +34,52 @@ export const getOrders = createAsyncThunk('order/getOrders', async (user: string
 	}
 });
 
+export const getOrdersDetails = createAsyncThunk(
+	'order/getOrdersDetails',
+	async (
+		{
+			user,
+			order
+		}: {
+			user: string | undefined;
+			order: string | undefined;
+		},
+		thunkAPI
+	) => {
+		try {
+			const response = await apiHelper.get(`/api/orders/user/${user}/${order}`, {
+				headers: {
+					Authorization: `Bearer ${JSON.parse(localStorage.getItem('user') as string) || ''}`
+				}
+			});
+
+			if (response.status === 200) {
+				return response.data;
+			}
+		} catch (error: any) {
+			const message = (error.response && error.response.data.message) || error.message;
+			return thunkAPI.rejectWithValue(message);
+		}
+	}
+);
+
 const initialState = {
 	paymentResponse: {} as IPaymentResponse,
 	orders: {},
+	order: {},
 	isLoadingCreateOrder: false,
 	isSuccessCreateOrder: false,
 	isErrorCreateOrder: false,
-	errorMessageCreateOrder: '',
 
 	isLoadingGetOrder: false,
 	isSuccessGetOrder: false,
 	isErrorGetOrder: false,
-	errorMessageGetOrder: ''
+	errorMessageGetOrder: '',
+
+	isLoadingGetOrderDetails: false,
+	isSuccessGetOrderDetails: false,
+	isErrorGetOrderDetails: false,
+	errorMessageGetOrderDetails: ''
 } as orderReduxState;
 
 export const orderSlice = createSlice({
@@ -60,20 +93,18 @@ export const orderSlice = createSlice({
 			state.isLoadingCreateOrder = true;
 			state.isSuccessCreateOrder = false;
 			state.isErrorCreateOrder = false;
-			state.errorMessageCreateOrder = '';
 		});
 		builder.addCase(createOrder.fulfilled, (state, action) => {
 			state.isLoadingCreateOrder = false;
 			state.isSuccessCreateOrder = true;
 			state.isErrorCreateOrder = false;
-			state.errorMessageCreateOrder = '';
 			state.paymentResponse = action.payload;
 		});
 		builder.addCase(createOrder.rejected, (state, action) => {
 			state.isLoadingCreateOrder = false;
 			state.isSuccessCreateOrder = false;
 			state.isErrorCreateOrder = true;
-			state.errorMessageCreateOrder = action.payload as string;
+			state.paymentResponse = action.payload as unknown as IPaymentResponse;
 		});
 
 		builder.addCase(getOrders.pending, (state) => {
@@ -94,6 +125,26 @@ export const orderSlice = createSlice({
 			state.isSuccessGetOrder = false;
 			state.isErrorGetOrder = true;
 			state.errorMessageGetOrder = action.payload as string;
+		});
+
+		builder.addCase(getOrdersDetails.pending, (state) => {
+			state.isLoadingGetOrderDetails = true;
+			state.isSuccessGetOrderDetails = false;
+			state.isErrorGetOrderDetails = false;
+			state.errorMessageGetOrderDetails = '';
+		});
+		builder.addCase(getOrdersDetails.fulfilled, (state, action) => {
+			state.isLoadingGetOrderDetails = false;
+			state.isSuccessGetOrderDetails = true;
+			state.isErrorGetOrderDetails = false;
+			state.errorMessageGetOrderDetails = '';
+			state.order = action.payload;
+		});
+		builder.addCase(getOrdersDetails.rejected, (state, action) => {
+			state.isLoadingGetOrderDetails = false;
+			state.isSuccessGetOrderDetails = false;
+			state.isErrorGetOrderDetails = true;
+			state.errorMessageGetOrderDetails = action.payload as string;
 		});
 	}
 });

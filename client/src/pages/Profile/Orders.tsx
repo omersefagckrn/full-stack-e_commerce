@@ -1,7 +1,8 @@
 import { Loader } from 'components';
+import OrderDetails from 'components/Modal/OrderDetails';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { getOrders } from 'redux/order/orderSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { SubOrdersResponse } from 'types/redux/order';
@@ -10,8 +11,14 @@ const Orders: FC = () => {
 	const appDispatch = useAppDispatch();
 	const { orders, isLoadingGetOrder } = useAppSelector((state) => state.order);
 	const { id } = useAppSelector((state) => state.auth);
-
-	console.log();
+	const [showOrderDetailsModal, setShowOrderDetailsModal] = useState(false);
+	const [propsSelectedOrderDetails, setPropsSelectedOrderDetails] = useState<
+		| {
+				orderId: string | undefined;
+				userId: string | undefined;
+		  }
+		| undefined
+	>(undefined);
 
 	useEffect(() => {
 		appDispatch(getOrders(id));
@@ -90,49 +97,64 @@ const Orders: FC = () => {
 			</div>
 		);
 	};
-	console.log(orders.orders);
 
 	return (
 		<>
-			<div className='text-xl text-black font-semibold select-none'>Your orders</div>
-			{!isLoadingGetOrder && orders?.orders?.length === 0 && (
-				<div className='flex items-center justify-center py-4'>
-					<div className='text-lg text-black font-semibold select-none text-center'>You have no orders.</div>
-				</div>
+			{showOrderDetailsModal && (
+				<OrderDetails
+					orderId={propsSelectedOrderDetails?.orderId}
+					userId={propsSelectedOrderDetails?.userId}
+					visible={showOrderDetailsModal}
+					setVisible={setShowOrderDetailsModal}
+				/>
 			)}
+			<div className='text-xl text-black font-semibold select-none'>Your orders</div>
 			{isLoadingGetOrder ? (
 				<div className='flex items-center justify-center py-4'>
 					<Loader />
 				</div>
+			) : orders?.orders?.length === 0 ? (
+				<div className='flex items-center justify-center py-4'>
+					<div className='text-lg text-black font-semibold select-none text-center'>You have no orders.</div>
+				</div>
 			) : (
-				orders?.orders?.length > 0 && (
-					<div className='my-4'>
-						<DataTable
-							selectionMode='single'
-							paginator
-							rows={5}
-							rowsPerPageOptions={[5, 10, 25, 50]}
-							footer={footer}
-							value={orders.orders}
-							size='normal'
-						>
-							<Column field='order_id' header='Order ID' sortable body={orderIdBody}></Column>
-							<Column
-								headerStyle={{
-									alignItems: 'center',
-									textAlign: 'center'
+				<>
+					{orders?.orders?.length > 0 && (
+						<div className='my-4'>
+							<DataTable
+								onRowSelect={(event) => {
+									setPropsSelectedOrderDetails({
+										orderId: event.data.order_id,
+										userId: id
+									});
+									setShowOrderDetailsModal(true);
 								}}
-								field='item_count'
-								header='Item Count'
-								sortable
-								body={itemCountBody}
-							></Column>
-							<Column field='date' header='Date' sortable body={dateBody}></Column>
-							<Column field='total_price' header='Total Price' sortable body={totalPriceBody}></Column>
-							<Column field='status' header='Status' sortable body={statusBody}></Column>
-						</DataTable>
-					</div>
-				)
+								selectionMode='single'
+								paginator
+								rows={5}
+								rowsPerPageOptions={[5, 10, 25, 50]}
+								footer={footer}
+								value={orders.orders}
+								size='normal'
+							>
+								<Column field='order_id' header='Order ID' sortable body={orderIdBody}></Column>
+								<Column
+									headerStyle={{
+										alignItems: 'center',
+										textAlign: 'center'
+									}}
+									field='item_count'
+									header='Item Count'
+									sortable
+									body={itemCountBody}
+								></Column>
+								<Column field='date' header='Date' sortable body={dateBody}></Column>
+								<Column field='total_price' header='Total Price' sortable body={totalPriceBody}></Column>
+								<Column field='status' header='Status' sortable body={statusBody}></Column>
+							</DataTable>
+						</div>
+					)}
+				</>
 			)}
 		</>
 	);

@@ -1,6 +1,6 @@
 import Iyzipay, { LOCALE } from 'iyzipay-ts';
 import Order, { OrderFields } from '../../models/Order';
-import OrderDetail, { OrderDeatilFields } from '../../models/OrderDetail';
+import OrderDetail, { OrderDetailFields } from '../../models/OrderDetail';
 import Payment, { PaymentFields } from '../../models/Payment';
 import Product, { IProduct } from '../../models/Product';
 import User, { IUser } from '../../models/User';
@@ -32,7 +32,7 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 		}
 	};
 	for (let i = 0; i < orders.length; i++) {
-		let currentDetails = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDeatilFields[];
+		let currentDetails = (await OrderDetail.find({ order_id: orders[i]._id?.toString() })) as OrderDetailFields[];
 		let unitOrderResponse: SubOrdersResponse = {
 			date: orders[i].created_at as Date,
 			item_count: currentDetails.length,
@@ -52,7 +52,7 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 };
 
 export const GetOrderDetails = async (order_id: string, user_id: string): Promise<IGetOrderDetailResponse | null> => {
-	let allDetails: OrderDeatilFields[] = (await OrderDetail.find({ order_id: order_id })) as OrderDeatilFields[];
+	let allDetails: OrderDetailFields[] = (await OrderDetail.find({ order_id: order_id })) as OrderDetailFields[];
 	let user: IUser = (await User.findById(user_id)) as IUser;
 	let payment: PaymentFields = (await Payment.findOne({ order_id: order_id, user_id: user_id })) as PaymentFields;
 	let payment_info: SubDetailPaymentInfo;
@@ -60,24 +60,34 @@ export const GetOrderDetails = async (order_id: string, user_id: string): Promis
 		let detailResponse: IGetOrderDetailResponse = { details: [], payment_info: undefined };
 		payment_info = {
 			buyer: payment.buyer,
-			payment_tpye: payment.payment_type,
+			payment_type: payment.payment_type,
 			total_price: payment.price as number,
 			shipping_address: (await Address.findById(payment.shipping_address_id)) as AddressField,
 			billing_address: (await Address.findById(payment.billing_address_id)) as AddressField
 		};
 		detailResponse.payment_info = payment_info;
 		for (let i = 0; i < allDetails.length; i++) {
+			let isFound = false;
 			let current_product: IProduct = (await Product.findById(allDetails[i].product_id)) as IProduct;
 			let currentDetail: SubDetailResponse = {
 				item: allDetails[i],
 				item_image: current_product.image
 			};
-			detailResponse.details?.push(currentDetail);
+
+			detailResponse.details.map((item, index) => {
+				if (item.item.product_id === currentDetail.item.product_id) {
+					let newQuantity = (item.item.quantity as number) + 1;
+					detailResponse.details[index].item.quantity = newQuantity as Number;
+					isFound = true;
+				}
+			});
+			if (!isFound) detailResponse.details.push(currentDetail);
 		}
 		return detailResponse;
 	}
 	return null;
 };
+
 export const GetAllOrdersForAdmin = async (): Promise<IAdminOrdersResponse | null> => {
 	let orders: OrderFields[] = (await Order.find({})) as OrderFields[];
 	if (orders) {
@@ -91,7 +101,7 @@ export const GetAllOrdersForAdmin = async (): Promise<IAdminOrdersResponse | nul
 			}
 		};
 		for (let i = 0; i < orders.length; i++) {
-			let currentDetail = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDeatilFields[];
+			let currentDetail = (await OrderDetail.find({ order_id: orders[i]._id })) as OrderDetailFields[];
 			let unitOrderResponse: SubOrdersResponse = {
 				date: orders[i].created_at as Date,
 				item_count: currentDetail.length,
@@ -107,9 +117,10 @@ export const GetAllOrdersForAdmin = async (): Promise<IAdminOrdersResponse | nul
 	}
 	return null;
 };
+
 export const GetOrderDetailAdmin = async (order_id: string): Promise<IGetOrderDetailResponse | null> => {
 	let currentOrder = (await Order.findById(order_id)) as OrderFields;
-	let allDetails: OrderDeatilFields[] = (await OrderDetail.find({ order_id: order_id })) as OrderDeatilFields[];
+	let allDetails: OrderDetailFields[] = (await OrderDetail.find({ order_id: order_id })) as OrderDetailFields[];
 	let user: IUser = (await User.findById(currentOrder.user_id)) as IUser;
 	let payment: PaymentFields = (await Payment.findOne({ order_id: order_id, user_id: currentOrder.user_id })) as PaymentFields;
 	let payment_info: SubDetailPaymentInfo;
@@ -117,25 +128,35 @@ export const GetOrderDetailAdmin = async (order_id: string): Promise<IGetOrderDe
 		let detailResponse: IGetOrderDetailResponse = { details: [], payment_info: undefined };
 		payment_info = {
 			buyer: payment.buyer,
-			payment_tpye: payment.payment_type,
+			payment_type: payment.payment_type,
 			total_price: payment.price as number,
 			shipping_address: (await Address.findById(payment.shipping_address_id)) as AddressField,
 			billing_address: (await Address.findById(payment.billing_address_id)) as AddressField
 		};
 		detailResponse.payment_info = payment_info;
 		for (let i = 0; i < allDetails.length; i++) {
+			let isFound = false;
 			let current_product: IProduct = (await Product.findById(allDetails[i].product_id)) as IProduct;
 			let currentDetail: SubDetailResponse = {
 				item: allDetails[i],
 				item_image: current_product.image
 			};
-			detailResponse.details?.push(currentDetail);
+
+			detailResponse.details.map((item, index) => {
+				if (item.item.product_id === currentDetail.item.product_id) {
+					let newQuantity = (item.item.quantity as number) + 1;
+					detailResponse.details[index].item.quantity = newQuantity as Number;
+					isFound = true;
+				}
+			});
+			if (!isFound) detailResponse.details.push(currentDetail);
 		}
 		return detailResponse;
 	}
 
 	return null;
 };
+
 export const SetOrderToShipping = async (order_id: string): Promise<boolean> => {
 	const updateVal = { status: 'SHIPPING' };
 	let doc = await Order.findByIdAndUpdate(order_id, updateVal);
@@ -160,7 +181,7 @@ export const CancelPayment = async (order_id: string): Promise<IPaymentFailRespo
 		};
 		await Payment.deleteOne(payment);
 		await Order.findByIdAndDelete(order_id);
-		let details = (await OrderDetail.find({ order_id: order_id })) as OrderDeatilFields[];
+		let details = (await OrderDetail.find({ order_id: order_id })) as OrderDetailFields[];
 		details.forEach(async (detail) => {
 			let newStock = (await Product.findById(detail.product_id)) as IProduct;
 			newStock.countInStock += detail.quantity as number;
@@ -194,7 +215,7 @@ export const RefundOrder = async (
 		currency: currency
 	};
 	const response = (await paymentController.refund.create(request)) as IPaymentFailResponse | IRefundPaymentResponse;
-	let detail = (await OrderDetail.findOne({ item_transaction_id: item_transaction_id })) as OrderDeatilFields;
+	let detail = (await OrderDetail.findOne({ item_transaction_id: item_transaction_id })) as OrderDetailFields;
 	let product = (await Product.findById(detail.product_id)) as IProduct;
 	product.countInStock = product.countInStock + (detail.quantity as number);
 	await Product.findByIdAndUpdate(detail.product_id, product);

@@ -18,7 +18,7 @@ export const createPayment = async (
 		currency: string;
 	},
 	user_id: string
-): Promise<any> => {
+): Promise<IPaymentResponse | IPaymentFailResponse> => {
 	let paymentController: any = new Iyzipay({
 		apiKey: process.env.IYZICO_API_KEY as string,
 		secretKey: process.env.IYZICO_SECRET as string,
@@ -33,6 +33,7 @@ export const createPayment = async (
 			return response;
 		} catch (err) {
 			console.log(err);
+			response = response as IPaymentFailResponse;
 			return response;
 		}
 		paymentController = null;

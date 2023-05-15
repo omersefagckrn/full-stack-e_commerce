@@ -1,6 +1,6 @@
 import toast, { Toast } from 'react-hot-toast';
 
-type ToastType = Pick<Toast, 'message' | 'type'>;
+type ToastType = Pick<Toast, any>;
 
 export const AppToast = ({ message, type }: ToastType) => {
 	switch (type) {

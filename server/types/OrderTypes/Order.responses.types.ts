@@ -1,4 +1,4 @@
-import { OrderDeatilFields } from '../../models/OrderDetail';
+import { OrderDetailFields } from '../../models/OrderDetail';
 import { AddressField } from '../../models/address';
 import { Buyer } from '../Payment/Payment.types';
 
@@ -11,11 +11,11 @@ export interface SubOrdersResponse {
 	image: String[];
 }
 export interface SubDetailResponse {
-	item: OrderDeatilFields;
+	item: OrderDetailFields;
 	item_image: string;
 }
 export interface SubDetailPaymentInfo {
-	payment_tpye: string;
+	payment_type: string;
 	buyer: Buyer;
 	total_price: number;
 	shipping_address: AddressField;

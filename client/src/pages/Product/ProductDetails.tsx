@@ -71,15 +71,11 @@ const ProductDetails: FC = () => {
 								</div>
 								<div className='text-primary font-medium'>{product?.description}</div>
 								<div className='text-2xl font-bold text-black'>${product?.price}</div>
-								<Button
-									onClick={() => {
-										if (product?.countInStock !== 0) {
-											addCard(product);
-										}
-									}}
-									className='mt-1'
-									children={product?.countInStock === 0 ? 'Out of stock' : 'Add to card'}
-								/>
+								{(product?.countInStock as number) > 0 ? (
+									<Button onClick={() => addCard(product)} className='mt-1' children='Add to card' />
+								) : (
+									<div className='text-redsoft font-bold'>Out of stock</div>
+								)}
 							</div>
 						</div>
 					</>

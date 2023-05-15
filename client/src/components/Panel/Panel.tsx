@@ -28,7 +28,7 @@ const Panel: FC = () => {
 			<div className='flex flex-col lg:flex-row'>
 				<div className='flex lg:hidden items-center justify-between p-5 text-black'>
 					<div className='font-normal cursor-pointer' onClick={() => navigate('/')}>
-						Ana Sayfa
+						Home
 					</div>
 					<BsMenuButtonWideFill className='w-6 h-6 cursor-pointer' onClick={() => setIsMenuOpen(!isMenuOpen)} />
 				</div>

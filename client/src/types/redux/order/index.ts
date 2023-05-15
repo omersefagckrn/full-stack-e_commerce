@@ -19,15 +19,20 @@ export interface IUserOrderResponse {
 export type orderReduxState = {
 	paymentResponse: IPaymentResponse;
 	orders: IUserOrderResponse;
+	order: any;
 	isLoadingCreateOrder: boolean;
 	isSuccessCreateOrder: boolean;
 	isErrorCreateOrder: boolean;
-	errorMessageCreateOrder: string;
 
 	isLoadingGetOrder: boolean;
 	isSuccessGetOrder: boolean;
 	isErrorGetOrder: boolean;
 	errorMessageGetOrder: string;
+
+	isLoadingGetOrderDetails: boolean;
+	isSuccessGetOrderDetails: boolean;
+	isErrorGetOrderDetails: boolean;
+	errorMessageGetOrderDetails: string;
 };
 
 export interface IPaymentResponse {
