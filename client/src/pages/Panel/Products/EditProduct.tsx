@@ -14,7 +14,7 @@ const EditProduct: FC<EditProductProps> = ({ product, visible, setVisible }) => 
 	const [image, setImage] = useState<any>(product.image || '');
 	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
-	const { isLoadingEditProduct, isSuccessEditProduct, errorMessageEditProduct } = useAppSelector((state) => state.panel.products);
+	const { isLoadingEditProduct, isSuccessEditProduct, errorMessageEditProduct, isErrorEditProduct } = useAppSelector((state) => state.panel.products);
 
 	const onSubmit = async ({ name, price, category, countInStock, description, rating }: FormPanelEditProductValues) => {
 		await appDispatch(editProduct({ id: product._id, name, price, category, countInStock, description, rating, image }));
@@ -31,14 +31,14 @@ const EditProduct: FC<EditProductProps> = ({ product, visible, setVisible }) => 
 			navigate(0);
 		}
 
-		if (errorMessageEditProduct) {
+		if (isErrorEditProduct) {
 			AppToast({
 				type: 'error',
 				message: errorMessageEditProduct
 			});
 			appDispatch(resetEditProduct());
 		}
-	}, [isSuccessEditProduct, errorMessageEditProduct, setVisible, appDispatch, navigate]);
+	}, [isSuccessEditProduct, errorMessageEditProduct, setVisible, appDispatch, navigate, isErrorEditProduct]);
 
 	const customBase64Uploader = async (event: any) => {
 		const file = event.files[0];

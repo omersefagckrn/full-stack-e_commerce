@@ -19,7 +19,7 @@ root.render(
 		<>
 			<Toaster
 				toastOptions={{
-					duration: 1500
+					duration: 8000
 				}}
 				position='top-right'
 				reverseOrder={false}

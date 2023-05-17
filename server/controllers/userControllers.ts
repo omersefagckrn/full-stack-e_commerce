@@ -9,12 +9,12 @@ export const loginUser = unhandledExceptionsHandler(async (req: Request, res: Re
 
 	const user = await User.findOne({ email });
 	if (!user) {
-		return res.status(401).json({ message: 'Invalid email or password!' });
+		return res.status(400).json({ message: 'Invalid email or password!' });
 	}
 
 	const isMatch = await user.matchPassword(password);
 	if (!isMatch) {
-		return res.status(401).json({ message: 'Invalid email or password!' });
+		return res.status(400).json({ message: 'Invalid email or password!' });
 	}
 
 	return res.status(200).json({

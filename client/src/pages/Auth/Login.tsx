@@ -4,7 +4,7 @@ import { AppToast } from 'helper/toast';
 import { validationSchemaLogin } from 'helper/validation';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from 'redux/auth/authSlice';
+import { login, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import type { FormLoginValues } from 'types/helper/validation';
 
@@ -29,6 +29,10 @@ const Login: FC = () => {
 				message: messageLogin
 			});
 			navigate('/');
+			setTimeout(() => {
+				navigate(0);
+			}, 1000);
+			appDispatch(reset());
 		}
 
 		if (isErrorLogin) {
@@ -36,6 +40,7 @@ const Login: FC = () => {
 				type: 'error',
 				message: messageLogin
 			});
+			appDispatch(reset());
 		}
 	}, [isSuccessLogin, isErrorLogin, messageLogin, appDispatch, navigate]);
 
@@ -50,7 +55,6 @@ const Login: FC = () => {
 					initialValues={{ email: '', password: '' }}
 					validationSchema={validationSchemaLogin}
 					onSubmit={(values: FormLoginValues, { resetForm }) => {
-						resetForm();
 						onSubmit(values);
 					}}
 				>

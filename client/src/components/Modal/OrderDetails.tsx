@@ -3,13 +3,7 @@ import { Dialog } from 'primereact/dialog';
 import { FC, useEffect } from 'react';
 import { getOrdersDetails } from 'redux/order/orderSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-
-type OrderDetailsProps = {
-	orderId: string | undefined;
-	userId: string | undefined;
-	visible: boolean;
-	setVisible: (visible: boolean) => void;
-};
+import type { OrderDetailsProps } from 'types/components/Modal/OrderDetails';
 
 const OrderDetails: FC<OrderDetailsProps> = ({ visible, setVisible, orderId, userId }) => {
 	const appDispatch = useAppDispatch();

@@ -112,9 +112,12 @@ const Navigation: FC = () => {
 				type: 'success',
 				message: 'You have successfully logged out, you are being redirected!'
 			});
+
 			setTimeout(() => {
+				navigate('/');
 				navigate(0);
-			}, 1000);
+			}, 1500);
+
 			appDispatch(reset());
 		}
 	}, [isErrorLogout, isSuccessLogout, appDispatch, navigate]);

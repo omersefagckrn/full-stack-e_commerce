@@ -80,9 +80,9 @@ const PanelProducts: FC = () => {
 			{showAddProductModal && <AddProduct visible={showAddProductModal} setVisible={() => setShowAddProductModal(false)} />}
 			{showEditProductModal && <EditProduct product={propsProduct} visible={showEditProductModal} setVisible={() => setShowEditProductModal(false)} />}
 
-			<div className='text-3xl my-6 font-semibold text-center'>Your products will be listed here.</div>
+			<div className='text-3xl my-6 font-semibold text-center'>All Products</div>
 			<div className='cursor-pointer text-center text-white bg-green p-3 w-full rounded-lg' onClick={() => setShowAddProductModal(true)}>
-				Yeni ürün ekle
+				Add new product
 			</div>
 			<div className='my-6'>
 				{isLoadingGetProducts ? (
@@ -113,13 +113,15 @@ const PanelProducts: FC = () => {
 
 										<div className='flex flex-col items-center justify-center space-y-2'>
 											<Image
+												width='100%'
+												height='100%'
 												src={product.image}
 												alt='Image'
-												className='w-[10rem] shadow-md shadow-black object-contain rounded-lg'
+												className='w-[5rem] shadow-md shadow-black object-contain rounded-lg'
 											/>
 											<div
 												onClick={() => navigate(`/product/${product._id}`)}
-												className='font-semibold text-sm max-w-[200px] truncate w-full lg:max-w-[250px] lg:text-base underline cursor-pointer'
+												className='font-semibold text-sm max-w-[200px] truncate w-full lg:text-base underline cursor-pointer'
 											>
 												{product.name}
 											</div>

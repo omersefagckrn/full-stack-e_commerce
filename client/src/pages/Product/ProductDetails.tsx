@@ -61,18 +61,20 @@ const ProductDetails: FC = () => {
 											<Rating value={product?.rating} readOnly cancel={false} />
 											<span className='text-md text-gray'>{product?.rating}/5</span>
 										</div>
-										<div className={`text-xs py-2 px-2 text-white ${getStock(product?.countInStock)?.stock}`}>
+										<div
+											className={`text-center rounded-lg text-xs py-2 px-6 text-white ${
+												getStock(product?.countInStock)?.stock
+											}`}
+										>
 											<span className='text-xs font-medium'>{getStock(product?.countInStock)?.text}</span>
 										</div>
 									</div>
-									<div className='py-3'>
-										<div className='h-[0.5px] bg-gray' />
-									</div>
+									<div className='h-[0.5px] bg-gray' />
 								</div>
-								<div className='text-primary font-medium'>{product?.description}</div>
-								<div className='text-2xl font-bold text-black'>${product?.price}</div>
+								<div className='text-primary font-medium my-2'>{product?.description}</div>
+								<div className='text-2xl font-bold text-black mb-2'>${product?.price}</div>
 								{(product?.countInStock as number) > 0 ? (
-									<Button onClick={() => addCard(product)} className='mt-1' children='Add to card' />
+									<Button onClick={() => addCard(product)} children='Add to card' />
 								) : (
 									<div className='text-redsoft font-bold'>Out of stock</div>
 								)}

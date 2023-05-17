@@ -45,7 +45,7 @@ export const GetUserRecentOrders = async (orders: OrderFields[]): Promise<IUserO
 		userOrderResponse.orders[i].image = [];
 		for (let j = 0; j < currentDetails.length; j++) {
 			let product = (await Product.findById(currentDetails[j].product_id)) as IProduct;
-			userOrderResponse.orders[i].image?.push(product.image);
+			userOrderResponse.orders[i].image?.push(product?.image);
 		}
 	}
 	return userOrderResponse;

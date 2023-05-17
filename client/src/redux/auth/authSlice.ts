@@ -26,7 +26,6 @@ const initialState: AuthReduxState = {
 
 export const logout = createAsyncThunk('auth/logout', async () => {
 	localStorage.clear();
-	window.location.href = '/';
 });
 
 export const login = createAsyncThunk(
@@ -116,7 +115,6 @@ export const authSlice = createSlice({
 			state.isSuccessLogin = true;
 			state.user = action.payload;
 			state.messageLogin = 'Successfully logged in!';
-			state.isAuth = true;
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.isLoadingLogin = false;

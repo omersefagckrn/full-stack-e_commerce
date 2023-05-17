@@ -26,7 +26,7 @@ const Panel: FC = () => {
 	return (
 		<>
 			<div className='flex flex-col lg:flex-row'>
-				<div className='flex lg:hidden items-center justify-between p-5 text-black'>
+				<div className='flex items-center justify-between p-5 text-black'>
 					<div className='font-normal cursor-pointer' onClick={() => navigate('/')}>
 						Home
 					</div>

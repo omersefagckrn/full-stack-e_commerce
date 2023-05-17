@@ -54,6 +54,7 @@ const AddProduct: FC<AddProductProps> = ({ visible, setVisible }) => {
 				type: 'error',
 				message: errorMessageCreateProduct
 			});
+			appDispatch(resetCreateProduct());
 		}
 	}, [isSuccessCreateProduct, isErrorCreateProduct, errorMessageCreateProduct, appDispatch, setVisible, navigate]);
 

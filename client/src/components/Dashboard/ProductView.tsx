@@ -1,6 +1,5 @@
 import Loader from 'components/Public/Loader';
 import { getStock } from 'helper/product';
-import { Image } from 'primereact/image';
 import { Rating } from 'primereact/rating';
 import { FC, useEffect } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -55,11 +54,11 @@ const ProductView: FC = () => {
 												</div>
 											</div>
 
-											<div className='flex flex-col items-center justify-center self-cetner space-y-2'>
-												<Image
+											<div className='flex flex-col items-center justify-center space-y-2'>
+												<img
 													src={product.image}
-													alt='Image'
-													className='w-[10rem] shadow-md shadow-black object-contain rounded-lg'
+													alt={product.image}
+													className='w-[10rem] h-[10rem] shadow-md shadow-black object-contain rounded-lg'
 												/>
 												<div className='font-semibold text-sm max-w-[200px] truncate w-full lg:max-w-[250px] lg:text-base'>
 													{product.name}

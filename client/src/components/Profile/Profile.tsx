@@ -2,10 +2,11 @@ import { Container } from 'components';
 import { MenuItem } from 'primereact/menuitem';
 import { TabMenu } from 'primereact/tabmenu';
 import { FC } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const Profile: FC = () => {
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const items: MenuItem[] = [
 		{
@@ -38,19 +39,23 @@ const Profile: FC = () => {
 		}
 	];
 
+	const activeIndexLocation = location.pathname.split('/').pop();
+
+	console.log(activeIndexLocation);
+
 	return (
 		<Container>
 			<div className='lg:mx-auto lg:max-w-4xl'>
 				<div className='flex flex-col mx-4 lg:mx-0'>
 					<TabMenu
 						activeIndex={
-							window.location.pathname === '/user/profile/information'
+							activeIndexLocation === 'information'
 								? 0
-								: window.location.pathname === '/user/profile/edit'
+								: activeIndexLocation === 'edit'
 								? 1
-								: window.location.pathname === '/user/profile/address'
+								: activeIndexLocation === 'address'
 								? 2
-								: window.location.pathname === '/user/profile/orders'
+								: activeIndexLocation === 'orders'
 								? 3
 								: 0
 						}
