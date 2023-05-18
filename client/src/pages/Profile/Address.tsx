@@ -71,11 +71,8 @@ const Address: FC = () => {
 			{showEditModal && <EditAddress address={propsAddress} visible={showEditModal} setVisible={() => setShowEditModal(false)} />}
 			{showAddModal && <AddAddress visible={showAddModal} setVisible={() => setShowAddModal(false)} />}
 
-			<div className='flex items-center justify-between'>
-				<div className='text-xl text-black font-semibold select-none cursor-pointer'>My Address</div>
-				<div onClick={() => setShowAddModal(true)} className='text-xs underline font-semibold text-green cursor-pointer select-none'>
-					Add new address
-				</div>
+			<div onClick={() => setShowAddModal(true)} className='text-xs underline font-semibold text-green cursor-pointer select-none'>
+				Add new address
 			</div>
 
 			{address && !isLoadingGetUserAddress && address.length === 0 && (

@@ -40,9 +40,6 @@ const Profile: FC = () => {
 	];
 
 	const activeIndexLocation = location.pathname.split('/').pop();
-
-	console.log(activeIndexLocation);
-
 	return (
 		<Container>
 			<div className='lg:mx-auto lg:max-w-4xl'>
@@ -63,6 +60,18 @@ const Profile: FC = () => {
 						model={items}
 					/>
 					<div className='my-4 w-full'>
+						<div className='text-xl text-black font-semibold select-none cursor-pointer mb-2'>
+							{activeIndexLocation === 'information'
+								? 'Profile Information'
+								: activeIndexLocation === 'edit'
+								? 'Edit Profile'
+								: activeIndexLocation === 'address'
+								? 'Your Address'
+								: activeIndexLocation === 'orders'
+								? 'Your Orders'
+								: 'Information'}
+						</div>
+
 						<Outlet />
 					</div>
 				</div>

@@ -108,9 +108,9 @@ const Orders: FC = () => {
 					setVisible={setShowOrderDetailsModal}
 				/>
 			)}
-			<div className='text-xl text-black font-semibold select-none'>Your orders</div>
+
 			{isLoadingGetOrder ? (
-				<div className='flex items-center justify-center py-4'>
+				<div className='flex items-center justify-center'>
 					<Loader />
 				</div>
 			) : orders?.orders?.length === 0 ? (
@@ -120,7 +120,7 @@ const Orders: FC = () => {
 			) : (
 				<>
 					{orders?.orders?.length > 0 && (
-						<div className='my-4'>
+						<div className='mb-4'>
 							<DataTable
 								onRowSelect={(event) => {
 									setPropsSelectedOrderDetails({

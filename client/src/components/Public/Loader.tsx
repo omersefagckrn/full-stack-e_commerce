@@ -1,8 +1,8 @@
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { FC } from 'react';
+import { SyncLoader } from 'react-spinners';
 
 const Loader: FC = () => {
-	return <ProgressSpinner style={{ width: '30px', height: '30px' }} strokeWidth='8' animationDuration='.5s' aria-label='Loading' />;
+	return <SyncLoader size={10} color='#6F55FF' />;
 };
 
 export default Loader;

@@ -23,7 +23,7 @@ const ProductView: FC = () => {
 	return (
 		<>
 			<div id='products' className='text-black pb-20'>
-				<div className='lg:max-w-main mx-4 lg:mx-auto'>
+				<div className='lg:max-w-main mx-4 lg:mx-auto px-4'>
 					{isLoadingGetAllProduct ? (
 						<span className='flex items-center justify-center'>
 							<Loader />

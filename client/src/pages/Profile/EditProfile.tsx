@@ -43,7 +43,6 @@ const EditProfile: FC = () => {
 
 	return (
 		<>
-			<div className='text-xl text-black font-semibold select-none'>Edit your information</div>
 			{isLoadingGetUser ? (
 				<div className='flex items-center justify-center'>
 					<Loader />

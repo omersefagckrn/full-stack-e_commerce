@@ -19,9 +19,9 @@ root.render(
 		<>
 			<Toaster
 				toastOptions={{
-					duration: 8000
+					duration: 2000
 				}}
-				position='top-right'
+				position='bottom-center'
 				reverseOrder={false}
 			/>
 			<ConfirmDialog />

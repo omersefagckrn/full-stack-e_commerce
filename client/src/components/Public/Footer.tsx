@@ -5,7 +5,7 @@ const Footer: FC = () => {
 	return (
 		<div className='bg-black'>
 			<div className='lg:mx-auto lg:max-w-main py-10 lg:py-20'>
-				<div className='grid gird-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6 ml-6 lg:ml-0'>
+				<div className='grid gird-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-6 ml-6'>
 					<div className='flex flex-col'>
 						<div className='text-gray text-lg underline pb-6'>Contact</div>
 						<div className='text-gray text-xs pt-6'>Limited Company</div>

@@ -19,33 +19,31 @@ const ProfileInformation: FC = () => {
 
 	return (
 		<>
-			<div className='flex items-center justify-between select-none'>
-				<div className='text-xl text-black font-semibold'>Profile Info</div>
-				<div className='text-base'>
-					Updated At: <span className='font-semibold'>{formatToLocalDate(user?.updatedAt)}</span>
-				</div>
-			</div>
 			{isLoadingGetUser ? (
 				<div className='flex items-center justify-center'>
 					<Loader />
 				</div>
 			) : (
 				<div className='flex flex-col space-y-4'>
-					<div className='text-base text-purple font-normal pt-2 select-none'>Here you can find and edit information about yourself.</div>
 					<div>
 						<div className='text-sm text-black font-semibold'>Name</div>
-						<div className='text-base text-purple font-normal'>{user?.name + ' ' + user?.surname}</div>
+						<div className='text-sm text-purple font-normal'>{user?.name + ' ' + user?.surname}</div>
 					</div>
 					<div>
 						<div className='text-sm text-black font-semibold'>Email</div>
-						<div className='text-base text-purple font-normal'>{user?.email}</div>
+						<div className='text-sm text-purple font-normal'>{user?.email}</div>
 					</div>
 
 					<div>
 						<div className='text-sm text-black font-semibold'>Phone Number</div>
-						<div className='text-base text-purple font-normal'>
+						<div className='text-sm text-purple font-normal'>
 							{user?.phone?.replace(/[\s()-]+/g, '').replace(/^(?:\+|0)(\d{3})(\d{3})(\d{2})(\d{2})$/, '+90 $1 $2 $3 $4')}
 						</div>
+					</div>
+
+					<div>
+						<div className='text-sm text-black font-semibold'>Updated At</div>
+						<div className='text-sm text-purple font-normal'>{formatToLocalDate(user?.updatedAt)}</div>
 					</div>
 				</div>
 			)}
