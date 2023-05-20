@@ -11,16 +11,16 @@ const Header: FC = () => {
 
 	const navRoute = [
 		{
-			name: 'My Address',
-			path: '/user/profile/address'
+			name: 'Profile',
+			path: '/user/profile/information'
 		},
 		{
 			name: 'Orders',
 			path: '/user/profile/orders'
 		},
 		{
-			name: 'Profile',
-			path: '/user/profile/information'
+			name: 'Address',
+			path: '/user/profile/address'
 		}
 	];
 

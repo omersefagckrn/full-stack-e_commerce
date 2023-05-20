@@ -153,7 +153,7 @@ const PaymentDetails: FC = () => {
 				Array.isArray(address) && (
 					<>
 						<div className='text-sm text-black font-semibold'>You must choose an address to continue!</div>
-						<div className='grid lg:grid-cols-2 gap-4 mt-2'>
+						<div className='grid lg:grid-cols-2 gap-4 my-2'>
 							{address.map((item) => (
 								<div className='flex flex-row relative' key={item._id}>
 									<RadioButton

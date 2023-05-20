@@ -103,7 +103,7 @@ const PaymentOrder: FC = () => {
 							</div>
 						</>
 					) : (
-						<div className='flex items-center justify-center py-4'>
+						<div className='flex items-center justify-center py-2'>
 							<div className='text-xs text-redsoft font-semibold select-none text-center'>
 								You have no items in your shopping cart.{' '}
 								<span
