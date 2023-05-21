@@ -105,12 +105,17 @@ export const GetAllOrdersForAdmin = async (): Promise<IAdminOrdersResponse | nul
 			let unitOrderResponse: SubOrdersResponse = {
 				date: orders[i].created_at as Date,
 				item_count: currentDetail.length,
-				order_id: currentDetail[0].order_id,
+				order_id: currentDetail[0]?.order_id,
 				status: orders[i].status,
-				total_price: currentDetail[0].total_price as number,
-				image: []
+				total_price: currentDetail[0]?.total_price as number,
+				image: Array<String>()
 			};
 			allOrdersResponse.orders.push(unitOrderResponse);
+			allOrdersResponse.orders[i].image = [];
+			for (let j = 0; j < currentDetail.length; j++) {
+				let product = (await Product.findById(currentDetail[j].product_id)) as IProduct;
+				allOrdersResponse.orders[i].image?.push(product?.image);
+			}
 		}
 
 		return allOrdersResponse;
@@ -159,11 +164,15 @@ export const GetOrderDetailAdmin = async (order_id: string): Promise<IGetOrderDe
 
 export const SetOrderToShipping = async (order_id: string): Promise<boolean> => {
 	const updateVal = { status: 'SHIPPING' };
-	let doc = await Order.findByIdAndUpdate(order_id, updateVal);
-	let changedOrder = (await Order.findById(order_id)) as OrderFields;
-	if (changedOrder && changedOrder.status == 'SHIPPING') {
-		return true;
-	} else return false;
+	const oldOrder = (await Order.findById(order_id)) as OrderFields;
+	if (oldOrder.status === 'GETTING_READY') {
+		let doc = await Order.findByIdAndUpdate(order_id, updateVal);
+		let changedOrder = (await Order.findById(order_id)) as OrderFields;
+		if (changedOrder && changedOrder.status == 'SHIPPING') {
+			return true;
+		} else return false;
+	}
+	return false;
 };
 export const CancelPayment = async (order_id: string): Promise<IPaymentFailResponse | ICancelPaymentResponse | null> => {
 	let paymentController = new Iyzipay({

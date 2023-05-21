@@ -10,6 +10,7 @@ import profileReducer from './profile/profileSlice';
 import themeReducer from './theme/themeSlice';
 
 /* Panel */
+import panelOrderReducer from './panel/order/orderSlice';
 import panelProductReducer from './panel/product/productSlice';
 
 const appReducer = combineReducers({
@@ -20,7 +21,8 @@ const appReducer = combineReducers({
 	card: cardReducer,
 	order: orderReducer,
 	panel: combineReducers({
-		products: panelProductReducer
+		products: panelProductReducer,
+		orders: panelOrderReducer
 	})
 });
 

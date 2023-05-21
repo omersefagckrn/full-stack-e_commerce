@@ -1,6 +1,6 @@
 import { Loader } from 'components';
 import { Button } from 'components/Utils';
-import { getStock } from 'helper/product';
+import { formatCurrency, getStock } from 'helper/product';
 import { AppToast } from 'helper/toast';
 import { confirmDialog } from 'primereact/confirmdialog';
 import { Image } from 'primereact/image';
@@ -45,10 +45,6 @@ const PanelProducts: FC = () => {
 		}
 	}, [isSuccessDeleteProduct, isErrorDeleteProduct, errorMessageDeleteProduct, appDispatch]);
 
-	const formatCurrency = (value: number) => {
-		return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-	};
-
 	const handleUpdateProduct = (product: IProduct) => {
 		setShowEditProductModal(true);
 		setPropsProduct(product);
@@ -81,14 +77,14 @@ const PanelProducts: FC = () => {
 			{showEditProductModal && <EditProduct product={propsProduct} visible={showEditProductModal} setVisible={() => setShowEditProductModal(false)} />}
 
 			<div className='text-3xl my-6 font-semibold text-center'>All Products</div>
-			<div className='cursor-pointer text-center text-white bg-green p-3 w-full rounded-lg' onClick={() => setShowAddProductModal(true)}>
+			<div className='cursor-pointer text-center text-white bg-green p-3 w-full rounded-lg select-none' onClick={() => setShowAddProductModal(true)}>
 				Add new product
 			</div>
 			<div className='my-6'>
 				{isLoadingGetProducts ? (
-					<span className='flex items-center justify-center'>
+					<div className='flex items-center justify-center'>
 						<Loader />
-					</span>
+					</div>
 				) : (
 					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 						{products.map((product, key) => {

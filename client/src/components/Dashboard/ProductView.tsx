@@ -1,5 +1,5 @@
 import Loader from 'components/Public/Loader';
-import { getStock } from 'helper/product';
+import { formatCurrency, getStock } from 'helper/product';
 import { Rating } from 'primereact/rating';
 import { FC, useEffect } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -15,10 +15,6 @@ const ProductView: FC = () => {
 	useEffect(() => {
 		appDispatch(getAllProducts());
 	}, [appDispatch]);
-
-	const formatCurrency = (value: number) => {
-		return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-	};
 
 	return (
 		<>

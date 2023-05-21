@@ -27,3 +27,7 @@ export const getStock = (stock: number | undefined) => {
 			text: 'High'
 		};
 };
+
+export const formatCurrency = (value: number) => {
+	return value.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' });
+};

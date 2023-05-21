@@ -1,5 +1,5 @@
 import { Loader } from 'components';
-import { getStock } from 'helper/product';
+import { formatCurrency, getStock } from 'helper/product';
 import { FC, useEffect } from 'react';
 import { getAllProducts } from 'redux/product/productSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
@@ -19,10 +19,6 @@ const ProductTableDashboard: FC = () => {
 	useEffect(() => {
 		appDispatch(getAllProducts());
 	}, [appDispatch]);
-
-	const formatCurrency = (value: number) => {
-		return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-	};
 
 	const priceBodyTemplate = (product: IProduct) => {
 		return formatCurrency(product.price);

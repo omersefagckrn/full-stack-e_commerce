@@ -1,5 +1,6 @@
 import { Loader } from 'components';
 import OrderDetails from 'components/Modal/OrderDetails';
+import { formatCurrency } from 'helper/product';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { FC, useEffect, useState } from 'react';
@@ -53,12 +54,6 @@ const Orders: FC = () => {
 		}
 	};
 
-	const formatCurrency = (value: number) => {
-		return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-	};
-
-	const footer = `In total there are ${orders?.orders?.length} orders.`;
-
 	const orderIdBody = (order: SubOrdersResponse) => {
 		return <div className='text-blue'>{order.order_id}</div>;
 	};
@@ -86,7 +81,6 @@ const Orders: FC = () => {
 	};
 
 	const dateBody = (order: SubOrdersResponse) => {
-		/* @ts-ignore */
 		return (
 			<div>
 				{new Date(order.date).toLocaleDateString('en-US', {
@@ -129,15 +123,13 @@ const Orders: FC = () => {
 									});
 									setShowOrderDetailsModal(true);
 								}}
-								selectionMode='single'
 								paginator
+								selectionMode='single'
 								rows={5}
-								rowsPerPageOptions={[5, 10, 25, 50]}
-								footer={footer}
 								value={orders.orders}
 								size='normal'
 							>
-								<Column field='order_id' header='Order ID' sortable body={orderIdBody}></Column>
+								<Column field='order_id' header='Order ID' body={orderIdBody}></Column>
 								<Column
 									headerStyle={{
 										alignItems: 'center',

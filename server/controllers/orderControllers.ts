@@ -91,7 +91,6 @@ export const getUserOrderDetails = unhandledExceptionsHandler(async (req: Reques
 
 export const getAllOrders = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	const orders: IAdminOrdersResponse = (await GetAllOrdersForAdmin()) as IAdminOrdersResponse;
-	console.log('Running');
 	if (orders) {
 		return res.status(200).json(orders);
 	}
@@ -124,9 +123,21 @@ export const orderToShipping = unhandledExceptionsHandler(async (req: Request, r
 
 export const cancelOrderByID = unhandledExceptionsHandler(async (req: Request, res: Response) => {
 	const order_id = req.params.order;
-	const result: IPaymentFailResponse | ICancelPaymentResponse | null = await CancelPayment(order_id);
-	if (result && result.status == 'success') return res.status(200).json(result);
-	else return res.status(500).json(result);
+	const order = (await Order.findById(order_id)) as OrderFields;
+	if (order.status === 'GETTING_READY') {
+		const result: IPaymentFailResponse | ICancelPaymentResponse | null = await CancelPayment(order_id);
+		if (result && result.status == 'success')
+			return res.status(200).json({
+				message: 'Order has been canceled.',
+				requirement: 'DISPATCH_ORDERS'
+			});
+		else return res.status(500).json(result);
+	} else {
+		return res.status(400).json({
+			message: 'The product that has been delivered or in cargo cannot be cancelled.',
+			requirement: ''
+		});
+	}
 });
 
 /**
@@ -145,10 +156,6 @@ export const hardResetOrders = unhandledExceptionsHandler(async (req: Request, r
 	await OrderDetail.deleteMany({});
 	await Payment.deleteMany({});
 	let response = {
-		//orders: await Order.find({}),
-		//details: await OrderDetail.find({}),
-		//payments: await Payment.find({}),
-
 		results: {
 			order: await Order.find({}),
 			details: await OrderDetail.find({}),

@@ -44,7 +44,7 @@ export const apiHelper = {
 			return await axios.post(confirmEndpoint(endpoint), body, headerBuilder(headers));
 		}
 	},
-	put: async (endpoint: string, body: object, headers?: object): Promise<AxiosResponse> => {
+	put: async (endpoint: string, body?: object, headers?: object): Promise<AxiosResponse> => {
 		try {
 			return await axios.put(confirmEndpoint(endpoint), body, headerBuilder(headers));
 		} catch (error) {
