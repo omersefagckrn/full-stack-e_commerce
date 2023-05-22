@@ -1,5 +1,4 @@
 import { Loader } from 'components';
-import { Button } from 'components/Utils';
 import { formatCurrency } from 'helper/product';
 import { AppToast } from 'helper/toast';
 import { Avatar } from 'primereact/avatar';
@@ -117,6 +116,9 @@ const AllOrders: FC = () => {
 									<Avatar key={idx} image={image as string} size='normal' shape='circle' />
 								))}
 							</AvatarGroup>
+							<div>{order?.order_id}</div>
+							<div>{order?.item_count} Item</div>
+							<div>{formatCurrency(order?.total_price)}</div>
 							<div>
 								{new Date(order.date).toLocaleDateString('en-US', {
 									year: 'numeric',
@@ -124,22 +126,19 @@ const AllOrders: FC = () => {
 									day: 'numeric'
 								})}
 							</div>
-							<div>{order?.item_count}</div>
-							<div>{order?.order_id}</div>
-							<div>{formatCurrency(order?.total_price)}</div>
 							<div
 								style={{
 									backgroundColor: bgColorCalculator(order.status).backgroundColor,
 									color: bgColorCalculator(order.status).color
 								}}
-								className='flex items-center justify-center rounded-full text-[8px] py-2 px-2'
+								className='flex items-center justify-center rounded-full text-[8px] py-2 px-2 select-none'
 							>
 								<span className='text-xs font-bold text-center'>{order.status}</span>
 							</div>
 						</div>
-						<div className='flex items-center space-x-2 mt-2'>
-							<Button
-								disabled={isLoadingToShippingOrder}
+						<div className='flex items-center space-x-4 mt-4'>
+							<div
+								className='text-base font-semibold text-center text-primary cursor-pointer underline'
 								onClick={() => {
 									confirmDialog({
 										message: 'Are you sure you want to ship?',
@@ -160,10 +159,10 @@ const AllOrders: FC = () => {
 									});
 								}}
 							>
-								Order To Shipping
-							</Button>
-							<Button
-								disabled={isLoadingCancelOrder}
+								{isLoadingToShippingOrder ? 'Process in progress...' : 'Order To Shipping'}
+							</div>
+							<div
+								className='text-base font-semibold text-center text-red-500 cursor-pointer underline'
 								onClick={() => {
 									confirmDialog({
 										message: 'Are you sure you want to cancel order?',
@@ -184,8 +183,8 @@ const AllOrders: FC = () => {
 									});
 								}}
 							>
-								Cancel Order
-							</Button>
+								{isLoadingCancelOrder ? 'Process in progress...' : 'Cancel Order'}
+							</div>
 						</div>
 					</div>
 				))

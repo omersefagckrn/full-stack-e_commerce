@@ -231,7 +231,7 @@ const PaymentDetails: FC = () => {
 							</div>
 						</div>
 						<div className='pt-6'>
-							<Button type='submit' className='w-full'>
+							<Button disabled={isSuccessCreateOrder} type='submit' className='w-full'>
 								Complete the payment
 							</Button>
 						</div>

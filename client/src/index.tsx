@@ -21,7 +21,7 @@ root.render(
 				toastOptions={{
 					duration: 2000
 				}}
-				position='bottom-center'
+				position='top-left'
 				reverseOrder={false}
 			/>
 			<ConfirmDialog />

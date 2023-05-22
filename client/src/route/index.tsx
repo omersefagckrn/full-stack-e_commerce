@@ -10,12 +10,6 @@ const PrivateRoute: FC = () => {
 	return isAuth ? <Outlet /> : <Navigate to='/' replace />;
 };
 
-const AdminPrivateRoute: FC = () => {
-	const { isAuth } = useAppSelector((state) => state.auth);
-
-	return isAuth ? <Outlet /> : <Navigate to='/' replace />;
-};
-
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<>
@@ -39,11 +33,9 @@ const router = createBrowserRouter(
 				<Route path='user/checkout' element={<Pages.Checkout />} />
 			</Route>
 
-			<Route element={<AdminPrivateRoute />}>
-				<Route path='panel' element={<Component.Panel />}>
-					<Route index path='products' element={<Pages.PanelProducts />} />
-					<Route path='orders' element={<Pages.PanelOrders />} />
-				</Route>
+			<Route path='panel' element={<Component.Panel />}>
+				<Route index path='products' element={<Pages.PanelProducts />} />
+				<Route path='orders' element={<Pages.PanelOrders />} />
 			</Route>
 		</>
 	)
