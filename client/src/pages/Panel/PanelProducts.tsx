@@ -20,20 +20,30 @@ const PanelProducts: FC = () => {
 	const [propsProduct, setPropsProduct] = useState<IProduct | any>(null);
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { products, isLoadingGetProducts, isLoadingDeleteProduct, errorMessageDeleteProduct, isSuccessDeleteProduct, isErrorDeleteProduct } = useAppSelector((state) => state.panel.products);
+	const { products, isLoadingGetProducts, isLoadingDeleteProduct, errorMessageDeleteProduct, isSuccessDeleteProduct, isErrorDeleteProduct, isSuccessCreateProduct } = useAppSelector(
+		(state) => state.panel.products
+	);
 
 	useEffect(() => {
 		appDispatch(getProducts());
 	}, [appDispatch]);
 
 	useEffect(() => {
+		if (isSuccessCreateProduct) {
+			AppToast({
+				type: 'success',
+				message: 'Product created successfully'
+			});
+			appDispatch(getProducts());
+		}
+
 		if (isSuccessDeleteProduct) {
 			AppToast({
 				type: 'success',
 				message: 'Product deleted successfully'
 			});
-			appDispatch(getProducts());
 			appDispatch(resetDeleteProduct());
+			appDispatch(getProducts());
 		}
 
 		if (isErrorDeleteProduct) {
@@ -43,7 +53,7 @@ const PanelProducts: FC = () => {
 			});
 			appDispatch(resetDeleteProduct());
 		}
-	}, [isSuccessDeleteProduct, isErrorDeleteProduct, errorMessageDeleteProduct, appDispatch]);
+	}, [isSuccessDeleteProduct, isErrorDeleteProduct, errorMessageDeleteProduct, isSuccessCreateProduct, appDispatch]);
 
 	const handleUpdateProduct = (product: IProduct) => {
 		setShowEditProductModal(true);

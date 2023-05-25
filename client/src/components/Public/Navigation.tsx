@@ -2,7 +2,6 @@ import Logo from 'assets/hero/logo.svg';
 import { Facebook, Linkedin, Mail, Menu as MenuIcon } from 'assets/icons';
 import { AutoComplete, AutoCompleteChangeEvent, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
 import { FC, useEffect, useRef, useState } from 'react';
-import { FiSettings } from 'react-icons/fi';
 import { logout, reset } from 'redux/auth/authSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import type { IconType } from 'types/components/Public/Navigation';
@@ -32,7 +31,7 @@ const icons: IconType[] = [
 const Navigation: FC = () => {
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { isErrorLogout, isSuccessLogout, isAdmin, isAuth } = useAppSelector((state) => state.auth);
+	const { isErrorLogout, isSuccessLogout, isAuth } = useAppSelector((state) => state.auth);
 	const { products: appProducts } = useAppSelector((state) => state.products);
 
 	const mobileMenuRef = useRef<TieredMenu>(null);
@@ -177,21 +176,8 @@ const Navigation: FC = () => {
 								}}
 							/>
 						</div>
-						<div className='flex items-center space-x-2'>
-							<div
-								className='cursor-pointer'
-								onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}
-							>
-								<MenuIcon />
-							</div>
-							{isAdmin && isAuth && (
-								<FiSettings
-									onClick={() => {
-										navigate('/panel/products');
-									}}
-									className='text-white text-2xl cursor-pointer w-6 h-6'
-								/>
-							)}
+						<div className='cursor-pointer' onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => mobileMenuRef.current?.toggle(event)}>
+							<MenuIcon />
 						</div>
 					</div>
 				</div>

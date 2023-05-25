@@ -1,8 +1,9 @@
 import Delete from 'assets/icons/Delete.svg';
+import { addCard, handleDeleteAllItemQuantity, removeCard } from 'helper/product';
 import { DataView } from 'primereact/dataview';
 import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addToCard, deleteAllItemQuantity, getTotals, removeFromCard } from 'redux/card/cardSlice';
+import { getTotals } from 'redux/card/cardSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import type { ICard } from 'types/redux/card';
 import type { IProduct } from 'types/redux/product';
@@ -15,33 +16,6 @@ const PaymentOrder: FC = () => {
 	useEffect(() => {
 		appDispatch(getTotals());
 	}, [cards, appDispatch]);
-
-	const addCard = (product: IProduct) => {
-		appDispatch(
-			addToCard({
-				product,
-				quantity: 1
-			})
-		);
-	};
-
-	const removeCard = (product: IProduct) => {
-		appDispatch(
-			removeFromCard({
-				product,
-				quantity: 1
-			})
-		);
-	};
-
-	const deleteAllItem = (product: IProduct) => {
-		appDispatch(
-			deleteAllItemQuantity({
-				product,
-				quantity: 1
-			})
-		);
-	};
 
 	return (
 		<>
@@ -68,14 +42,18 @@ const PaymentOrder: FC = () => {
 											<div className='flex items-center text-center space-x-6'>
 												<div className='flex items-center space-x-2 w-full'>
 													<div
-														onClick={() => removeCard(card.product as IProduct)}
+														onClick={() =>
+															removeCard(card.product as IProduct, appDispatch)
+														}
 														className='border-[#CCCCCC] border-[1px] w-8 text-center rounded-lg text-primary cursor-pointer hover:bg-primary hover:text-white hover:border-none'
 													>
 														-
 													</div>
 													<div className='text-primary text-xl font-bold'>1</div>
 													<div
-														onClick={() => addCard(card.product as IProduct)}
+														onClick={() =>
+															addCard(card.product as IProduct, appDispatch)
+														}
 														className='border-[#CCCCCC] border-[1px] w-8 text-center rounded-lg text-primary cursor-pointer hover:bg-primary hover:text-white hover:border-none'
 													>
 														+
@@ -85,7 +63,12 @@ const PaymentOrder: FC = () => {
 													{card.product?.price}$
 												</div>
 												<img
-													onClick={() => deleteAllItem(card.product as IProduct)}
+													onClick={() =>
+														handleDeleteAllItemQuantity(
+															card.product as IProduct,
+															appDispatch
+														)
+													}
 													src={Delete}
 													alt='Delete'
 													className='w-6 h-6 cursor-pointer'

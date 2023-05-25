@@ -1,5 +1,6 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
+import { categories } from 'helper/product';
 import { AppToast } from 'helper/toast';
 import { validationSchemaPanelEditProduct } from 'helper/validation';
 import { Dialog } from 'primereact/dialog';
@@ -91,7 +92,22 @@ const EditProduct: FC<EditProductProps> = ({ product, visible, setVisible }) => 
 							<Error error={errors.price} />
 
 							<Label label='Category' />
-							<Input placeholder='Category' id='category' value={values.category} onChange={handleChange} />
+							<select
+								className='w-full py-2 border-[1px] border-[#ced4da] rounded-lg px-1 focus:outline-none'
+								placeholder='Select a category'
+								id='category'
+								value={values.category}
+								onChange={handleChange}
+							>
+								<option defaultChecked value=''>
+									Select a category
+								</option>
+								{categories.map((category) => (
+									<option key={category.name} value={category.name}>
+										{category.name}
+									</option>
+								))}
+							</select>
 							<Error error={errors.category} />
 
 							<Label label='Count In Stock' />

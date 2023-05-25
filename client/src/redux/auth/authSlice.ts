@@ -26,6 +26,7 @@ const initialState: AuthReduxState = {
 
 export const logout = createAsyncThunk('auth/logout', async () => {
 	localStorage.clear();
+	sessionStorage.clear();
 });
 
 export const login = createAsyncThunk(

@@ -1,5 +1,5 @@
 import Loader from 'components/Public/Loader';
-import { formatCurrency, getStock } from 'helper/product';
+import { addCard, formatCurrency, getStock } from 'helper/product';
 import { Rating } from 'primereact/rating';
 import { FC, useEffect } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
@@ -7,6 +7,7 @@ import { FiTag } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { getAllProducts } from 'redux/product/productSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
+
 const ProductView: FC = () => {
 	const appDispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -28,11 +29,7 @@ const ProductView: FC = () => {
 						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 							{products.map((product, key) => {
 								return (
-									<div
-										onClick={() => navigate(`/product/${product._id}`)}
-										key={key}
-										className='p-4 border-[1px] border-slate-300 rounded-lg text-center cursor-pointer select-none transition ease-in-out delay-150 bg-blue-500 hover:-translate-y-2'
-									>
+									<div key={key} className='p-4 border-[1px] border-slate-300 rounded-lg text-center select-none'>
 										<div className='flex flex-col items-center justify-between space-y-4 w-full'>
 											<div className='flex items-center justify-between w-full'>
 												<div className='flex items-center space-x-2'>
@@ -56,7 +53,10 @@ const ProductView: FC = () => {
 													alt={product.image}
 													className='w-[10rem] h-[10rem] shadow-md shadow-black object-contain rounded-lg'
 												/>
-												<div className='font-semibold text-sm max-w-[200px] truncate w-full lg:max-w-[250px] lg:text-base'>
+												<div
+													onClick={() => navigate(`/product/${product._id}`)}
+													className='font-semibold text-sm max-w-[200px] truncate w-full lg:max-w-[250px] lg:text-base underline cursor-pointer'
+												>
 													{product.name}
 												</div>
 												<Rating
@@ -68,9 +68,15 @@ const ProductView: FC = () => {
 											</div>
 											<div className='flex items-center justify-between w-full'>
 												<div className='text-2xl font-semibold'>{formatCurrency(product.price)}</div>
-												<div className='p-3 bg-purple rounded-full cursor-pointer'>
-													<AiOutlineShoppingCart className='w-4 h-4 text-white' />
-												</div>
+
+												{product.countInStock > 0 && (
+													<div className='p-3 bg-purple rounded-full cursor-pointer'>
+														<AiOutlineShoppingCart
+															onClick={() => addCard(product, appDispatch)}
+															className='text-white w-5 h-5'
+														/>
+													</div>
+												)}
 											</div>
 										</div>
 									</div>

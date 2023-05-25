@@ -30,7 +30,7 @@ export const cardSlice = createSlice({
 			AppCartStorage.setItem('card', JSON.stringify(state.cards));
 		},
 		removeFromCard: (state, action) => {
-			const { product, quantity } = action.payload;
+			const { product, quantity = 1 } = action.payload;
 			const index = state.cards.findIndex((card) => card.product._id === product._id);
 			if (index !== -1) {
 				state.cards[index].quantity -= quantity;

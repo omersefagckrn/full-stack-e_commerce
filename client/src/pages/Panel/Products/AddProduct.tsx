@@ -1,5 +1,6 @@
 import { Button, Error, Input, Label } from 'components/Utils';
 import { Formik } from 'formik';
+import { categories } from 'helper/product';
 import { AppToast } from 'helper/toast';
 import { validationSchemaPanelAddProduct } from 'helper/validation';
 import { Dialog } from 'primereact/dialog';
@@ -39,14 +40,8 @@ const AddProduct: FC<AddProductProps> = ({ visible, setVisible }) => {
 
 	useEffect(() => {
 		if (isSuccessCreateProduct) {
-			AppToast({
-				type: 'success',
-				message: 'Product created successfully'
-			});
 			appDispatch(resetCreateProduct());
-
 			setVisible(false);
-			navigate(0);
 		}
 
 		if (isErrorCreateProduct) {
@@ -86,11 +81,11 @@ const AddProduct: FC<AddProductProps> = ({ visible, setVisible }) => {
 					validateOnChange={false}
 					initialValues={{
 						name: '',
-						price: 0,
+						price: 1,
 						category: '',
-						countInStock: 0,
+						countInStock: 1,
 						description: '',
-						rating: 0
+						rating: 1
 					}}
 					validationSchema={validationSchemaPanelAddProduct}
 					onSubmit={(values: FormPanelAddProductValues, { resetForm }) => {
@@ -109,7 +104,22 @@ const AddProduct: FC<AddProductProps> = ({ visible, setVisible }) => {
 							<Error error={errors.price} />
 
 							<Label label='Category' />
-							<Input placeholder='Category' id='category' value={values.category} onChange={handleChange} />
+							<select
+								className='w-full py-2 border-[1px] border-[#ced4da] rounded-lg px-1'
+								placeholder='Select a category'
+								id='category'
+								value={values.category}
+								onChange={handleChange}
+							>
+								<option defaultChecked value=''>
+									Select a category
+								</option>
+								{categories.map((category) => (
+									<option key={category.name} value={category.name}>
+										{category.name}
+									</option>
+								))}
+							</select>
 							<Error error={errors.category} />
 
 							<Label label='Count In Stock' />

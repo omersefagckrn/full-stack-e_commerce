@@ -1,38 +1,23 @@
 import { Container, Loader } from 'components';
 import { Button } from 'components/Utils';
-import { getStock } from 'helper/product';
+import { addCard, getStock } from 'helper/product';
 import { BreadCrumb } from 'primereact/breadcrumb';
 import { Image } from 'primereact/image';
 import type { MenuItem } from 'primereact/menuitem';
 import { Rating } from 'primereact/rating';
 import { FC, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { addToCard } from 'redux/card/cardSlice';
+import { useParams } from 'react-router-dom';
 import { getProductById } from 'redux/product/productSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { IProduct } from 'types/redux/product';
 
 const ProductDetails: FC = () => {
 	const { id } = useParams();
-	const navigate = useNavigate();
 	const appDispatch = useAppDispatch();
 	const { product, isLoadingGetProductById } = useAppSelector((state) => state.products);
-	const { isAuth } = useAppSelector((state) => state.auth);
 
 	useEffect(() => {
 		appDispatch(getProductById(id as string));
 	}, [appDispatch, id]);
-
-	const addCard = (product: IProduct | null) => {
-		if (!isAuth) return navigate('/auth/login');
-		appDispatch(
-			addToCard({
-				product,
-				quantity: 1
-			})
-		);
-	};
-
 	const items: MenuItem[] = [{ label: product?.name }];
 
 	const home: MenuItem = { icon: 'pi pi-home', url: '/' };
@@ -73,10 +58,8 @@ const ProductDetails: FC = () => {
 								</div>
 								<div className='text-primary font-medium my-2'>{product?.description}</div>
 								<div className='text-2xl font-bold text-black mb-2'>${product?.price}</div>
-								{(product?.countInStock as number) > 0 ? (
-									<Button onClick={() => addCard(product)} children='Add to card' />
-								) : (
-									<div className='text-redsoft font-bold'>Out of stock</div>
+								{(product?.countInStock as number) > 0 && (
+									<Button onClick={() => addCard(product, appDispatch)} children='Add to card' />
 								)}
 							</div>
 						</div>
