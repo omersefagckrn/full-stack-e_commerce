@@ -20,7 +20,7 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 		if (convertedItems.length < 1) {
 			return res.status(400).json({
 				status: 'Failure',
-				message: 'Sepetinizde ürün bulunmamaktadır.',
+				message: "There are no products in the cart.",
 				requirement: ''
 			});
 		}
@@ -30,7 +30,7 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 			if (!productCountChecker(fetchedProduct as IProduct)) {
 				return res.status(400).json({
 					status: 'Failure',
-					message: 'Stokta olmayan bir ürün sipariş edilemez.',
+					message: "Out of stock items cannot be ordered.",
 					requirement: ''
 				});
 			}
@@ -53,7 +53,7 @@ export const newOrder = unhandledExceptionsHandler(async (req: Request, res: Res
 		if (response.status == 'success') {
 			return res.status(201).json({
 				status: 'success',
-				message: 'Ödeme başarıyla gerçekleştirildi.',
+				message: "The payment has been made successfully.",
 				requirement: 'DISPATCH_ORDERS'
 			});
 		}
@@ -110,11 +110,11 @@ export const orderToShipping = unhandledExceptionsHandler(async (req: Request, r
 		const result: boolean = await SetOrderToShipping(order_id);
 		return result
 			? res.status(200).json({
-					message: 'Başarılı şekilde kargoya verildi.',
+					message: 'The product was successfully shipped.',
 					requirement: 'DISPATCH ORDERS'
 			  })
 			: res.status(400).json({
-					message: 'Ürün zaten kargoya verilmiştir.',
+					message: 'The product has already been shipped.',
 					requirement: ''
 			  });
 	}

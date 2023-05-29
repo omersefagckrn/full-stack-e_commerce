@@ -16,7 +16,7 @@ export const RequestBuilder = (
 ): IPaymentRequest => {
     let id = new Types.ObjectId();
     const request: IPaymentRequest = {
-        locale: "tr",
+        locale: "en",
         conversationId: id._id.toString(),
         price: body.price,
         paidPrice: body.paidPrice,
